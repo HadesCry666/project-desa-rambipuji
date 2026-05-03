@@ -158,27 +158,30 @@ document.addEventListener('DOMContentLoaded', function(){
             const id   = this.getAttribute('data-id');
             const nama = this.getAttribute('data-nama');
 
-            swal({
+            Swal.fire({
                 title: "Yakin ingin menghapus?",
-                text: `Data berita dengan judul "${nama}" akan dihapus!`,
+                text: 'Data berita dengan judul "' + nama + '" akan dihapus!',
                 icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willDelete) => {
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#6c757d",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal"
+            }).then((result) => {
 
-                if (willDelete) {
+                if (result.isConfirmed) {
 
-                    // 🔥 alert sukses tanpa tombol
-                    swal({
-                        title: "Berhasil!",
-                        text: "Data berhasil dihapus",
-                        icon: "success",
-                        buttons: false, // ❌ tidak ada tombol
-                        timer: 3000     // ⏱ auto close 3 detik
+                    // loading dulu
+                    Swal.fire({
+                        title: "Menghapus...",
+                        text: "Mohon tunggu",
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
                     });
 
-                    // submit setelah sedikit delay
+                    // submit form
                     setTimeout(() => {
                         document.getElementById('formHapus' + id).submit();
                     }, 500);

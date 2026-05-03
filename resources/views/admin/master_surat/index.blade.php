@@ -59,7 +59,7 @@
                                                     @csrf
                                                     @method('DELETE')
 
-                                                    <button type="submit" class="btn btn-danger btn-sm btnDeleteSurat"
+                                                    <button class="btn btn-danger btn-sm btnDeleteSurat"
                                                             data-id="{{ $item->id_surat }}"
                                                             data-nama="{{ $item->nama_surat }}">
                                                         <i class="fas fa-trash"></i>
@@ -128,7 +128,7 @@
 
 
 {{-- JAVASCRIPT --}}
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ asset('assets/modules/sweetalert/sweetalert.min.js') }}"></script>
 <script src="{{ asset('assets/js/page/modules-sweetalert.js') }}"></script>
 <script src="{{ asset('js/mastersurat.js') }}"></script>

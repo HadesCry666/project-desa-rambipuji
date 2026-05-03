@@ -115,25 +115,28 @@ $(document).ready(function () {
         const id = $(this).data("id_rtrw");
         const nama = $(this).data("nama");
 
-        swal({
+        Swal.fire({
             title: "Yakin ingin menghapus?",
-            text: `Data Ketua RT atas nama "${nama}" akan dihapus!`,
+            text: 'Data Ketua RT atas nama "' + nama + '" akan dihapus!',
             icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
-                swal({
-                    title: "Berhasil!",
-                    text: "Data berhasil dihapus",
-                    icon: "success",
-                    buttons: false,
-                    timer: 3000,
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Ya, hapus!",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // loading biar lebih smooth
+                Swal.fire({
+                    title: "Menghapus...",
+                    text: "Mohon tunggu",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    },
                 });
 
-                setTimeout(() => {
-                    $("#formHapus" + id).submit();
-                }, 500);
+                $("#formHapus" + id).submit();
             }
         });
     });

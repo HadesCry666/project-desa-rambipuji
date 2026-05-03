@@ -87,7 +87,7 @@ function showError($field) {
                                                 <button class="btn btn-danger btn-sm btndeleteAkunrw" data-id_rtrw="{{ $a->id_rtrw }}" data-nama="{{ $a->nama }}">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
-                                        </form>
+                                        </form> 
 
                                     </td>
                                 </tr>

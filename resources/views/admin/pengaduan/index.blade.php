@@ -324,6 +324,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 text: 'Data pengaduan ini akan dihapus permanen!',
                 icon: 'warning',
                 showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#6c757d",
                 confirmButtonText: 'Ya, hapus!',
                 cancelButtonText: 'Batal'
             }).then((result) => {
