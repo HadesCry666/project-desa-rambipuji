@@ -28,7 +28,7 @@
                                   value="{{ Request::get('katakunci') }}"
                                   placeholder="Cari No KK / Nama Kepala Keluarga">
 
-                              <button class="btn btn-outline-primary">Cari</button>
+                              <button class="btn btn-primary">Cari</button>
                           </form>
 
                           <!-- KANAN : TOMBOL TAMBAH -->

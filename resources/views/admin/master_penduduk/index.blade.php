@@ -33,7 +33,7 @@
                                 <input class="form-control me-2" type="search" name="katakunci"
                                     value="{{ Request::get('katakunci') }}"
                                     placeholder="Cari NIK / Nama">
-                                <button class="btn btn-outline-primary">Cari</button>
+                                <button class="btn btn-primary">Cari</button>
                             </form>
 
                             <!-- Kanan: Tombol Tambah + Draft KK -->

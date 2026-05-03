@@ -21,7 +21,7 @@
                         <form id="searchForm" class="d-flex" action="{{ route('mastersurat.index') }}" method="get">
                             <input class="form-control me-2" type="search" name="katakunci" id="searchInput"
                                    value="{{ Request::get('katakunci') }}" placeholder="Cari..." autocomplete="off">
-                            <button class="btn btn-outline-primary">
+                            <button class="btn btn-primary">
                                 Cari
                             </button>
                         </form>

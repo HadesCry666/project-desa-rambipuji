@@ -29,7 +29,7 @@
                                    placeholder="Cari..."
                                    value="{{ Request::get('katakunci') }}">
 
-                            <button class="btn btn-outline-primary" type="submit">
+                            <button class="btn btn-primary" type="submit">
                                 Cari
                             </button>
 

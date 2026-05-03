@@ -35,7 +35,7 @@ function showError($field) {
                             value="{{ Request::get('katakunci') }}"
                             placeholder="Cari" aria-label="Search"
                             autocomplete="off">
-                            <button class="btn btn-outline-primary" type="submit">Cari</button>
+                            <button class="btn btn-primary" type="submit">Cari</button>
                         </form>
 
                         <!-- KANAN : TOMBOL TAMBAH -->

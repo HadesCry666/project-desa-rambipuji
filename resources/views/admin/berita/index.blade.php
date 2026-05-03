@@ -32,7 +32,7 @@
                                    placeholder="Cari..."
                                    autocomplete="off">
 
-                            <button class="btn btn-outline-primary">
+                            <button class="btn btn-primary">
                                 Cari
                             </button>
                         </form>

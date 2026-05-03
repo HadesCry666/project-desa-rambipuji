@@ -1,31 +1,22 @@
 function bukaModalPenolakan(event, idPengajuan) {
     event.preventDefault();
 
-    // Ambil tombol yang diklik
     const button = event.currentTarget;
-
     const route = button.getAttribute("data-route");
 
-    const modalDetail = document.getElementById("modalDetail-" + idPengajuan);
-    const bootstrapModal = bootstrap.Modal.getInstance(modalDetail);
-    if (bootstrapModal) {
-        bootstrapModal.hide();
-        bootstrapModal._element.classList.remove("show");
-        document.body.classList.remove("modal-open");
-        document
-            .querySelectorAll(".modal-backdrop")
-            .forEach((el) => el.remove());
-    }
+    // tutup modal detail
+    $("#modalDetail-" + idPengajuan).modal("hide");
 
-    const form = document.getElementById("formPenolakan");
-    form.action = route;
+    // set action form
+    $("#formPenolakan").attr("action", route);
 
-    document.getElementById("inputAlasan").value = "";
+    // reset textarea
+    $("#inputAlasan").val("");
 
-    const modalPenolakan = new bootstrap.Modal(
-        document.getElementById("modalPenolakan")
-    );
-    modalPenolakan.show();
+    // buka modal penolakan
+    setTimeout(function () {
+        $("#modalPenolakan").modal("show");
+    }, 300);
 }
 
 function setujuiPengajuan(event, idPengajuan) {
@@ -50,7 +41,6 @@ function setujuiPengajuan(event, idPengajuan) {
     document.body.appendChild(form);
     form.submit();
 }
-
 
 function confirmDelete(id) {
     Swal.fire({
