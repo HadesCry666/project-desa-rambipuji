@@ -5,17 +5,7 @@
 
 <section class="section">
   <div class="section-header d-flex justify-content-between align-items-center">
-    <h1>Dashboard</h1>
-  </div>
-
-  {{-- TEXT SELAMAT DATANG --}}
-  <div class="mb-4 border-bottom pb-2">
-    <h4 class="mb-1">
-      Selamat Datang, {{ auth()->user()->name ?? 'Admin Desa' }}
-    </h4>
-    <p class="text-muted mb-0">
-      Kelola data penduduk, kartu keluarga, dan layanan desa melalui dashboard ini.
-    </p>
+    <h1>Dashboard RT {{ $rt }}</h1>
   </div>
 
   <div class="row">
@@ -34,12 +24,12 @@
       </div>
     </div>
 
-    {{-- KANAN: 6 CARD --}}
+    {{-- KANAN: CARD --}}
     <div class="col-lg-5">
       <div class="row">
 
         {{-- Penduduk --}}
-        {{-- <div class="col-6 mb-3">
+        <div class="col-6 mb-3">
           <div class="card card-statistic-1">
             <div class="card-icon bg-primary">
               <i class="fas fa-users"></i>
@@ -49,10 +39,10 @@
               <div class="card-body">{{ $jumlahPenduduk }}</div>
             </div>
           </div>
-        </div> --}}
+        </div>
 
         {{-- KK --}}
-        {{-- <div class="col-6 mb-3">
+        <div class="col-6 mb-3">
           <div class="card card-statistic-1">
             <div class="card-icon bg-info">
               <i class="fas fa-home"></i>
@@ -62,46 +52,59 @@
               <div class="card-body">{{ $jumlahKK }}</div>
             </div>
           </div>
-        </div> --}}
+        </div>
 
-        {{-- Pria --}}
-        {{-- <div class="col-6 mb-3">
-          <div class="card card-statistic-1">
-            <div class="card-icon bg-success">
-              <i class="fas fa-male"></i>
-            </div>
-            <div class="card-wrap">
-              <div class="card-header"><h4>Pria</h4></div>
-              <div class="card-body">{{ $jumlahLaki }}</div>
-            </div>
-          </div>
-        </div> --}}
-
-        {{-- Wanita --}}
-        {{-- <div class="col-6 mb-3">
-          <div class="card card-statistic-1">
-            <div class="card-icon bg-danger">
-              <i class="fas fa-female"></i>
-            </div>
-            <div class="card-wrap">
-              <div class="card-header"><h4>Wanita</h4></div>
-              <div class="card-body">{{ $jumlahPerempuan }}</div>
-            </div>
-          </div>
-        </div> --}}
-
-        {{-- RT --}}
-        {{-- <div class="col-6 mb-3">
+        {{-- Surat Masuk --}}
+        <div class="col-6 mb-3">
           <div class="card card-statistic-1">
             <div class="card-icon bg-warning">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="card-wrap">
+              <div class="card-header"><h4>Surat Masuk</h4></div>
+              <div class="card-body">{{ $jumlahSuratMasuk }}</div>
+            </div>
+          </div>
+        </div>
+
+        {{-- Ditolak --}}
+        <div class="col-6 mb-3">
+          <div class="card card-statistic-1">
+            <div class="card-icon bg-danger">
+              <i class="fas fa-times"></i>
+            </div>
+            <div class="card-wrap">
+              <div class="card-header"><h4>Ditolak</h4></div>
+              <div class="card-body">{{ $jumlahSuratDitolak }}</div>
+            </div>
+          </div>
+        </div>
+
+        {{-- Selesai --}}
+        <div class="col-6 mb-3">
+          <div class="card card-statistic-1">
+            <div class="card-icon bg-success">
+              <i class="fas fa-check"></i>
+            </div>
+            <div class="card-wrap">
+              <div class="card-header"><h4>Selesai</h4></div>
+              <div class="card-body">{{ $jumlahSuratSelesai }}</div>
+            </div>
+          </div>
+        </div>
+
+        {{-- RT --}}
+        <div class="col-6 mb-3">
+          <div class="card card-statistic-1">
+            <div class="card-icon bg-dark">
               <i class="fas fa-map"></i>
             </div>
             <div class="card-wrap">
               <div class="card-header"><h4>RT</h4></div>
-              <div class="card-body">{{ $jumlahRT }}</div>
+              <div class="card-body">{{ $rt }}</div>
             </div>
           </div>
-        </div> --}}
+        </div>
 
       </div>
     </div>
@@ -109,5 +112,37 @@
   </div>
 
 </section>
+@push('scripts')
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const ctx = document.getElementById('chartPenduduk').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Laki-laki', 'Perempuan'],
+            datasets: [{
+                data: [
+                    {{ $jumlahLaki ?? 0 }},
+                    {{ $jumlahWanita ?? 0 }}
+                ],
+                backgroundColor: ['#36A2EB', '#FF6384']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+});
+</script>
+@endpush
 
 @endsection
