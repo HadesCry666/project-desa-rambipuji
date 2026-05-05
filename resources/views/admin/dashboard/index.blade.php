@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
         new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: ['Pria', 'Wanita'],
+                labels: ['Laki-Laki', 'Wanita'],
                 datasets: [{
                     data: [
                         {{ $jumlahLaki }},
@@ -149,7 +149,12 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
             }
         });
     }

@@ -151,7 +151,7 @@ document.getElementById('btnTambahProfile').addEventListener('click', function (
     document.getElementById('modalTitleProfile').innerText = 'Tambah Perangkat Desa';
     document.getElementById('formProfile').action = "{{ route('admin.profile.store') }}";
     document.getElementById('formMethodProfile').value = "POST";
-
+    
     document.getElementById('formProfile').reset();
     new bootstrap.Modal(document.getElementById('modalProfile')).show();
 });

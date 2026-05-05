@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Desa Kalipait</title>
+    <title>Login - Desa Wonorejo</title>
 
     <!-- Bootstrap & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -95,7 +95,7 @@
         <!-- <img src="/logo-desa.png" class="logo-desa"> -->
 
         <h3>Login Sistem Desa</h3>
-        <p>Desa Kalipait</p>
+        <p>Desa Wonorejo</p>
     </div>
 
     @if(session('success'))
@@ -133,7 +133,7 @@
     </form>
 
     <div class="footer-text">
-        © 2026 Pemerintah Desa Kalipait
+        © 2026 Pemerintah Desa Wonorejo
     </div>
 </div>
 
