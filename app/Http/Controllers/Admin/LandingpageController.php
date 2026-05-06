@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\landing_page;
 use App\Models\master_berita;
-use App\Models\PerangkatDesa;
+use App\Models\perangkat_desa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage; 
 
@@ -26,8 +26,8 @@ class LandingpageController extends Controller
         $data = landing_page::first();
         $beritas = master_berita::all();
     
-         $kepalaDesa = PerangkatDesa::where('is_kepala', 1)->first();
-         $perangkat = PerangkatDesa::where('is_kepala', 0)->get();
+         $kepalaDesa = perangkat_desa::where('is_kepala', 1)->first();
+         $perangkat = perangkat_desa::where('is_kepala', 0)->get();
 
 
            return view('landingpage.index', compact(
