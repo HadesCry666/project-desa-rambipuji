@@ -639,6 +639,21 @@ h1, h2, h3 {
         margin-bottom: 40px;
     }
 
+    .berita-content img{
+    width: 100% !important;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.berita-content p{
+    margin-bottom: 10px;
+}
+
+.berita-content{
+    overflow: hidden;
+}
     .berita-heading {
         font-size: 2.5rem;
         font-weight: bold;

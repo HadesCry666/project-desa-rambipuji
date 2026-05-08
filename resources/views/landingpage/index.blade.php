@@ -223,6 +223,75 @@
         @endforeach
     </div>
 </section>
+
+{{-- BERITA --}}
+<section class="berita-section py-5" id="berita-section">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2>Berita Desa</h2>
+            <p>Informasi dan kegiatan terbaru Desa Wonorejo</p>
+        </div>
+
+        <div class="row">
+
+            @forelse($beritas as $berita)
+
+                <div class="col-lg-4 col-md-6 mb-4">
+
+                    <a href="{{ route('landingpage.show', $berita->id_berita) }}"
+                       style="text-decoration:none; color:inherit;">
+
+                        <div class="card berita-card h-100 shadow-sm border-0">
+
+                            @php
+                                preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', $berita->deskripsi, $image);
+
+                                $thumbnail = $image['src'] ?? null;
+                            @endphp
+
+                            {{-- Thumbnail dari Summernote --}}
+                            @if($thumbnail)
+                                <img src="{{ $thumbnail }}"
+                                     class="card-img-top berita-img">
+                            @endif
+
+                            <div class="card-body d-flex flex-column">
+
+                                <h5 class="card-title">
+                                    {{ $berita->judul }}
+                                </h5>
+
+                                <p class="card-text text-muted">
+                                    {{ \Illuminate\Support\Str::limit(strip_tags($berita->deskripsi), 120) }}
+                                </p>
+
+                                <div class="mt-auto">
+                                    <small class="text-secondary">
+                                        {{ $berita->created_at->format('d M Y') }}
+                                    </small>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+            @empty
+
+                <div class="col-12 text-center">
+                    <p>Belum ada berita tersedia.</p>
+                </div>
+
+            @endforelse
+
+        </div>
+
+    </div>
+</section>
     
     <footer class="footer-section" id="footer-section">
         <div class="container">

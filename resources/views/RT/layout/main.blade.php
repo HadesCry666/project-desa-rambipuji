@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="{{ asset('assets/modules/summernote/summernote-bs4.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/jquery-selectric/selectric.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/select2/dist/css/select2.min.css') }}" >
+
   {{-- CSS Libraries (per halaman) --}}
   @stack('css-lib')
 
