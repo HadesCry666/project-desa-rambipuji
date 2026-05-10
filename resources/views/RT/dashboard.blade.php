@@ -5,7 +5,7 @@
 
 <section class="section">
   <div class="section-header d-flex justify-content-between align-items-center">
-    <h1>Dashboard RT {{ $rt }}</h1>
+    <h1>Dashboard RT {{ $rt }} RW {{ $rw }}</h1>
   </div>
 
   <div class="row">
