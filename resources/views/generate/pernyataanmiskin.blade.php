@@ -96,10 +96,10 @@
         <img src="{{ public_path('storage/logo/logo.png') }}" alt="Logo Desa" class="logo">
     </div>
     <div class="header-text">
-        <h3>PEMERINTAH KABUPATEN BANYUWANGI</h3>
-        <h2>KECAMATAN TEGALDLIMO</h2>
-        <h2>DESA KALIPAIT</h2>
-        <p>Jl Purwo Indah - Kalipait - Banyuwangi 68484</p>
+        <h3>PEMERINTAH KABUPATEN LUMAJANG</h3>
+        <h2>KECAMATAN KEDUNGJAJANG</h2>
+        <h2>DESA WONOREJO</h2>
+        <p> Jl. Raya Lumajang-Jember - Lumajang  67358 </p>
     </div>
 </div>
 <hr>    
@@ -108,7 +108,7 @@
     <div class="number">Nomor: ___ / ___ / 2020</div>
 
     <div class="content">
-      Desa Kalipait Kecamatan Tegaldlimo Kabupaten Banyuwangi dengan ini menerangkan bahwa:
+      Desa Wonorejo Kecamatan Kedungjajang Kabupaten LUMAJANG dengan ini menerangkan bahwa:
       <table class="table">
         <tr><td>Nama</td><td>: {{ $data->nama_lengkap }}</td></tr>
         <tr><td>Tempat/Tanggal Lahir</td><td>: {{ $data->tempat_tanggal_lahir }}</td></tr>
@@ -118,16 +118,16 @@
         <tr><td>Alamat</td><td>: {{ $data->alamat }}</td></tr>
       </table>
       <p style="text-align: justify;">
-        Benar yang namanya tersebut diatas adalah Penduduk Desa Kalipait Kecamatan Tegaldlimo Kabupaten Banyuwangi, dan menurut amatan kami benar yang bersangkutan berasal dari keluarga miskin.
+        Benar yang namanya tersebut diatas adalah Penduduk Desa Wonorejo Kecamatan Kedungjajang Kabupaten LUMAJANG, dan menurut amatan kami benar yang bersangkutan berasal dari keluarga miskin.
         <br><br>
         Demikian Surat Keterangan ini kami perbuat, untuk dapat dipergunakan seperlunya.
       </p>
     </div>
 
     <div class="ttd">
-      Kalipait, {{ $data->updated }}<br>
-      Kepala Desa Kalipait<br><br><br><br>
-      <b><u>Supriyono</u></b>
+      Wonorejo, {{ $data->updated }}<br>
+      Kepala Desa Wonorejo<br><br><br><br>
+      <b><u>Bahrul Rozi</u></b>
     </div>
   </div>
 </body>

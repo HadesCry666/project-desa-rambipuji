@@ -119,10 +119,10 @@
             <img src="{{ public_path('storage/logo/logo.png') }}" alt="Logo Desa" class="logo">
         </div>
         <div class="header-text">
-            <h3>PEMERINTAH KABUPATEN BANYUWANGI</h3>
-            <h2>KECAMATAN TEGALDLIMO</h2>
-            <h2>DESA KALIPAIT</h2>
-            <p>Jl Purwo Indah - Kalipait - Banyuwangi  68484 </p>
+            <h3>PEMERINTAH KABUPATEN LUMAJANG</h3>
+            <h2>KECAMATAN KEDUNGJAJANG</h2>
+            <h2>DESA WONOREJO</h2>
+            <p> Jl. Raya Lumajang-Jember - Lumajang  67358 </p>
         </div>
     </div>
     <hr> 
@@ -155,9 +155,9 @@
       <div class="signature"><u> {{ $data->nama_rt }}</u></div>
     </div>
     <div class="ttd-right">
-      Kalipait, {{ $data->updated }}<br>
-      Kepala Desa Kalipait<br><br>  
-      <div class="signature"><u>Supriyono</u></div>
+      Wonorejo, {{ $data->updated }}<br>
+      Kepala Desa Wonorejo<br><br>  
+      <div class="signature"><u>Bahrul Rozi</u></div>
     </div>
     <div class="clear"></div>
   </div>

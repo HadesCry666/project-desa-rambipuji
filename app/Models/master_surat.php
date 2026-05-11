@@ -15,7 +15,24 @@ class master_surat extends Model
     protected $table = 'master_surat';
 
     // Kolom yang boleh diisi
-    protected $fillable = ['id_surat', 'nama_surat'];
+    protected $fillable = [
+
+    'id_surat',
+    'nama_surat',
+    'keterangan',
+    'slug',
+
+    'berkas1',
+    'berkas2',
+    'berkas3',
+    'berkas4',
+    'berkas5',
+    'berkas6',
+    'berkas7',
+    'berkas8',
+    'berkas9',
+
+];
 
     // Nonaktifkan timestamps (jika tidak digunakan)
     public $timestamps = true;

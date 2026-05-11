@@ -180,5 +180,37 @@ document.querySelectorAll('.btnEditProfile').forEach(btn => {
     });
 });
 </script>
+<script src="{{ asset('assets/modules/sweetalert/sweetalert.min.js') }}"></script>
+<script src="{{ asset('assets/js/page/modules-sweetalert.js') }}"></script>
 
+<script>
+document.querySelectorAll('.btnDeleteProfile').forEach(button => {
+
+    button.addEventListener('click', function (e) {
+
+        e.preventDefault();
+
+        let form = this.closest('form');
+
+        Swal.fire({
+            title: 'Yakin ingin menghapus?',
+            text: 'Data perangkat desa akan dihapus permanen!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+                form.submit();
+            }
+
+        });
+
+    });
+
+});
+</script>
 @endsection

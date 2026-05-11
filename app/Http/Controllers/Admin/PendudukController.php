@@ -34,34 +34,41 @@ class PendudukController extends Controller
     }
 
     // Memasukkan data baru ke dalam master$master_pendudukase
-    public function masuk(Request $request) {
+   public function masuk(Request $request)
+{
+    $request->validate([
+        'nik' => 'required|digits:16|numeric|unique:master_penduduks,nik',
+        'nama_lengkap' => 'required',
+        'jenis_kelamin' => 'required',
+        'tempat_lahir' => 'required',
+        'tanggal_lahir' => 'required|date',
+        'agama' => 'required',
+        'pendidikan' => 'required',
+        'pekerjaan' => 'required',
+        'golongan_darah' => 'required',
+        'status_perkawinan' => 'required',
+        'tanggal_perkawinan' => 'nullable|date',
+        'status_keluarga' => 'required',
+        'kewarganegaraan' => 'required',
+        'no_paspor' => 'nullable',
+        'no_kitap' => 'nullable',
+        'nama_ayah' => 'required',
+        'nama_ibu' => 'required',
+        'no_kk' => 'required|exists:master_kartukeluargas,no_kk',
+    ], [
 
-        $request->validate([
-            'nik' => 'required|digits:16|numeric|unique:master_penduduks,nik',
-            'nama_lengkap' => 'required',
-            'jenis_kelamin' => 'required',
-            'tempat_lahir' => 'required',
-            'tanggal_lahir' => 'required|date',
-            'agama' => 'required',
-            'pendidikan' => 'required',
-            'pekerjaan' => 'required',
-            'golongan_darah' => 'required',
-            'status_perkawinan' => 'required',
-            'tanggal_perkawinan' => 'nullable|date',
-            'status_keluarga' => 'required',
-            'kewarganegaraan' => 'required',
-            'no_paspor' => 'nullable',
-            'no_kitap' => 'nullable',
-            'nama_ayah' => 'required',
-            'nama_ibu' => 'required',
-            'no_kk' => 'required|exists:master_kartukeluargas,no_kk',
-        ]);
+        // ERROR NIK
+        'nik.required' => 'NIK wajib diisi',
+        'nik.digits' => 'NIK harus 16 digit',
+        'nik.unique' => 'NIK sudah digunakan',
 
-        // Simpan data ke tabel master_penduduks
-        master_penduduk::create($request->all());
+    ]);
 
-        return redirect()->back()->with('success', 'Anggota keluarga berhasil ditambahkan.');
-    }
+    master_penduduk::create($request->all());
+
+    return redirect()->back()
+        ->with('success', 'Anggota keluarga berhasil ditambahkan.');
+}
 
 
     // Mengupdate data berdasarkan NIK

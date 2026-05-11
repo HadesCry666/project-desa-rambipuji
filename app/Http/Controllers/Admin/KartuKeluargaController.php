@@ -9,45 +9,45 @@ use Illuminate\Http\Request;
 
 class KartuKeluargaController extends Controller
 {
-    // Menampilkan daftar data dengan fitur pencarian
+    // Menampilkan daftar data
     public function index(Request $request)
-{
-    $keyword = $request->katakunci;
+    {
+        $keyword = $request->katakunci;
 
-    $query = master_kartukeluarga::join(
-        'master_penduduks', function($join) {
-            $join->on('master_kartukeluargas.no_kk', '=', 'master_penduduks.no_kk')
-                 ->where('master_penduduks.status_keluarga', '=', 'KEPALA KELUARGA');
+        $query = master_kartukeluarga::join(
+            'master_penduduks',
+            function ($join) {
+                $join->on('master_kartukeluargas.no_kk', '=', 'master_penduduks.no_kk')
+                    ->where('master_penduduks.status_keluarga', '=', 'KEPALA KELUARGA');
+            }
+        )->select(
+            'master_kartukeluargas.no_kk',
+            'master_kartukeluargas.alamat',
+            'master_kartukeluargas.rt',
+            'master_kartukeluargas.rw',
+            'master_kartukeluargas.kode_pos',
+            'master_kartukeluargas.desa',
+            'master_kartukeluargas.kecamatan',
+            'master_kartukeluargas.kabupaten',
+            'master_kartukeluargas.provinsi',
+            'master_kartukeluargas.tanggal_dibuat',
+            'master_penduduks.nama_lengkap',
+            'master_penduduks.nik'
+        );
+
+        if (!empty($keyword)) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('master_kartukeluargas.no_kk', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('master_penduduks.nama_lengkap', 'LIKE', '%' . $keyword . '%');
+            });
         }
-    )->select(
-        'master_kartukeluargas.no_kk',
-        'master_kartukeluargas.alamat',
-        'master_kartukeluargas.rt',
-        'master_kartukeluargas.rw',
-        'master_kartukeluargas.kode_pos',
-        'master_kartukeluargas.desa',
-        'master_kartukeluargas.kecamatan',
-        'master_kartukeluargas.kabupaten',
-        'master_kartukeluargas.provinsi',
-        'master_kartukeluargas.tanggal_dibuat',
-        'master_penduduks.nama_lengkap',
-        'master_penduduks.nik'
-    );
 
-    if (!empty($keyword)) {
-        $query->where(function($q) use ($keyword) {
-            $q->where('master_kartukeluargas.no_kk', 'LIKE', '%' . $keyword . '%')
-              ->orWhere('master_penduduks.nama_lengkap', 'LIKE', '%' . $keyword . '%');
-        });
+        $master_kartukeluarga = $query->paginate(8);
+
+        return view('admin.master_kartukeluarga.index', compact('master_kartukeluarga'));
     }
 
-    $master_kartukeluarga = $query->paginate(8); 
-
-    return view('admin.master_kartukeluarga.index', compact('master_kartukeluarga'));
-}
-
-
-    // Memasukkan data baru ke dalam database, ini smaa macam masuk, guna untuk insert data
+    // Tambah data
     public function masuk(Request $request)
     {
         $request->validate([
@@ -63,14 +63,33 @@ class KartuKeluargaController extends Controller
             'tanggal_dibuat' => 'required|date',
             'nik' => 'required|numeric|digits:16|unique:master_penduduks,nik',
             'nama_lengkap' => 'required'
+                ], [
+                // ERROR NOMOR KK
+                'no_kk.required' => 'Nomor KK wajib diisi',
+                'no_kk.digits' => 'Nomor KK harus 16 digit',
+                'no_kk.unique' => 'Nomor KK sudah digunakan',
+
+                // ERROR NIK
+                'nik.required' => 'NIK wajib diisi',
+                'nik.digits' => 'NIK harus 16 digit',
+                'nik.unique' => 'NIK sudah digunakan',
+            ]);
+
+        // Simpan KK
+        $master_kartukeluarga = master_kartukeluarga::create([
+            'no_kk' => $request->no_kk,
+            'alamat' => $request->alamat,
+            'rt' => $request->rt,
+            'rw' => $request->rw,
+            'desa' => $request->desa,
+            'kecamatan' => $request->kecamatan,
+            'kode_pos' => $request->kode_pos,
+            'kabupaten' => $request->kabupaten,
+            'provinsi' => $request->provinsi,
+            'tanggal_dibuat' => $request->tanggal_dibuat
         ]);
 
-        // Simpan data ke master_kartukeluarga
-        $master_kartukeluarga = master_kartukeluarga::create($request->only([
-            'no_kk', 'alamat', 'rt', 'rw', 'desa', 'kecamatan', 'kode_pos', 'kabupaten', 'provinsi', 'tanggal_dibuat'
-        ]));
-
-        // Simpan data ke master_penduduk
+        // Simpan kepala keluarga
         master_penduduk::create([
             'no_kk' => $master_kartukeluarga->no_kk,
             'nama_lengkap' => $request->nama_lengkap,
@@ -78,29 +97,23 @@ class KartuKeluargaController extends Controller
             'status_keluarga' => 'KEPALA KELUARGA'
         ]);
 
-        return redirect(url('admin/master_kartukeluarga'))->with('success', 'Data kartu keluarga berhasil ditambahkan');
+        return redirect(url('admin/master_kartukeluarga'))
+            ->with('success', 'Data kartu keluarga berhasil ditambahkan');
     }
 
-    public function update(Request $request, $no_kk_lama) {
-        // Ambil data penduduk lama (kepala keluarga)
+    // Update data
+    public function update(Request $request, $no_kk_lama)
+    {
         $pendudukLama = master_penduduk::where('no_kk', $no_kk_lama)
-                        ->where('status_keluarga', 'KEPALA KELUARGA')
-                        ->first();
-        
+            ->where('status_keluarga', 'KEPALA KELUARGA')
+            ->first();
+
         if (!$pendudukLama) {
-            return redirect('admin/master_kartukeluarga')->with('error', 'Data kepala keluarga tidak ditemukan');
+            return back()->withErrors([
+                'nik' => 'Data kepala keluarga tidak ditemukan'
+            ])->withInput();
         }
-    
-        // Cek apakah NIK berubah dan sudah ada di database
-        $nikBaru = $request->input('nik');
-        if ($nikBaru != $pendudukLama->nik) {
-            $cekNik = master_penduduk::where('nik', $nikBaru)->exists();
-            if ($cekNik) {
-                return back()->withErrors(['nik' => 'NIK sudah digunakan'])->withInput();
-            }
-        }
-    
-        // Validasi input tanpa validasi unique untuk NIK
+
         $request->validate([
             'no_kk' => 'required|digits:16',
             'alamat' => 'required',
@@ -114,20 +127,39 @@ class KartuKeluargaController extends Controller
             'nik' => 'required|digits:16',
             'nama_lengkap' => 'required',
             'tanggal_dibuat' => 'required|date'
+        ], [
+            'no_kk.required' => 'Nomor KK wajib diisi',
+            'nik.required' => 'NIK wajib diisi',
+            'nama_lengkap.required' => 'Nama kepala keluarga wajib diisi'
         ]);
-    
-        // Cek apakah nomor KK berubah dan sudah ada di database (kecuali KK saat ini)
-        $no_kk_baru = $request->input('no_kk');
-        if ($no_kk_baru != $no_kk_lama) {
-            $cekKK = master_kartukeluarga::where('no_kk', $no_kk_baru)->exists();
-            if ($cekKK) {
-                return back()->withErrors(['no_kk' => 'Nomor KK sudah digunakan'])->withInput();
+
+        // CEK NIK
+        if ($request->nik != $pendudukLama->nik) {
+
+            $cekNik = master_penduduk::where('nik', $request->nik)->exists();
+
+            if ($cekNik) {
+                return back()->withErrors([
+                    'nik' => 'NIK sudah digunakan'
+                ])->withInput();
             }
         }
-    
-        // Update master_kartukeluarga
+
+        // CEK KK
+        if ($request->no_kk != $no_kk_lama) {
+
+            $cekKK = master_kartukeluarga::where('no_kk', $request->no_kk)->exists();
+
+            if ($cekKK) {
+                return back()->withErrors([
+                    'no_kk' => 'Nomor KK sudah digunakan'
+                ])->withInput();
+            }
+        }
+
+        // Update KK
         master_kartukeluarga::where('no_kk', $no_kk_lama)->update([
-            'no_kk' => $no_kk_baru,
+            'no_kk' => $request->no_kk,
             'alamat' => $request->alamat,
             'rt' => $request->rt,
             'rw' => $request->rw,
@@ -138,27 +170,30 @@ class KartuKeluargaController extends Controller
             'provinsi' => $request->provinsi,
             'tanggal_dibuat' => $request->tanggal_dibuat
         ]);
-    
-        // Update semua penduduk dalam KK untuk ubah no_kk saja
+
+        // Update semua penduduk
         master_penduduk::where('no_kk', $no_kk_lama)->update([
-            'no_kk' => $no_kk_baru
+            'no_kk' => $request->no_kk
         ]);
-    
-        // Update khusus untuk kepala keluarga (NIK dan nama)
+
+        // Update kepala keluarga
         master_penduduk::where('nik', $pendudukLama->nik)->update([
-            'nik' => $nikBaru,
+            'nik' => $request->nik,
             'nama_lengkap' => $request->nama_lengkap
         ]);
-    
-        return redirect('admin/master_kartukeluarga')->with('success', 'Data kartu keluarga berhasil diperbarui');
+
+        return redirect(url('admin/master_kartukeluarga'))
+            ->with('success', 'Data kartu keluarga berhasil diperbarui');
     }
 
-    // Menghapus data berdasarkan No KK
+    // Hapus data
     public function delete($no_kk)
     {
         master_penduduk::where('no_kk', $no_kk)->delete();
+
         master_kartukeluarga::where('no_kk', $no_kk)->delete();
 
-        return redirect(url('admin/master_kartukeluarga'))->with('success', 'Data kartu keluarga berhasil dihapus');
+        return redirect(url('admin/master_kartukeluarga'))
+            ->with('success', 'Data kartu keluarga berhasil dihapus');
     }
 }

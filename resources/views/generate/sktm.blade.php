@@ -105,10 +105,10 @@
             <img src="{{ public_path('storage/logo/logo.png') }}" alt="Logo Desa" class="logo">
         </div>
         <div class="header-text">
-            <h3>PEMERINTAH KABUPATEN BANYUWANGI</h3>
-            <h2>KECAMATAN TEGALDLIMO</h2>
-            <h2>DESA KALIPAIT</h2>
-            <p>Jl Purwo Indah - Kalipait - Banyuwangi 68484</p>
+            <h3>PEMERINTAH KABUPATEN LUMAJANG</h3>
+            <h2>KECAMATAN KEDUNGJAJANG</h2>
+            <h2>DESA WONOREJO</h2>
+            <p> Jl. Raya Lumajang-Jember - Lumajang  67358 </p>
         </div>
     </div>
     <hr> 
@@ -117,7 +117,7 @@
     <div class="nomor">Nomor: 470/ ____ /2025</div>
 
     <div class="isi">
-        Yang bertanda tangan di bawah ini Kepala Desa Kalipait Kecamatan Tegakdlimo Kabupaten Banyuwangi menerangkan dengan sebenarnya bahwa:
+        Yang bertanda tangan di bawah ini Kepala Desa Wonorejo Kecamatan Kedungjajang Kabupaten LUMAJANG menerangkan dengan sebenarnya bahwa:
         <br><br>
         <table style="margin-left: 30px;">
             <tr>
@@ -166,9 +166,9 @@
 
     <div class="ttd">
         <div class="kanan">
-            Kalipait, {{ $data->updated }}<br>
-            Kepala Desa Kalipait<br><br><br><br>
-            <b><u>Supriyono</u></b>
+            Wonorejo, {{ $data->updated }}<br>
+            Kepala Desa Wonorejo<br><br><br><br>
+            <b><u>Bahrul Rozi</u></b>
         </div>
         <div class="clear"></div>
     </div>

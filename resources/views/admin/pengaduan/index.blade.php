@@ -9,6 +9,12 @@
         <h1>Master Pengaduan</h1>
     </div>
 
+    @if(session('success'))
+    <div id="alertPopup" class="alert alert-success alert-floating">
+        {{ session('success') }}
+    </div>
+    @endif
+
     <div class="section-body">
         <div class="row">
             <div class="col-12">
@@ -371,5 +377,36 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
+<style>
+.alert-floating {
+    position: fixed;
+    top: 20px;
+    right: -400px;
+    z-index: 9999;
+    min-width: 320px;
+    transition: all 0.5s ease-in-out;
+}
 
+.alert-floating.show {
+    right: 20px;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const alertBox = document.getElementById('alertPopup');
+
+    if(alertBox){
+        setTimeout(() => {
+            alertBox.classList.add('show');
+        }, 100);
+
+        setTimeout(() => {
+            alertBox.classList.remove('show');
+        }, 4000);
+    }
+
+});
+</script>
 @endsection

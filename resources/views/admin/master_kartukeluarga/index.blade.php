@@ -125,44 +125,171 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
-        <div class="modal-body">
-          <!-- FORM INPUTS (Nomor KK, NIK, Nama, Alamat, RT/RW, dll) -->
-          <!-- Sama seperti kode sebelumnya -->
-          <div class="mb-3">
-              <label class="form-label">Nomor KK</label>
-              <input type="text" class="form-control" id="no_kk" name="no_kk" pattern="\d{16}" required>
-          </div>
-          <div class="mb-3">
-              <label class="form-label">NIK</label>
-              <input type="text" class="form-control" id="nik" name="nik" pattern="\d{16}" required>
-          </div>
-          <div class="mb-3">
-              <label class="form-label">Nama Kepala Keluarga</label>
-              <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" required>
-          </div>
-          <div class="mb-3">
-              <label class="form-label">Alamat</label>
-              <input type="text" class="form-control" id="alamat" name="alamat" required>
-          </div>
-          <div class="mb-3 row">
-              <div class="col"><label class="form-label">RT</label><input type="text" class="form-control" id="rt" name="rt" required></div>
-              <div class="col"><label class="form-label">RW</label><input type="text" class="form-control" id="rw" name="rw" required></div>
-              <div class="col"><label class="form-label">Kode Pos</label><input type="text" class="form-control" id="kode_pos" name="kode_pos" value="68484" readonly></div>
-          </div>
-          <div class="mb-3 row">
-              <div class="col"><label class="form-label">Desa</label><input type="text" class="form-control" id="desa" name="desa" value="Kalipait" readonly></div>
-              <div class="col"><label class="form-label">Kecamatan</label><input type="text" class="form-control" id="kecamatan" name="kecamatan" value="Tegaldlimo" readonly></div>
-          </div>
-          <div class="mb-3 row">
-              <div class="col"><label class="form-label">Kabupaten</label><input type="text" class="form-control" id="kabupaten" name="kabupaten" value="Banyuwangi" readonly></div>
-              <div class="col"><label class="form-label">Provinsi</label><input type="text" class="form-control" id="provinsi" name="provinsi" value="Jawa Timur" readonly></div>
-          </div>
-          <div class="mb-3">
-              <label class="form-label">Tanggal Dibuat</label>
-              <input type="date" class="form-control" id="tanggal_dibuat" name="tanggal_dibuat" required>
-          </div>
+      <div class="modal-body">
+
+    {{-- NOMOR KK --}}
+    <div class="mb-3">
+        <label class="form-label">Nomor KK</label>
+
+        <input type="text"
+               class="form-control @error('no_kk') is-invalid @enderror"
+               id="no_kk"
+               name="no_kk"
+               value="{{ old('no_kk') }}"
+               pattern="\d{16}"
+               required>
+
+        @error('no_kk')
+            <small class="text-danger">{{ $message }}</small>
+        @enderror
+    </div>
+
+    {{-- NIK --}}
+    <div class="mb-3">
+        <label class="form-label">NIK</label>
+
+        <input type="text"
+               class="form-control @error('nik') is-invalid @enderror"
+               id="nik"
+               name="nik"
+               value="{{ old('nik') }}"
+               pattern="\d{16}"
+               required>
+
+        @error('nik')
+            <small class="text-danger">{{ $message }}</small>
+        @enderror
+    </div>
+
+    {{-- NAMA --}}
+    <div class="mb-3">
+        <label class="form-label">Nama Kepala Keluarga</label>
+
+        <input type="text"
+               class="form-control"
+               id="nama_lengkap"
+               name="nama_lengkap"
+               value="{{ old('nama_lengkap') }}"
+               required>
+    </div>
+
+    {{-- ALAMAT --}}
+    <div class="mb-3">
+        <label class="form-label">Alamat</label>
+
+        <input type="text"
+               class="form-control"
+               id="alamat"
+               name="alamat"
+               value="{{ old('alamat') }}"
+               required>
+    </div>
+
+    {{-- RT RW --}}
+    <div class="mb-3 row">
+
+        <div class="col">
+            <label class="form-label">RT</label>
+
+            <input type="text"
+                   class="form-control"
+                   id="rt"
+                   name="rt"
+                   value="{{ old('rt') }}"
+                   required>
         </div>
 
+        <div class="col">
+            <label class="form-label">RW</label>
+
+            <input type="text"
+                   class="form-control"
+                   id="rw"
+                   name="rw"
+                   value="{{ old('rw') }}"
+                   required>
+        </div>
+
+        <div class="col">
+            <label class="form-label">Kode Pos</label>
+
+            <input type="text"
+                   class="form-control"
+                   id="kode_pos"
+                   name="kode_pos"
+                   value="67358"
+                   readonly>
+        </div>
+
+    </div>
+
+    {{-- DESA KECAMATAN --}}
+    <div class="mb-3 row">
+
+        <div class="col">
+            <label class="form-label">Desa</label>
+
+            <input type="text"
+                   class="form-control"
+                   id="desa"
+                   name="desa"
+                   value="Wonorejo"
+                   readonly>
+        </div>
+
+        <div class="col">
+            <label class="form-label">Kecamatan</label>
+
+            <input type="text"
+                   class="form-control"
+                   id="kecamatan"
+                   name="kecamatan"
+                   value="Kedungjajang"
+                   readonly>
+        </div>
+
+    </div>
+
+    {{-- KABUPATEN PROVINSI --}}
+    <div class="mb-3 row">
+
+        <div class="col">
+            <label class="form-label">Kabupaten</label>
+
+            <input type="text"
+                   class="form-control"
+                   id="kabupaten"
+                   name="kabupaten"
+                   value="Lumajang"
+                   readonly>
+        </div>
+
+        <div class="col">
+            <label class="form-label">Provinsi</label>
+
+            <input type="text"
+                   class="form-control"
+                   id="provinsi"
+                   name="provinsi"
+                   value="Jawa Timur"
+                   readonly>
+        </div>
+
+    </div>
+
+    {{-- TANGGAL --}}
+    <div class="mb-3">
+        <label class="form-label">Tanggal Dibuat</label>
+
+        <input type="date"
+               class="form-control"
+               id="tanggal_dibuat"
+               name="tanggal_dibuat"
+               value="{{ old('tanggal_dibuat') }}"
+               required>
+    </div>
+
+</div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
           <button type="submit" class="btn btn-primary">Simpan</button>
@@ -177,5 +304,13 @@
 <script src="{{ asset('assets/modules/sweetalert/sweetalert.min.js') }}"></script>
 <script src="{{ asset('assets/js/page/modules-sweetalert.js') }}"></script>
 <script src="{{ asset('js/kartukeluarga.js') }}"></script>
+@if ($errors->any())
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var modal = new bootstrap.Modal(document.getElementById('modalKeluarga'));
+        modal.show();
+    });
+</script>
+@endif
 
 @endsection

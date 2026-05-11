@@ -34,7 +34,9 @@
                 <div class="card-body-berita-detail">
                     <h2 class="card-title-berita-detail">{{ $berita->judul }}</h2>
                     <small class="penulis-berita">🖊 {{ $berita->penulis->nama_lengkap ?? 'Tidak diketahui' }}</small>
-                    <small class="text-muted">📅 {{ date('d-m-Y', strtotime($berita->tanggal)) }}</small>
+                  <small class="text-muted">
+                        📅 {{ $berita->created_at ? $berita->created_at->format('d M Y') : '-' }}
+                    </small>
                     <div class="card-text-berita-detail">{!! $berita->deskripsi !!}</div>
                     <a href="{{ route('website') }}#berita-section" class="btn-berita mt-4">← Kembali ke Daftar Berita</a>
                 </div>

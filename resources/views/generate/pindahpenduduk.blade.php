@@ -86,10 +86,10 @@
         <img src="{{ public_path('storage/logo/logo.png') }}" alt="Logo Desa" class="logo">
     </div>
     <div class="header-text">
-        <h3>PEMERINTAH KABUPATEN BANYUWANGI</h3>
-        <h2>KECAMATAN TEGALDLIMO</h2>
-        <h2>DESA KALIPAIT</h2>
-        <p>Jl Purwo Indah - Kalipait - Banyuwangi  68484 </p>
+        <h3>PEMERINTAH KABUPATEN LUMAJANG</h3>
+        <h2>KECAMATAN KEDUNGJAJANG</h2>
+        <h2>DESA WONOREJO</h2>
+        <p> Jl. Raya Lumajang-Jember - Lumajang  67358 </p>
     </div>
 </div>
 <hr> 
@@ -109,15 +109,15 @@
     </table>
 
     <p style="text-align: justify;">
-      Adalah benar Penduduk Desa Kalipait, Kecamatan Tegaldlimo karena atas permintaan sendiri kepadanya diberikan Surat Keterangan Pindah ke Desa Kalipait, Kecamatan Tegal Dlimo,Kabupaten Banyuwangi dengan alasan {{ $data->keperluan }}<br><br>
+      Adalah benar Penduduk Desa Wonorejo, Kecamatan Kedungjajang karena atas permintaan sendiri kepadanya diberikan Surat Keterangan Pindah ke Desa Wonorejo, Kecamatan Kedungjajang,Kabupaten LUMAJANG dengan alasan {{ $data->keperluan }}<br><br>
       Demikian Surat Keterangan Pindah ini dibuat dan diberikan kepada yang bersangkutan untuk dipergunakan seperlunya.
     </p>
 
     <div class="footer">
       <div class="ttd">
-       Kalipait, {{ $data->updatedd }}<br>
-       Kepala Desa Kalipait<br><br><br><br>
-        <b><u>Supriyono</u></b>
+       Wonorejo, {{ $data->updatedd }}<br>
+       Kepala Desa Wonorejo<br><br><br><br>
+        <b><u>Bahrul Rozi</u></b>
       </div>
   </div>
 </body>

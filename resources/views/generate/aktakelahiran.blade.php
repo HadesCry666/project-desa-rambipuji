@@ -102,10 +102,10 @@
         <img src="{{ public_path('storage/logo/logo.png') }}" alt="Logo Desa" class="logo">
     </div>
     <div class="header-text">
-        <h3>PEMERINTAH KABUPATEN BANYUWANGI</h3>
-        <h2>KECAMATAN TEGALDLIMO</h2>
-        <h2>DESA KALIPAIT</h2>
-        <p>Jl Purwo Indah - Kalipait - Banyuwangi  68484 </p>
+        <h3>PEMERINTAH KABUPATEN LUMAJANG</h3>
+        <h2>KECAMATAN KEDUNGJAJANG</h2>
+        <h2>DESA WONOREJO</h2>
+        <p> Jl. Raya Lumajang-Jember - Lumajang  67358 </p>
     </div>
   </div>
   <hr> 
@@ -115,7 +115,7 @@
   <div class="number">No. Reg. 145/26/35.07.20.204/IV/2018</div>
 
   <div class="content" style="text-align: justify;">
-    Yang bertanda tangan di bawah ini kami Kepala Desa Kalipait Kecamatan Tegaldlimo Kabupaten Banyuwangi menerangkan dengan sebenarnya bahwa di Kartu Keluarga:
+    Yang bertanda tangan di bawah ini kami Kepala Desa Wonorejo Kecamatan Kedungjajang Kabupaten Lumajang menerangkan dengan sebenarnya bahwa di Kartu Keluarga:
     <table class="table">
       <tr><td>Nama</td><td>: {{ $data->nama_lengkap }}</td></tr>
       <tr><td>Jenis Kelamin</td><td>: {{ $data->jenis_kelamin }}</td></tr>
@@ -127,13 +127,13 @@
       <tr><td>Nomor KK/KTP</td><td>: {{ $data->nik }}</td></tr>
       <tr><td>Alamat</td><td>: {{ $data->alamat }}</td></tr>
     </table>
-    <p>Dengan ini menerangkan bahwa yang bersangkutan adalah benar penduduk Desa Kalipait, Kecamatan Tegaldlimo, Kabupaten Banyuwangi.
+    <p>Dengan ini menerangkan bahwa yang bersangkutan adalah benar penduduk Desa Wonorejo, Kecamatan Kedungjajang, Kabupaten Lumajang.
     Surat keterangan ini digunakan sebagai pengganti sementara E-KTP yang masih dalam proses.</p>
   </div>
   <div class="ttd">
-    Kalipait, {{ $data->updated }}<br>
-    Kepala Desa Kalipait<br><br><br><br>
-    <b><u>Supriyono</u></b>
+    Wonorejo, {{ $data->updated }}<br>
+    Kepala Desa Wonorejo<br><br><br><br>
+    <b><u>Bahrul Rozi</u></b>
   </div>
 </body>
 </html>

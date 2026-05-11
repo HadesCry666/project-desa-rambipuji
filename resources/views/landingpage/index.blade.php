@@ -225,6 +225,7 @@
 </section>
 
 {{-- BERITA --}}
+{{-- BERITA --}}
 <section class="berita-section py-5" id="berita-section">
     <div class="container">
 
@@ -233,62 +234,101 @@
             <p>Informasi dan kegiatan terbaru Desa Wonorejo</p>
         </div>
 
-        <div class="row">
+        @if($beritas->count())
 
-            @forelse($beritas as $berita)
+        <div id="beritaCarousel" class="carousel slide" data-bs-ride="carousel">
 
-                <div class="col-lg-4 col-md-6 mb-4">
+            <div class="carousel-inner">
 
-                    <a href="{{ route('landingpage.show', $berita->id_berita) }}"
-                       style="text-decoration:none; color:inherit;">
+                @foreach($beritas->chunk(3) as $chunkIndex => $chunk)
 
-                        <div class="card berita-card h-100 shadow-sm border-0">
+                <div class="carousel-item {{ $chunkIndex == 0 ? 'active' : '' }}">
 
-                            @php
-                                preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', $berita->deskripsi, $image);
+                    <div class="row">
 
-                                $thumbnail = $image['src'] ?? null;
-                            @endphp
+                        @foreach($chunk as $berita)
 
-                            {{-- Thumbnail dari Summernote --}}
-                            @if($thumbnail)
-                                <img src="{{ $thumbnail }}"
-                                     class="card-img-top berita-img">
-                            @endif
+                        <div class="col-lg-4 col-md-6 mb-4">
 
-                            <div class="card-body d-flex flex-column">
+                            <a href="{{ route('landingpage.show', $berita->id_berita) }}"
+                               style="text-decoration:none; color:inherit;">
 
-                                <h5 class="card-title">
-                                    {{ $berita->judul }}
-                                </h5>
+                                <div class="card berita-card h-100 shadow-sm border-0">
 
-                                <p class="card-text text-muted">
-                                    {{ \Illuminate\Support\Str::limit(strip_tags($berita->deskripsi), 120) }}
-                                </p>
+                                    @php
+                                        preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', $berita->deskripsi, $image);
 
-                                <div class="mt-auto">
-                                    <small class="text-secondary">
-                                        {{ $berita->created_at->format('d M Y') }}
-                                    </small>
+                                        $thumbnail = $image['src'] ?? null;
+                                    @endphp
+
+                                    @if($thumbnail)
+                                        <img src="{{ $thumbnail }}"
+                                             class="card-img-top berita-img">
+                                    @endif
+
+                                    <div class="card-body d-flex flex-column">
+
+                                        <h5 class="card-title">
+                                            {{ $berita->judul }}
+                                        </h5>
+
+                                        <p class="card-text text-muted">
+                                            {{ \Illuminate\Support\Str::limit(strip_tags($berita->deskripsi), 120) }}
+                                        </p>
+
+                                        <div class="mt-auto">
+                                            <small class="text-secondary">
+                                                {{ $berita->created_at->format('d M Y') }}
+                                            </small>
+                                        </div>
+
+                                    </div>
+
                                 </div>
 
-                            </div>
+                            </a>
 
                         </div>
 
-                    </a>
+                        @endforeach
+
+                    </div>
 
                 </div>
 
-            @empty
+                @endforeach
 
-                <div class="col-12 text-center">
-                    <p>Belum ada berita tersedia.</p>
-                </div>
+            </div>
 
-            @endforelse
+            {{-- BUTTON PREV --}}
+            <button class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#beritaCarousel"
+                    data-bs-slide="prev">
+
+                <span class="carousel-control-prev-icon bg-dark rounded-circle p-3"></span>
+
+            </button>
+
+            {{-- BUTTON NEXT --}}
+            <button class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#beritaCarousel"
+                    data-bs-slide="next">
+
+                <span class="carousel-control-next-icon bg-dark rounded-circle p-3"></span>
+
+            </button>
 
         </div>
+
+        @else
+
+        <div class="text-center">
+            <p>Belum ada berita tersedia.</p>
+        </div>
+
+        @endif
 
     </div>
 </section>

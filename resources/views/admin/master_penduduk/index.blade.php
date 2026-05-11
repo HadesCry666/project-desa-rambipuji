@@ -43,10 +43,10 @@
                                    data-bs-target="#exampleModal">
                                    + Tambah Data
                                 </a>
-                                <a href="{{ url('admin/master_penduduk/cetak-draft-kk?nokk=' . $no_kk) }}" 
-                                   target="_blank" 
-                                   class="btn btn-success">
-                                   <i class="bi bi-printer-fill"></i> Draft KK
+                                <a href="{{ route('draftkk', $no_kk) }}" 
+                                target="_blank" 
+                                class="btn btn-success">
+                                <i class="bi bi-printer-fill"></i> Draft KK
                                 </a>
                             </div>
 
@@ -154,8 +154,17 @@
                     <!-- Form Inputs -->
                     <div class="mb-3">
                         <label class="form-label">NIK</label>
-                        <input type="tel" class="form-control" name="nik" 
-                               pattern="[0-9]{16}" title="Masukkan 16 digit angka" required>  
+                      <input type="tel"
+       class="form-control @error('nik') is-invalid @enderror"
+       name="nik"
+       value="{{ old('nik') }}"
+       pattern="[0-9]{16}"
+       title="Masukkan 16 digit angka"
+       required>
+
+@error('nik')
+    <small class="text-danger">{{ $message }}</small>
+@enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Nama Lengkap</label>
@@ -310,5 +319,14 @@
     });
 </script>
 <script src="{{ asset('js/penduduk.js') }}"></script>
+
+@if ($errors->any())
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+        modal.show();
+    });
+</script>
+@endif
 
 @endsection

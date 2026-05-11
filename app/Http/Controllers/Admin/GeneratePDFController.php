@@ -49,8 +49,6 @@ public function generateAndStorePdf($id_pengajuan)
 }
 
 
-
-
  public function draftKK($no_kk)
 {
     

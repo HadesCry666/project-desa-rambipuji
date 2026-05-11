@@ -8,6 +8,17 @@
    <h1>Dashboard RW {{ $rw }}</h1>
   </div>
 
+    {{-- TEKS TAMBAHAN (DI BAWAH HEADER / CARD PUTIH) --}}
+  <div class="mb-4">
+    <p style="font-size: 14px; color: #444; line-height: 1.6;">
+      Sistem Informasi Desa Kalipait — Kelola data penduduk, kartu keluarga, 
+      dan layanan administrasi desa secara terintegrasi dan efisien.
+    </p>
+
+    <small style="color: #555;">
+      {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
+    </small>
+  </div>
   <div class="row">
 
     {{-- KIRI: CHART --}}

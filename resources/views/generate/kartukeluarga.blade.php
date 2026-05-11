@@ -110,10 +110,10 @@
 
         </div>
         <div class="header-text">
-            <h3>PEMERINTAH KABUPATEN BANYUWANGI</h3>
-            <h2>KECAMATAN TEGALDLIMO</h2>
-            <h2>DESA KALIPAIT</h2>
-            <p>Jl Purwo Indah - Kalipait - Banyuwangi 68484</p>
+            <h3>PEMERINTAH KABUPATEN LUMAJANG</h3>
+            <h2>KECAMATAN KEDUNGJAJANG</h2>
+            <h2>DESA WONOREJO</h2>
+            <p> Jl. Raya Lumajang-Jember - Lumajang  67358 </p>
         </div>
     </div>
     <hr>    
@@ -124,9 +124,9 @@
   <div class="info">
     Yang bertanda tangan di bawah ini:
     <table class="table-info">
-      <tr><td>Nama</td><td>: Supriyono</td></tr>
-      <tr><td>Jabatan</td><td>: Kepala Desa Kalipait</td></tr>
-      <tr><td>Alamat</td><td>: Jl. Raya Tegaldlimo</td></tr>
+      <tr><td>Nama</td><td>: Bahrul Rozi</td></tr>
+      <tr><td>Jabatan</td><td>: Kepala Desa Wonorejo</td></tr>
+      <tr><td>Alamat</td><td>: Jl. Raya Lumajang-Jember</td></tr>
     </table>
 
     <p>Dengan ini menerangkan bahwa:</p>
@@ -148,9 +148,9 @@
   </div>
 
   <div class="ttd">
-    Kalipait,{{ $data->updated }}</<br>
-    Kepala Desa Kalipait<br><br><br><br>
-    <b><u>Supriyono</u></b>
+    Wonorejo,{{ $data->updated }}</<br>
+    Kepala Desa Wonorejo<br><br><br><br>
+    <b><u>Bahrul Rozi</u></b>
   </div>
   </div>
 
