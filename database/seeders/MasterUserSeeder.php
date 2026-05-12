@@ -17,7 +17,7 @@ class MasterUserSeeder extends Seeder
         DB::table('master_akun')->insert([
             [
                 'id' => 1,
-                'nik' => '3508160711040002', // pastikan NIK ini ada di master_penduduks
+                'nik' => '3508161503900001', // pastikan NIK ini ada di master_penduduks
                 'no_hp' => '081234567890',
                 'email' => 'akun1@example.com',
                 'foto_profil' => 'default.png',
@@ -28,7 +28,7 @@ class MasterUserSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'nik' => '3175091501010002',
+                'nik' => '3508162002880001',
                 'no_hp' => '082345678901',
                 'email' => 'akun2@example.com',
                 'foto_profil' => 'default.png',
