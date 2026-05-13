@@ -13,7 +13,7 @@ use App\Http\Controllers\API\StatusDitolakControllerMobile;
 use App\Http\Controllers\API\ResetPasswordControllerMobile;
 use App\Http\Controllers\API\StatusDiajukanControllerMobile;
 use App\Http\Controllers\API\ForgotPasswordControllerMobile;
-
+use App\Http\Controllers\API\SuratControllerMobile;
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
@@ -26,6 +26,8 @@ Route::middleware('api')->group(function(){
     Route::post('/forgot-password', [ForgotPasswordControllerMobile::class, 'sendResetLinkEmail']);
     Route::post('verify-otp', [ResetPasswordControllerMobile::class, 'verify'])->name('password.otp');
     Route::post('/reset-password', [ResetPasswordControllerMobile::class, 'reset'])->name('password.reset');
+
+    Route::get('/surat', [SuratControllerMobile::class, 'index']);
 
     Route::get('/statusdiajukan', [StatusDiajukanControllerMobile::class, 'index']);
     Route::get('/statusditolak', [StatusDitolakControllerMobile::class, 'index']);
@@ -48,4 +50,3 @@ Route::middleware('api')->group(function(){
 });
 
 Route::middleware('auth:sanctum')->post('/logout', [LoginControllerMobile::class, 'logout']);
-

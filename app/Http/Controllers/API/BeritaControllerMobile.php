@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
@@ -8,44 +9,56 @@ use Illuminate\Http\Request;
 class BeritaControllerMobile extends Controller
 {
     public function index()
-{
-    $berita = master_berita::with('penulis')
-    ->latest()
-    ->get()
-    ->map(function ($item) {
-        return [
-            'idberita' => $item->id_berita,
-            'judul' => $item->judul,
-            'tanggal' => $item->tanggal,
-            'deskripsi' => $item->deskripsi,
-            'gambar' => $item->image ? asset('/storage/imageberita/' . $item->image) : null,
-            'nik' => $item->nik,
-            'nama' => optional($item->penulis)->nama_lengkap, // disesuaikan
-        ];
-    });
+    {
+        $berita = master_berita::with('penulis')
+            ->latest()
+            ->get()
+            ->map(function ($item) {
 
+                // ambil gambar pertama dari deskripsi
+                preg_match('/<img[^>]+src="([^">]+)"/', $item->deskripsi, $matches);
 
-    return response()->json($berita);
-}
+                $gambar = $matches[1] ?? null;
 
-public function show($id)
-{
-    $berita = master_berita::with('penulis')->where('id_berita', $id)->first();
+                return [
+                    'idberita' => $item->id_berita,
+                    'judul' => $item->judul,
+                    'created_at' => $item->created_at,
+                    'deskripsi' => $item->deskripsi,
+                    'gambar' => $gambar,
+                    'nik' => $item->nik,
+                    'nama' => optional($item->penulis)->nama_lengkap,
+                ];
+            });
 
-    if (!$berita) {
-        return response()->json(['message' => 'Not found'], 404);
+        return response()->json($berita);
     }
 
-    return response()->json([
-        'idberita' => $berita->id_berita,
-        'judul' => $berita->judul,
-        'tanggal' => $berita->tanggal,
-        'deskripsi' => $berita->deskripsi,
-        'gambar' => $berita->image ? asset('/storage/imageberita/' . $berita->image) : null,
-        'nik' => $berita->nik,
-        'nama' => optional($berita->penulis)->nama_lengkap,
-    ]);
-}
+    public function show($id)
+    {
+        $berita = master_berita::with('penulis')
+            ->where('id_berita', $id)
+            ->first();
 
+        if (!$berita) {
+            return response()->json([
+                'message' => 'Not found'
+            ], 404);
+        }
 
+        // ambil gambar pertama dari deskripsi
+        preg_match('/<img[^>]+src="([^">]+)"/', $berita->deskripsi, $matches);
+
+        $gambar = $matches[1] ?? null;
+
+        return response()->json([
+            'idberita' => $berita->id_berita,
+            'judul' => $berita->judul,
+            'created_at' => $berita->created_at,
+            'deskripsi' => $berita->deskripsi,
+            'gambar' => $gambar,
+            'nik' => $berita->nik,
+            'nama' => optional($berita->penulis)->nama_lengkap,
+        ]);
+    }
 }
