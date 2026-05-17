@@ -16,7 +16,7 @@ class RoleMiddleware
         }
 
         // cek role user
-        if ((int) Auth::user()->level !== (int) $role) {
+        if ((int)   Auth::user()->level !== (int) $role) {
             abort(403, 'Akses ditolak');
         }
 

@@ -38,7 +38,7 @@ class  LoginControllerMobile extends Controller
     $validator = Validator::make($request->all(), [
         'nik' => 'required',
         'email' => 'required|email|unique:master_akun,email',
-        'no_hp' => 'required|min:10',
+        'no_hp' => 'required|min:10|unique:master_akun,no_hp',
         'password' => [
             'required',
             'string',
@@ -48,6 +48,7 @@ class  LoginControllerMobile extends Controller
         'email.email' => 'Format email tidak valid.',
         'email.unique' => 'Email sudah digunakan, silakan gunakan email lain.',
         'no_hp.min' => 'Nomor HP minimal harus terdiri dari 10 digit.',
+        'no_hp.unique' => 'Nomor HP sudah digunakan, silakan gunakan nomor lain.',
         'password.regex' => 'Password harus minimal 8 karakter, mengandung huruf besar, huruf kecil, dan angka.',
     ]);
 

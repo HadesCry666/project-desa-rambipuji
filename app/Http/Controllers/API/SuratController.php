@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\master_surat;
 
-class SuratControllerMobile extends Controller
+class SuratController extends Controller
 {
     public function index()
     {

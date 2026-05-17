@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nik', 16); 
             $table->text('ulasan');
-            $table->string('foto1', 100);
+            $table->string('foto1', 100)->nullable();
             $table->text('feedback')->nullable();
             $table->string('kategori', 25);
             $table->foreign('nik')->references('nik')->on('master_penduduks')->onDelete('cascade');

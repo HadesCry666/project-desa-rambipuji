@@ -142,7 +142,7 @@
         <tr><td>Alamat</td><td>: {{ $data->alamat }}</td></tr>
     </table>
 
-    <p>Dengan ini menyatakan bahwa saya benar ingin mengurus Surat Keterangan Kematian abang saya yang bernama: <span class="gray-box">(alm) {{ $data->keperluan }}.</span></p>
+    <p>Dengan ini menyatakan bahwa saya benar ingin mengurus Surat Keterangan Kematian keluarga saya yang bernama: <span class="gray-box">(alm) {{ $data->keperluan }}.</span></p>
 
     <p>Surat Pernyataan ini saya buat dengan sesungguhnya tanpa ada unsur paksaan dari pihak manapun. Bilamana surat pernyataan ini tidak benar, maka saya bersedia dituntut sesuai dengan peraturan yang berlaku.</p>
 

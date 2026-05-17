@@ -10,8 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
-
-
+use Illuminate\Validation\Rule;
 
 class ProfileControllerMobile extends Controller
 {
@@ -148,26 +147,45 @@ class ProfileControllerMobile extends Controller
 public function updateEmailNoHp(Request $request)
 {
     try {
-        // Validasi input: nik wajib, email & no_hp boleh nullable
+        // Validasi input
         $request->validate([
             'nik' => 'required|exists:master_akun,nik',
-            'email' => 'nullable|email',
-            'no_hp' => 'nullable|string|max:20',
+
+            'email' => [
+                'nullable',
+                'email',
+                Rule::unique('master_akun', 'email')->ignore($request->nik, 'nik'),
+            ],
+
+            'no_hp' => [
+                'nullable',
+                'string',
+                'max:20',
+                Rule::unique('master_akun', 'no_hp')->ignore($request->nik, 'nik'),
+            ],
+        ], [
+            'nik.required' => 'NIK wajib diisi.',
+            'nik.exists' => 'Akun dengan NIK tersebut tidak ditemukan.',
+
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email telah digunakan, gunakan yang lain.',
+
+            'no_hp.max' => 'No HP maksimal 20 karakter.',
+            'no_hp.unique' => 'No HP telah digunakan, gunakan yang lain.',
         ]);
 
         // Cari user berdasarkan nik
         $user = master_akun::where('nik', $request->nik)->first();
 
-        // Variabel untuk menandai perubahan
         $updatedFields = [];
 
-        // Update email jika ada dan berbeda
+        // Update email jika dikirim dan berbeda
         if ($request->has('email') && $request->email !== $user->email) {
             $user->email = $request->email;
             $updatedFields[] = 'email';
         }
 
-        // Update no_hp jika ada dan berbeda
+        // Update no_hp jika dikirim dan berbeda
         if ($request->has('no_hp') && $request->no_hp !== $user->no_hp) {
             $user->no_hp = $request->no_hp;
             $updatedFields[] = 'no_hp';
@@ -184,7 +202,7 @@ public function updateEmailNoHp(Request $request)
         // Simpan perubahan
         $user->save();
 
-        // Siapkan pesan sesuai perubahan
+        // Pesan sukses
         if (count($updatedFields) == 2) {
             $message = 'Email dan No HP berhasil diperbarui.';
         } elseif ($updatedFields[0] == 'email') {
@@ -205,9 +223,10 @@ public function updateEmailNoHp(Request $request)
     } catch (ValidationException $e) {
         return response()->json([
             'status' => 'error',
-            'message' => 'Validasi gagal',
+            'message' => collect($e->errors())->flatten()->first(),
             'errors' => $e->errors(),
         ], 422);
+
     } catch (\Exception $e) {
         return response()->json([
             'status' => 'error',

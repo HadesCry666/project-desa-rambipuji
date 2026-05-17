@@ -17,7 +17,7 @@ class PengajuanControllerMobile extends Controller
             $request->validate([
                 'id_surat' => 'required|string',
                 'nik' => 'required|string|size:16',
-                'keperluan' => 'required|string|max:50',
+                'keterangan' => 'required|string|max:50',
                 'tanggal_diajukan' => 'required|date',
                 'foto1' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
                 'foto2' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
@@ -28,7 +28,7 @@ class PengajuanControllerMobile extends Controller
                 'foto7' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
                 'foto8' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
             ], [
-                'keperluan.required' => 'Form keperluan harus diisi.',
+                'keterangan.required' => 'Form keterangan harus diisi.',
             ]);
         } catch (ValidationException $e) {
             return response()->json([
@@ -53,8 +53,8 @@ class PengajuanControllerMobile extends Controller
             $foto = $request->file('foto' . $i);
             if ($foto) {
                 $filename = 'foto' . $i . '_' . Str::random(10) . '.' . $foto->getClientOriginalExtension();
-                $path = $foto->storeAs('public/foto_pengajuan', $filename);
-                $fotoPaths['foto' . $i] = str_replace('public/', 'storage/', $path);
+                $path = $foto->storeAs('foto_pengajuan', $filename, 'public');
+                $fotoPaths['foto' . $i] = 'storage/' . $path;
             } else {
                 $fotoPaths['foto' . $i] = null;
             }
@@ -63,7 +63,7 @@ class PengajuanControllerMobile extends Controller
         master_pengajuan::create([
             'id_surat' => $request->id_surat,
             'nik' => $request->nik,
-            'keperluan' => $request->keperluan,
+            'keperluan' => $request->keterangan,
             'tanggal_diajukan' => $request->tanggal_diajukan,
             'status' => 'Diajukan',
             'foto1' => $fotoPaths['foto1'],
@@ -81,4 +81,4 @@ class PengajuanControllerMobile extends Controller
             'message' => 'Pengajuan berhasil disimpan!',
         ], 200);
     }
-}    
+}

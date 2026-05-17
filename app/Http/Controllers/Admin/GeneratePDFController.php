@@ -16,7 +16,7 @@ class GeneratePDFController extends Controller
 
 public function generateAndStorePdf($id_pengajuan)
 {
-    $data = DB::table('view_data')->where('id_pengajuan', $id_pengajuan)->first();
+    $data = DB::table('view_data_pengajuan')->where('id_pengajuan', $id_pengajuan)->first();
     if (!$data) {
         return response()->json(['success' => false, 'message' => 'Data tidak ditemukan.'], 404);
     }
@@ -47,7 +47,6 @@ public function generateAndStorePdf($id_pengajuan)
 
     return response()->json(['success' => true, 'message' => 'PDF berhasil dibuat dan disimpan.']);
 }
-
 
  public function draftKK($no_kk)
 {

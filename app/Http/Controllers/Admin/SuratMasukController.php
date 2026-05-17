@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\View_data_pengajuan;
 use Illuminate\Http\Request;
 use App\Models\master_pengajuan;
+use App\Http\Controllers\Admin\GeneratePDFController;
+
 
 class SuratMasukController extends Controller
 {
@@ -38,10 +40,10 @@ class SuratMasukController extends Controller
     $pengajuan->status = 'Selesai';
     $pengajuan->save();
 
-    return response()->json([
-        'success' => true,
-        'message' => 'Pengajuan berhasil disetujui.'
-    ]);
+    $generate = new GeneratePDFController();
+    $generate->generateAndStorePdf($id_pengajuan);
+
+    return redirect()->back()->with('success', 'Pengajuan berhasil disetujui.');
 }
 
 

@@ -7,107 +7,126 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use App\Models\master_akun; 
+use App\Models\master_akun;
 
 class ResetPasswordControllerMobile extends Controller
 {
-//     public function verify(Request $request)
-// {
-//     $request->validate([
-//         'otp' => 'required',
-//         'email' => 'required|email', // Ganti dari email ke akun
-//     ]);
+    public function verify(Request $request)
+    {
+        try {
+            $request->validate([
+                'no_hp' => 'required|exists:master_akun,no_hp',
+                'otp' => 'required|digits:6',
+            ]);
 
-//     $resetRecord = DB::table('password_resets')
-//         ->where('email', $request->email)
-//         ->where('otp', $request->otp)
-//         ->first();
+            $resetRecord = DB::table('password_resets')
+                ->where('no_hp', $request->no_hp)
+                ->where('otp', $request->otp)
+                ->where('is_used', false)
+                ->latest()
+                ->first();
 
-//     if (!$resetRecord) {
-//         throw ValidationException::withMessages([
-//             'otp' => ['OTP tidak valid.'],
-//         ]);
-//     }
+            if (!$resetRecord) {
+                return response()->json([
+                    'status' => 422,
+                    'message' => 'OTP tidak valid.',
+                ], 422);
+            }
 
-//     if (now()->gt($resetRecord->otp_expires_at)) {
-//         throw ValidationException::withMessages([
-//             'otp' => ['OTP telah kedaluwarsa.'],
-//         ]);
-//     }
+            if (now()->gt($resetRecord->expired_at)) {
+                return response()->json([
+                    'status' => 422,
+                    'message' => 'OTP telah kedaluwarsa.',
+                ], 422);
+            }
 
-//     return response()->json([
-//         'message' => 'OTP valid.',
-//     ], 200);
-// }
+            return response()->json([
+                'status' => 200,
+                'message' => 'OTP valid.',
+            ], 200);
 
-public function verify(Request $request)
-{
-    $request->validate([
-        'otp' => 'required',
-        'email' => 'required|email',
-    ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => 'Data tidak valid.',
+                'errors' => $e->errors(),
+            ], 422);
 
-    $resetRecord = DB::table('password_resets')
-        ->where('email', $request->email)
-        ->where('otp', $request->otp)
-        ->first();
-
-    if (!$resetRecord) {
-        return response()->json([
-            'message' => 'OTP tidak valid',
-        ], 422); 
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
-    if (now()->gt($resetRecord->otp_expires_at)) {
-        return response()->json([
-            'message' => 'OTP tidak valid',
-        ], 200);
+    public function reset(Request $request)
+    {
+        try {
+            $request->validate([
+                'no_hp' => 'required|exists:master_akun,no_hp',
+                'otp' => 'required|digits:6',
+                'password' => 'required|min:8|confirmed',
+            ]);
+
+            $resetRecord = DB::table('password_resets')
+                ->where('no_hp', $request->no_hp)
+                ->where('otp', $request->otp)
+                ->where('is_used', false)
+                ->latest()
+                ->first();
+
+            if (!$resetRecord) {
+                return response()->json([
+                    'status' => 422,
+                    'message' => 'OTP tidak valid.',
+                ], 422);
+            }
+
+            if (now()->gt($resetRecord->expired_at)) {
+                return response()->json([
+                    'status' => 422,
+                    'message' => 'OTP telah kedaluwarsa.',
+                ], 422);
+            }
+
+            $user = master_akun::where('no_hp', $request->no_hp)->first();
+
+            if (!$user) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Nomor HP tidak ditemukan.',
+                ], 404);
+            }
+
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            DB::table('password_resets')
+                ->where('no_hp', $request->no_hp)
+                ->where('otp', $request->otp)
+                ->update([
+                    'is_used' => true,
+                    'updated_at' => now(),
+                ]);
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Password berhasil direset.',
+            ], 200);
+
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status' => 422,
+                'message' => 'Data tidak valid.',
+                'errors' => $e->errors(),
+            ], 422);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
-
-    return response()->json([
-        'status' => 200,
-        'message' => 'OTP valid.',
-    ], 200);
-}
-
-
-public function reset(Request $request)
-{
-    $request->validate([
-        'otp' => 'required',
-        'email' => 'required|email',
-        'password' => 'required|min:8|confirmed',
-    ]);
-
-    $resetRecord = DB::table('password_resets')
-        ->where('email', $request->email)
-        ->where('otp', $request->otp)
-        ->first();
-
-    if (!$resetRecord) {
-        throw ValidationException::withMessages([
-            'otp' => ['OTP tidak valid.'],
-        ]);
-    }
-
-    $user = master_akun::where('email', $request->email)->first();
-
-    if (!$user) {
-        throw ValidationException::withMessages([
-            'email' => ['Email tidak ditemukan.'],
-        ]);
-    }
-
-    $user->forceFill([
-        'password' => Hash::make($request->password),
-    ])->save();
-
-    DB::table('password_resets')->where('email', $request->email)->delete();
-
-    return response()->json([
-        'status' => 200,
-        'message' => 'Password berhasil direset.',
-    ], 200);
-}
-
 }

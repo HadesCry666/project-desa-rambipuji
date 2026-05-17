@@ -9,11 +9,9 @@ return new class extends Migration
     {
         Schema::create('perangkat_desa', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('jabatan');
+            $table->string('nama', 100);
+            $table->string('jabatan', 50);
             $table->string('foto')->nullable();
-
-            // 🔥 Penanda kepala desa
             $table->boolean('is_kepala')->default(0);
 
             $table->timestamps();
