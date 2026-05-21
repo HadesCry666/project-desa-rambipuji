@@ -38,7 +38,6 @@
                                         <th>Foto</th>
                                         <th>Nama</th>
                                         <th>Jabatan</th>
-                                        <th>Tipe</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -62,7 +61,6 @@
                                                 data-id="{{ $item->id }}"
                                                 data-nama="{{ $item->nama }}"
                                                 data-jabatan="{{ $item->jabatan }}"
-                                                data-tipe="{{ $item->tipe }}"
                                                 data-foto="{{ asset('storage/' . $item->foto) }}">
                                                 <i class="fas fa-pencil-alt"></i>
                                             </button>

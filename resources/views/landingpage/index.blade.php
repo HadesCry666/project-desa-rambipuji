@@ -345,13 +345,13 @@
                     <h4>Connect</h4>
                     <hr style="width: 50px; border: 1px solid #fff; margin: 10px auto;">
                     <div class="social-icons">
-                        <a href="https://www.instagram.com/desakalipait/" class="social-icon" target="_blank">
+                        <a href="https://www.instagram.com/synexa._/" class="social-icon" target="_blank">
                             <img src="{{ asset('image/icons/instagram.png') }}" alt="Instagram">
                         </a>
-                        <a href="mailto:desa.kalipait@gmail.com" class="social-icon">
+                        <a href="mailto:desa.wonorejo@gmail.com" class="social-icon">
                             <img src="{{ asset('image/icons/email.png') }}" alt="Email">
                         </a>
-                        <a href="https://wa.me/6289526432934" class="social-icon" target="_blank">
+                        <a href="https://wa.me/6285748782437" class="social-icon" target="_blank">
                             <img src="{{ asset('image/icons/whatsapp.png') }}" alt="WhatsApp">
                         </a>
                     </div>
@@ -368,7 +368,7 @@
             <div class="row mt-4">
                 <div class="col-lg-12 text-center">
                     <p class="copyright">
-                        © 2025 Desa Wonorejo x About You. All rights reserved.
+                        © 2026 Desa Wonorejo x Synexa. All rights reserved.
                     </p>
                 </div>
             </div>
