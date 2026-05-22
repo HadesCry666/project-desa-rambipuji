@@ -23,7 +23,7 @@ class BeritaControllerMobile extends Controller
                 return [
                     'idberita' => $item->id_berita,
                     'judul' => $item->judul,
-                    'created_at' => $item->created_at,
+                    'created_at' => optional($item->created_at)->format('d-m-Y'),
                     'deskripsi' => $item->deskripsi,
                     'gambar' => $gambar,
                     'nik' => $item->nik,
@@ -54,7 +54,7 @@ class BeritaControllerMobile extends Controller
         return response()->json([
             'idberita' => $berita->id_berita,
             'judul' => $berita->judul,
-            'created_at' => $berita->created_at,
+            'created_at' => optional($berita->created_at)->format('d-m-Y'),
             'deskripsi' => $berita->deskripsi,
             'gambar' => $gambar,
             'nik' => $berita->nik,

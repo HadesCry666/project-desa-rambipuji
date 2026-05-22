@@ -9,12 +9,6 @@
         <h1>Master Pengaduan</h1>
     </div>
 
-    @if(session('success'))
-    <div id="alertPopup" class="alert alert-success alert-floating">
-        {{ session('success') }}
-    </div>
-    @endif
-
     <div class="section-body">
         <div class="row">
             <div class="col-12">
@@ -22,26 +16,46 @@
                 <div class="card">
 
                     <!-- HEADER -->
-                    <div class="card-header d-flex justify-content-between">
+                    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
 
-                        <form class="d-flex"
-                              action="{{ route('master-pengaduan.index') }}"
-                              method="get"
-                              id="searchForm">
+    <form class="d-flex"
+          action="{{ route('master-pengaduan.index') }}"
+          method="get"
+          id="searchForm">
 
-                            <input class="form-control me-1"
-                                   type="search"
-                                   name="katakunci"
-                                   placeholder="Cari..."
-                                   value="{{ Request::get('katakunci') }}">
+        <input class="form-control me-1"
+               type="search"
+               name="katakunci"
+               placeholder="Cari..."
+               value="{{ Request::get('katakunci') }}">
 
-                            <button class="btn btn-primary" type="submit">
-                                Cari
-                            </button>
+        <input type="hidden"
+               name="sort"
+               value="{{ Request::get('sort', 'terbaru') }}">
 
-                        </form>
+        <button class="btn btn-primary" type="submit">
+            Cari
+        </button>
 
-                    </div>
+    </form>
+
+    <div class="btn-group">
+    <a href="{{ route('master-pengaduan.index', array_merge(request()->query(), ['sort' => 'terbaru'])) }}"
+       class="btn btn-sm {{ Request::get('sort', 'terbaru') == 'terbaru' ? 'btn-primary' : 'btn-outline-primary' }}"
+       title="Urutkan terbaru"
+       aria-label="Urutkan terbaru">
+        <i class="fas fa-arrow-down"></i>
+    </a>
+
+    <a href="{{ route('master-pengaduan.index', array_merge(request()->query(), ['sort' => 'terlama'])) }}"
+       class="btn btn-sm {{ Request::get('sort') == 'terlama' ? 'btn-primary' : 'btn-outline-primary' }}"
+       title="Urutkan terlama"
+       aria-label="Urutkan terlama">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+</div>
 
 
                     <!-- BODY -->
@@ -132,7 +146,7 @@
 
 
                         <!-- PAGINATION -->
-                        {{ $pengaduan->links() }}
+                        {{ $pengaduan->appends(request()->query())->links() }}
 
                     </div>
                 </div>
@@ -159,9 +173,9 @@
 
             <div class="modal-header">
 
-                <h5 class="modal-title fw-bold">
+                <h6 class="modal-title fw-bold">
                     Detail Pengaduan
-                </h5>
+                </h6>
 
                 <button type="button"
                         class="btn-close"
@@ -268,9 +282,9 @@
 
                 <div class="modal-header">
 
-                    <h5 class="modal-title">
+                    <h6 class="modal-title">
                         Kirim Feedback
-                    </h5>
+                    </h6>
 
                     <button type="button"
                             class="btn-close"
@@ -377,36 +391,5 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
-<style>
-.alert-floating {
-    position: fixed;
-    top: 20px;
-    right: -400px;
-    z-index: 9999;
-    min-width: 320px;
-    transition: all 0.5s ease-in-out;
-}
 
-.alert-floating.show {
-    right: 20px;
-}
-</style>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const alertBox = document.getElementById('alertPopup');
-
-    if(alertBox){
-        setTimeout(() => {
-            alertBox.classList.add('show');
-        }, 100);
-
-        setTimeout(() => {
-            alertBox.classList.remove('show');
-        }, 4000);
-    }
-
-});
-</script>
 @endsection
