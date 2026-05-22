@@ -11,7 +11,8 @@ services:
     volumes:
       - app_storage:/var/www/html/storage
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     restart: unless-stopped
     networks:
       - laravel_net
@@ -27,6 +28,11 @@ services:
     restart: unless-stopped
     networks:
       - laravel_net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   prometheus:
     image: prom/prometheus:latest
@@ -56,7 +62,7 @@ services:
       - "3000:3000"
     environment:
       GF_SECURITY_ADMIN_USER: admin
-      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin123
     volumes:
       - grafana_data:/var/lib/grafana
     restart: unless-stopped
@@ -71,3 +77,4 @@ volumes:
 
 networks:
   laravel_net:
+    driver: bridge
