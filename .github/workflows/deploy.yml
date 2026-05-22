@@ -12,19 +12,26 @@ jobs:
     steps:
       - name: Deploy to VPS using SSH
         uses: appleboy/ssh-action@v1.0.3
-
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-
           script: |
             cd /var/www/laravel-app
 
             git pull origin main
 
-            docker compose down
+            if [ ! -f .env ]; then
+              cp .env.example .env
+            fi
 
+            docker compose down
             docker compose up -d --build
+
+            docker exec laravel_app php artisan migrate --force
+            docker exec laravel_app php artisan optimize:clear
+            docker exec laravel_app php artisan config:cache
+            docker exec laravel_app php artisan route:cache
+            docker exec laravel_app php artisan view:cache
 
             docker image prune -f

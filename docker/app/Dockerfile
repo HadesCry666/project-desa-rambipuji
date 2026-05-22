@@ -13,11 +13,9 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
-
 COPY . .
 
 RUN composer install --optimize-autoloader --no-dev --no-interaction
-
 RUN npm install && npm run build
 
 RUN chown -R www-data:www-data storage bootstrap/cache \
@@ -29,5 +27,4 @@ COPY docker/app/start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
 EXPOSE 80
-
 CMD ["/usr/local/bin/start.sh"]

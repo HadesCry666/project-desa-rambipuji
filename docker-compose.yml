@@ -10,6 +10,20 @@ services:
       - .env
     volumes:
       - app_storage:/var/www/html/storage
+    depends_on:
+      - mysql
+    restart: unless-stopped
+    networks:
+      - laravel_net
+
+  mysql:
+    image: mysql:8.0
+    container_name: laravel_db
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: semester6
+    volumes:
+      - db_data:/var/lib/mysql
     restart: unless-stopped
     networks:
       - laravel_net
@@ -30,7 +44,7 @@ services:
     image: prom/node-exporter:latest
     container_name: node_exporter
     ports:
-      - "9100:9100"
+      - "9101:9100"
     restart: unless-stopped
     networks:
       - laravel_net
@@ -51,6 +65,7 @@ services:
 
 volumes:
   app_storage:
+  db_data:
   prometheus_data:
   grafana_data:
 
