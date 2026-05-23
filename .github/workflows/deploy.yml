@@ -20,13 +20,5 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           script: |
             cd ${{ secrets.PROJECT_PATH }}
-
-            echo "Set safe directory..."
             git config --global --add safe.directory ${{ secrets.PROJECT_PATH }}
-
-            echo "Remove git lock files..."
-            rm -f .git/FETCH_HEAD
-            rm -f .git/index.lock
-
-            echo "Run deploy script..."
             bash deploy.sh
