@@ -8,6 +8,10 @@ echo "===================================="
 
 cd /var/www/semester6
 
+echo "Perbaiki permission project..."
+chown -R root:root /var/www/semester6
+chmod -R u+rwX /var/www/semester6
+
 echo "Set safe directory Git..."
 git config --global --add safe.directory /var/www/semester6
 
