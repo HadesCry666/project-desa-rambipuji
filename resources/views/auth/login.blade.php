@@ -94,7 +94,7 @@
         <!-- Logo (opsional) -->
         <!-- <img src="/logo-desa.png" class="logo-desa"> -->
 
-        <h3>Login Lagi REKKKKK Sistem Desa</h3>
+        <h3>Login Lagi REKKKK Sistem Desa</h3>
         <p>Desa Wonorejo</p>
     </div>
 
