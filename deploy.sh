@@ -33,8 +33,7 @@ docker compose exec -T app mkdir -p storage/logs
 docker compose exec -T app mkdir -p bootstrap/cache
 
 echo "Atur permission Laravel..."
-docker compose exec -T app chown -R www-data:www-data storage bootstrap/cache
-docker compose exec -T app chmod -R 775 storage bootstrap/cache
+chmod -R 777 storage bootstrap/cache
 
 echo "Install dependency Composer..."
 docker compose exec -T app composer install --no-dev --optimize-autoloader --no-interaction
