@@ -15,6 +15,10 @@ chmod -R u+rwX /var/www/semester6
 echo "Set safe directory Git..."
 git config --global --add safe.directory /var/www/semester6
 
+echo "Hapus lock Git jika ada..."
+rm -f .git/FETCH_HEAD
+rm -f .git/index.lock
+
 echo "Ambil kode terbaru dari GitHub..."
 git fetch origin main
 git reset --hard origin/main
