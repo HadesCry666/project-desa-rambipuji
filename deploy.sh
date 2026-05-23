@@ -8,6 +8,9 @@ echo "===================================="
 
 cd /var/www/semester6
 
+echo "Set safe directory Git..."
+git config --global --add safe.directory /var/www/semester6
+
 echo "Ambil kode terbaru dari GitHub..."
 git fetch origin main
 git reset --hard origin/main

@@ -20,5 +20,5 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           script: |
             cd ${{ secrets.PROJECT_PATH }}
-            chmod +x deploy.sh
-            ./deploy.sh
+            git config --global --add safe.directory ${{ secrets.PROJECT_PATH }}
+            bash deploy.sh
