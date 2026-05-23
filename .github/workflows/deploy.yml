@@ -21,16 +21,12 @@ jobs:
           script: |
             cd ${{ secrets.PROJECT_PATH }}
 
-            echo "Fix project permission..."
-            chown -R root:root ${{ secrets.PROJECT_PATH }}
-            chmod -R u+rwX ${{ secrets.PROJECT_PATH }}
-
-            echo "Remove git lock files..."
-            rm -f ${{ secrets.PROJECT_PATH }}/.git/FETCH_HEAD
-            rm -f ${{ secrets.PROJECT_PATH }}/.git/index.lock
-
             echo "Set safe directory..."
             git config --global --add safe.directory ${{ secrets.PROJECT_PATH }}
+
+            echo "Remove git lock files..."
+            rm -f .git/FETCH_HEAD
+            rm -f .git/index.lock
 
             echo "Run deploy script..."
             bash deploy.sh
