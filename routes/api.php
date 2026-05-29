@@ -14,6 +14,7 @@ use App\Http\Controllers\API\ResetPasswordControllerMobile;
 use App\Http\Controllers\API\StatusDiajukanControllerMobile;
 use App\Http\Controllers\API\ForgotPasswordControllerMobile;
 use App\Http\Controllers\API\SuratController;
+use App\Http\Controllers\API\ChatbotController;
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
@@ -47,6 +48,9 @@ Route::middleware('api')->group(function(){
    
     Route::get('/berita', [BeritaControllerMobile::class, 'index']);       // untuk daftar semua berita
     Route::get('/berita/{id}', [BeritaControllerMobile::class, 'show']);
+
+    Route::get('/surat-chatbot', [ChatbotController::class, 'index']);
+Route::post('/surat-chatbot/cek', [ChatbotController::class, 'cekPertanyaan']);
 });
 
 Route::middleware('auth:sanctum')->post('/logout', [LoginControllerMobile::class, 'logout']);

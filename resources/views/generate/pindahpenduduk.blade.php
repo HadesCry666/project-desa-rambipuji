@@ -109,9 +109,12 @@
     </table>
 
     <p style="text-align: justify;">
-      Adalah benar Penduduk Desa Wonorejo, Kecamatan Kedungjajang karena atas permintaan sendiri kepadanya diberikan Surat Keterangan Pindah ke Desa Wonorejo, Kecamatan Kedungjajang,Kabupaten LUMAJANG dengan alasan {{ $data->keperluan }}<br><br>
-      Demikian Surat Keterangan Pindah ini dibuat dan diberikan kepada yang bersangkutan untuk dipergunakan seperlunya.
-    </p>
+  Adalah benar yang bersangkutan merupakan penduduk Desa Wonorejo, Kecamatan Kedungjajang, Kabupaten Lumajang.
+  Berdasarkan permintaan sendiri, kepada yang bersangkutan diberikan Surat Keterangan Pindah Penduduk
+  ke alamat/desa tujuan sebagaimana keterangan berikut: {{ $data->keperluan }}.
+  <br><br>
+  Demikian Surat Keterangan Pindah ini dibuat dan diberikan kepada yang bersangkutan untuk dipergunakan sebagaimana mestinya.
+</p>
 
     <div class="footer">
       <div class="ttd">
