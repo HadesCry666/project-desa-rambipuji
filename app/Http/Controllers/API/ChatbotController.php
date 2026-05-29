@@ -225,6 +225,7 @@ class ChatbotController extends Controller
             str_contains($pesan, 'surat apa saja') ||
             str_contains($pesan, 'apa saja surat') ||
             str_contains($pesan, 'layanan surat') ||
+            str_contains($pesan, 'macam macam surat') ||
             str_contains($pesan, 'surat yang tersedia');
     }
 
