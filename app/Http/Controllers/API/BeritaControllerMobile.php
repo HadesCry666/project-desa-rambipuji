@@ -46,7 +46,7 @@ class BeritaControllerMobile extends Controller
             ], 404);
         }
 
-        // ambil gambar pertama dari deskripsi
+        // ambil gambar pertama dari deskripsii
         preg_match('/<img[^>]+src="([^">]+)"/', $berita->deskripsi, $matches);
 
         $gambar = $matches[1] ?? null;
