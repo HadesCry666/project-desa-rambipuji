@@ -93,13 +93,13 @@ class ProfileControllerMobile extends Controller
     public function updateFoto(Request $request)
 {
     try {
-        // Validasi input
         $request->validate([
             'nik' => 'required|exists:master_akun,nik',
             'foto_profil' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
-        
+
         $file = $request->file('foto_profil');
+
         if (!$file) {
             return response()->json([
                 'status' => 'error',
@@ -109,25 +109,30 @@ class ProfileControllerMobile extends Controller
 
         $user = master_akun::where('nik', $request->nik)->first();
 
-        // Generate nama file random + ekstensi asli
         $extension = $file->getClientOriginalExtension();
         $randomName = Str::random(40) . '.' . $extension;
 
-        // Simpan file dengan nama baru ke folder public/foto_profil
-        $path = $file->storeAs('public/foto_profil', $randomName);
-
         // Hapus foto lama jika ada
-        if ($user->foto_profil && Storage::exists('public/foto_profil/' . $user->foto_profil)) {
-            Storage::delete('public/foto_profil/' . $user->foto_profil);
+        if ($user->foto_profil) {
+            $oldFileName = basename($user->foto_profil);
+
+            if (Storage::disk('public')->exists('foto_profil/' . $oldFileName)) {
+                Storage::disk('public')->delete('foto_profil/' . $oldFileName);
+            }
         }
 
-        // Simpan nama file random ke database
+        // Simpan ke storage/app/public/foto_profil
+        $path = $file->storeAs('foto_profil', $randomName, 'public');
+
+        // Simpan hanya nama file ke database
         $user->foto_profil = $randomName;
         $user->save();
 
         return response()->json([
             'status' => 'success',
-            'foto_url' => Storage::url('public/foto_profil/' . $randomName),
+            'message' => 'Foto profil berhasil diperbarui',
+            'foto_profil' => asset('storage/' . $path),
+            'foto_url' => asset('storage/' . $path),
         ], 200);
 
     } catch (ValidationException $e) {
@@ -136,6 +141,7 @@ class ProfileControllerMobile extends Controller
             'message' => 'Validasi gagal',
             'errors' => $e->errors(),
         ], 422);
+
     } catch (\Exception $e) {
         return response()->json([
             'status' => 'error',
