@@ -124,11 +124,16 @@ class ResetPasswordControllerMobile extends Controller
         ], 200);
 
     } catch (ValidationException $e) {
-        return response()->json([
-            'status' => 422,
-            'message' => 'Data tidak valid.',
-            'errors' => $e->errors(),
-        ], 422);
+    $errors = $e->errors();
+
+    $firstError = collect($errors)->flatten()->first();
+
+    return response()->json([
+        'status' => 422,
+        'message' => $firstError ?? 'Data tidak valid.',
+        'errors' => $errors,
+    ], 422);
+
 
     } catch (\Exception $e) {
         return response()->json([
