@@ -132,7 +132,7 @@
         <tr><td>Tempat / Tanggal Lahir</td><td>: {{ $data->tempat_tanggal_lahir }}</td></tr>
         <tr><td>Jenis Kelamin</td><td>: {{ $data->jenis_kelamin }}</td></tr>
         <tr><td>No KTP / KK / Nopen</td><td>: {{ $data->nik }}</td></tr>
-        <tr><td>Kewarganegaraan / Agama</td><td>: {{ $data->kewarganegaraan }}</td></tr>
+        <tr><td>Kewarganegaraan / Agama</td><td>: {{ $data->warga_agama }}</td></tr>
         <tr><td>Pekerjaan</td><td>: {{ $data->pekerjaan }}</td></tr>
         <tr><td>Status Perkawinan</td><td>: BELUM KAWIN</td></tr>
         <tr><td>Alamat</td><td>: {{ $data->alamat }}</td></tr>
