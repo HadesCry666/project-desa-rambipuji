@@ -115,9 +115,8 @@
       <table class="table">
         <tr><td>Nama</td><td>: {{ $data->nama_lengkap }}</td></tr>
         <tr><td>Tempat/Tanggal Lahir</td><td>:  {{ $data->tempat_tanggal_lahir }}</td></tr>
-        <tr><td>Agama</td><td>: {{ $data->agama }}</td></tr>
         <tr><td>Pekerjaan</td><td>: {{ $data->pekerjaan }}</td></tr>
-        <tr><td>Kewarganegaraan</td><td>: {{ $data->kewarganegaraan }}</td></tr>
+        <tr><td>Kewarganegaraan / Agama</td><td>: {{ $data->warga_agama }}</td></tr>
         <tr><td>No. KTP</td><td>: {{ $data->nik }}</td></tr>
         <tr><td>Alamat</td><td>: {{ $data->alamat }}</td></tr>
         <tr><td>Nama Orang Tua</td><td>: {{ $data->nama_ibu }}</td></tr>
@@ -130,7 +129,7 @@
 
     <div class="footer">
       <div class="ttd">
-        Wonorejo,  {{ $data->updated }}<br>
+        Wonorejo,  {{ $data->updated_at }}<br>
         Kepala Desa Wonorejo<br><br><br><br>
         <b><u>Bahrul Rozi</u></b>
       </div>

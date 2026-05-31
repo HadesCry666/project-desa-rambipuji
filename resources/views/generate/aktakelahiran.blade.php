@@ -120,8 +120,7 @@
       <tr><td>Nama</td><td>: {{ $data->nama_lengkap }}</td></tr>
       <tr><td>Jenis Kelamin</td><td>: {{ $data->jenis_kelamin }}</td></tr>
       <tr><td>Tempat, Tanggal Lahir</td><td>: {{ $data->tempat_tanggal_lahir }}</td></tr>
-      <tr><td>Agama</td><td>: {{ $data->agama }}</td></tr>
-      <tr><td>Kewarganegaraan</td><td>: {{ $data->kewarganegaraan }}</td></tr>
+      <tr><td>Kewarganegaraan / Agama</td><td>: {{ $data->warga_agama }}</td></tr>
       <tr><td>Pendidikan</td><td>: {{ $data->pendidikan }}</td></tr>
       <tr><td>Pekerjaan</td><td>: {{ $data->pekerjaan }}</td></tr>
       <tr><td>Nomor KK/KTP</td><td>: {{ $data->nik }}</td></tr>
@@ -131,7 +130,7 @@
     Surat keterangan ini digunakan sebagai pengganti sementara E-KTP yang masih dalam proses.</p>
   </div>
   <div class="ttd">
-    Wonorejo, {{ $data->updated }}<br>
+    Wonorejo, {{ $data->updated_at }}<br>
     Kepala Desa Wonorejo<br><br><br><br>
     <b><u>Bahrul Rozi</u></b>
   </div>

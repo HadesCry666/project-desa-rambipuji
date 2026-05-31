@@ -166,7 +166,7 @@
 
     <div class="ttd">
         <div class="kanan">
-            Wonorejo, {{ $data->updated }}<br>
+            Wonorejo, {{ $data->updated_at }}<br>
             Kepala Desa Wonorejo<br><br><br><br>
             <b><u>Bahrul Rozi</u></b>
         </div>

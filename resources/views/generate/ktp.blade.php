@@ -132,8 +132,7 @@
         <tr><td>Tempat / Tanggal Lahir</td><td>: {{ $data->tempat_tanggal_lahir }}</td></tr>
         <tr><td>Jenis Kelamin</td><td>: {{ $data->jenis_kelamin }}</td></tr>
         <tr><td>No KTP / KK / Nopen</td><td>: {{ $data->nik }}</td></tr>
-        <tr><td>Kewarganegaraan</td><td>: {{ $data->kewarganegaraan }}</td></tr>
-        <tr><td>Agama</td><td>: {{ $data->agama }}</td></tr>
+        <tr><td>Kewarganegaraan / Agama</td><td>: {{ $data->kewarganegaraan }}</td></tr>
         <tr><td>Pekerjaan</td><td>: {{ $data->pekerjaan }}</td></tr>
         <tr><td>Status Perkawinan</td><td>: BELUM KAWIN</td></tr>
         <tr><td>Alamat</td><td>: {{ $data->alamat }}</td></tr>
@@ -150,7 +149,7 @@
         <div class="signature"><u>{{ $data->nama_rw }}</u></div>
       </div>
       <div class="ttd-right">
-        Desa Wonorejo,{{ $data->updated }} <br>
+        Desa Wonorejo,{{ $data->updated_at }} <br>
         KETUA RT {{ $data->rt }}<br><br>  
         <div class="signature"><u>{{ $data->nama_rt }}</u></div>
       </div>

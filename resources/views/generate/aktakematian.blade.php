@@ -155,7 +155,7 @@
       <div class="signature"><u> {{ $data->nama_rt }}</u></div>
     </div>
     <div class="ttd-right">
-      Wonorejo, {{ $data->updated }}<br>
+      Wonorejo, {{ $data->updated_at }}<br>
       Kepala Desa Wonorejo<br><br>  
       <div class="signature"><u>Bahrul Rozi</u></div>
     </div>

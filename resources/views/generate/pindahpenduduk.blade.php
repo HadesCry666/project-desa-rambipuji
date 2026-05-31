@@ -118,7 +118,7 @@
 
     <div class="footer">
       <div class="ttd">
-       Wonorejo, {{ $data->updatedd }}<br>
+       Wonorejo, {{ $data->updated_at }}<br>
        Kepala Desa Wonorejo<br><br><br><br>
         <b><u>Bahrul Rozi</u></b>
       </div>
