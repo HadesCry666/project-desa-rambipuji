@@ -119,7 +119,7 @@
         <tr><td>Kewarganegaraan / Agama</td><td>: {{ $data->warga_agama }}</td></tr>
         <tr><td>No. KTP</td><td>: {{ $data->nik }}</td></tr>
         <tr><td>Alamat</td><td>: {{ $data->alamat }}</td></tr>
-        <tr><td>Nama Orang Tua</td><td>: {{ $data->nama_ibu }}</td></tr>
+        <tr><td>Nama Orang Tua</td><td>: {{ $data->keperluan }}</td></tr>
       </table>
 
       Adalah anggota masyarakat Desa Wonorejo dengan status <b>Belum Menikah</b>. Surat pengantar ini dipergunakan untuk mengurus Administrasi Pernikahan.

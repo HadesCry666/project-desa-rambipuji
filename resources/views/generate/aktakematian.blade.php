@@ -90,13 +90,8 @@
     .footer {
       margin-top: 40px;
     }
+    
     .ttd {
-      width: 50%;
-      float: left;
-      text-align: center;
-      font-size: 14px;
-    }
-    .ttd-right {
       float: right;
       text-align: center;
       font-size: 14px;
@@ -149,18 +144,14 @@
     <p>Demikian surat pernyataan ini saya buat untuk dapat dipergunakan seperlunya.</p>
 </div>
 
-  <div class="footer">
-    <div class="ttd">
-      Ketua Rt {{ $data->rt_rtrw }}<br><br><br>
-      <div class="signature"><u> {{ $data->nama_rt }}</u></div>
+    <div class="footer">
+      <div class="ttd">
+        Wonorejo,  {{ $data->updated_at }}<br>
+        Kepala Desa Wonorejo<br><br><br><br>
+        <b><u>Bahrul Rozi</u></b>
+      </div>
+      <div class="clear"></div>
     </div>
-    <div class="ttd-right">
-      Wonorejo, {{ $data->updated_at }}<br>
-      Kepala Desa Wonorejo<br><br>  
-      <div class="signature"><u>Bahrul Rozi</u></div>
-    </div>
-    <div class="clear"></div>
-  </div>
 
 </body>
 </html>

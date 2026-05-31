@@ -145,16 +145,12 @@
                 <td>:  {{ $data->status_perkawinan }}</td>
             </tr>
             <tr>
-                <td>Agama</td>
-                <td>: {{ $data->agama }}</td>
-            </tr>
-            <tr>
                 <td>Pekerjaan</td>
                 <td>: {{ $data->pekerjaan }}</td>
             </tr>
             <tr>
-                <td>Kewarganegaraan</td>
-                <td>: {{ $data->kewarganegaraan }}</td>
+                <td>Kewarganegaraan / Agama</td>
+                <td>: {{ $data->warga_agama }}</td>
             </tr>
         </table>
         

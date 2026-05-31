@@ -77,12 +77,6 @@
       margin-top: 40px;
     }
     .ttd {
-      width: 50%;
-      float: left;
-      text-align: center;
-      font-size: 14px;
-    }
-    .ttd-right {
       float: right;
       text-align: center;
       font-size: 14px;
@@ -145,13 +139,9 @@
     </div>
     <div class="footer">
       <div class="ttd">
-        KETUA RW {{ $data->rw }}<br><br><br><br>
-        <div class="signature"><u>{{ $data->nama_rw }}</u></div>
-      </div>
-      <div class="ttd-right">
-        Desa Wonorejo,{{ $data->updated_at }} <br>
-        KETUA RT {{ $data->rt }}<br><br>  
-        <div class="signature"><u>{{ $data->nama_rt }}</u></div>
+        Wonorejo,  {{ $data->updated_at }}<br>
+        Kepala Desa Wonorejo<br><br><br><br>
+        <b><u>Bahrul Rozi</u></b>
       </div>
       <div class="clear"></div>
     </div>

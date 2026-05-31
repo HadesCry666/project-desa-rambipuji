@@ -114,7 +114,7 @@
         <tr><td>Tempat/Tanggal Lahir</td><td>: {{ $data->tempat_tanggal_lahir }}</td></tr>
         <tr><td>Jenis Kelamin</td><td>: {{ $data->jenis_kelamin }}</td></tr>
         <tr><td>Status</td><td>: Siswa</td></tr>
-        <tr><td>Agama</td><td>: {{ $data->agama }}</td></tr>
+        <tr><td>Kewarganegaraan / Agama</td><td>: {{ $data->warga_agama }}</td></tr>
         <tr><td>Alamat</td><td>: {{ $data->alamat }}</td></tr>
       </table>
       <p style="text-align: justify;">
