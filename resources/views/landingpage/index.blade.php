@@ -51,7 +51,7 @@
                         <h1>{{ $data->judul }}</h1>
                         <p>{{ $data->deskripsi1 }}</p>
                         <div class="d-flex">
-                            <a href="#" class="contact-button">Download</a>
+                            <a href="{{ asset('downloads/Digital-Village.apk') }}" class="contact-button" download>Download</a>
                         </div>
                     </div>
                 </div>
