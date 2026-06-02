@@ -224,7 +224,7 @@
                         rows="4"
                         class="form-control mb-3"
                         name="keterangan_ditolak"
-                        id="inputAlasan"></textarea>
+                        id="inputAlasan" required></textarea>
 
                     <button class="btn btn-danger w-100">
                         Tolak Pengajuan

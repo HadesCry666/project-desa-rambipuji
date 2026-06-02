@@ -237,10 +237,6 @@
 
                     <div class="col-12 text-center">
 
-                        <label class="form-label fw-bold">
-                            Foto Pengaduan
-                        </label>
-
                         @if($item->foto1 && file_exists(storage_path('app/public/'.$item->foto1)))
 
                             <img src="{{ asset('storage/'.$item->foto1) }}"

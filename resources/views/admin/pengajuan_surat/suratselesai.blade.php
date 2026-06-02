@@ -37,7 +37,7 @@
                                         <th>Jenis Surat</th>
                                         <th>Tanggal Pengajuan</th>
                                         <th>RW</th>
-                                        <th>Status</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
 
