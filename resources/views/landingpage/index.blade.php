@@ -133,7 +133,7 @@
     <section class="service-section" id="service-section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                    <div class="inner">
                         <img src="{{ asset('image/service/1.png') }}" alt="">
                         <div class="service">
@@ -144,7 +144,7 @@
                         </div>
                    </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                      <div class="inner">
                          <img src="{{ asset('image/service/2.png') }}" alt="">
                          <div class="service">
@@ -155,18 +155,7 @@
                          </div>
                      </div>
                   </div>
-                  <div class="col-lg-3">
-                     <div class="inner">
-                         <img src="{{ asset('image/service/3.png') }}" alt="">
-                         <div class="service">
-                             <h1>Berita</h1>
-                             <p>
-                                  Info dan pengumuman desa terkini
-                             </p>
-                         </div>
-                     </div>
-                  </div>
-                  <div class="col-lg-3">
+                  <div class="col-lg-4">
                      <div class="inner">
                          <img src="{{ asset('image/service/4.png') }}" alt="">
                          <div class="service">

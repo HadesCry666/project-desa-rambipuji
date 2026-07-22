@@ -8,7 +8,7 @@
   {{-- HEADER DASHBOARD --}}
   <div class="section-header d-flex align-items-center justify-content-between">
     <div>
-      <h1 class="mb-1">Selamat Datang, {{ auth()->user()->name ?? 'Admin Desa' }} 👋</h1>
+      <h1 class="mb-1">Selamat Datang, {{ auth()->user()->name ?? 'Admin Desa' }} Rambipuji 👋</h1>
       <p class="text-muted mb-0" style="font-size: 0.875rem;">
         Sistem Informasi Desa Rambipuji — Kelola data penduduk, kartu keluarga, dan layanan administrasi desa secara terintegrasi.
       </p>

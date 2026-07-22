@@ -5,7 +5,6 @@
     // ADMIN
     use App\Http\Controllers\Admin\AkunRtController;
     use App\Http\Controllers\Admin\AkunRwController;
-    use App\Http\Controllers\Admin\BeritaController;
     use App\Http\Controllers\Admin\DashboardController;
     use App\Http\Controllers\Admin\GeneratePDFController;
     use App\Http\Controllers\Admin\KartuKeluargaController;
@@ -16,14 +15,11 @@
     use App\Http\Controllers\Admin\SuratDitolakController;
     use App\Http\Controllers\Admin\SuratMasukController;
     use App\Http\Controllers\Admin\SuratSelesaiController;
-    use App\Http\Controllers\Admin\ProfileController;
-
 
     // RW
     use App\Http\Controllers\RW\DashboardRWController;
     use App\Http\Controllers\RW\SuratMasukRWController;
     use App\Http\Controllers\RW\SuratSelesaiRWController;
-
 
     // RT
     use App\Http\Controllers\RT\DashboardRTController;
@@ -31,21 +27,11 @@
     use App\Http\Controllers\RT\SuratDitolakRTController;
     use App\Http\Controllers\RT\SuratSelesaiRTController;
 
-
     // USER
-    use App\Http\Controllers\LandingBeritaController;
     use App\Http\Controllers\LoginController;
-
-
 
     // DASHBOARD
     Route::get('/', [LandingpageController::class, 'tampil'])->name('website');
-    // Route::get('/', function () {
-    //     return redirect()->route('rw.dashboard');
-    // });
-    // Route::get('/', function () {
-    //     return redirect()->route('dashboard');
-    // });
 
     Route::get('/check-nama-nik', function () {
         return view('cekk');
@@ -54,9 +40,6 @@
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login')->middleware('guest');
     Route::post('/login', [LoginController::class, 'login'])->name('login.proses')->middleware('guest');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
-    Route::get('/landingpage', [LandingBeritaController::class, 'index'])->name('landingpage.index');
-    Route::get('/landingpage/{id_berita}', [LandingBeritaController::class, 'show'])->name('landingpage.show');
 
 
     // RT
@@ -105,16 +88,6 @@
     Route::middleware(['auth', 'role:1'])->prefix('admin')->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-        // BERITA
-        Route::resource('berita', BeritaController::class);
-        Route::get('upload/berita', [BeritaController::class, 'index'])->name('admin.berita.index');
-        Route::get('upload/berita/create', [BeritaController::class, 'create'])->name('admin.berita.create');
-        Route::post('upload/berita/create', [BeritaController::class, 'store'])->name('admin.berita.store');
-        Route::get('upload/berita/{id}/edit', [BeritaController::class, 'edit'])->name('admin.berita.edit');
-        Route::put('upload/berita/{id}', [BeritaController::class, 'update'])->name('admin.berita.update');
-        Route::delete('upload/berita/{id}/delete', [BeritaController::class, 'destroy'])->name('admin.berita.destroy');
-        Route::post('/upload-image', [BeritaController::class, 'uploadImage'])->name('upload.image');
 
         // KARTU KELUARGA
         Route::get('master_kartukeluarga', [KartuKeluargaController::class, 'index'])->name('kartukeluarga.view');
@@ -171,12 +144,6 @@
         Route::put('/mastersurat/update/{id}', [SuratController::class, 'update'])->name('mastersurat.update');
         Route::delete('/mastersurat/delete/{id}', [SuratController::class, 'destroy'])->name('mastersurat.destroy');
         Route::get('suratmasuk/{id}/cetak', [GeneratePDFController::class, 'generateAndStorePdf']);
-
-        // PROFILE PERANGKAT DESA
-        Route::get('/profile', [ProfileController::class, 'index'])->name('admin.profile.index');
-        Route::post('/profile', [ProfileController::class, 'store'])->name('admin.profile.store');
-        Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('admin.profile.update');
-        Route::delete('/profile/{id}', [ProfileController::class, 'destroy'])->name('admin.profile.destroy');
 
         // MASTER PENGADUAN
         Route::get('pengaduan', [PengaduanController::class, 'index'])->name('master-pengaduan.index');

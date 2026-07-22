@@ -23,9 +23,6 @@
       
       <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 rounded-4">
         <div class="dropdown-title">Administrator</div>
-        <a href="{{ url('admin/profile') }}" class="dropdown-item has-icon">
-          <i class="far fa-user text-primary"></i> Profil Saya
-        </a>
         <a href="{{ url('/') }}" class="dropdown-item has-icon" target="_blank">
           <i class="fas fa-external-link-alt text-info"></i> Lihat Website
         </a>

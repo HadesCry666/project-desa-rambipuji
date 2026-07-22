@@ -76,21 +76,9 @@
         </a>
       </li>
 
-      <li class="{{ Request::is('admin/berita*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ url('admin/berita') }}">
-          <i class="fas fa-newspaper"></i><span>Berita</span>
-        </a>
-      </li>
-
       <li class="{{ Request::is('admin/pengaduan*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ url('admin/pengaduan') }}">
           <i class="fas fa-comment-dots"></i><span>Pengaduan Masyarakat</span>
-        </a>
-      </li>
-
-      <li class="{{ Request::is('admin/profile*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ url('admin/profile') }}">
-          <i class="fas fa-users"></i><span>Perangkat Desa</span>
         </a>
       </li>
 
