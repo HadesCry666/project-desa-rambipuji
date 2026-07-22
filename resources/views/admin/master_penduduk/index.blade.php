@@ -36,16 +36,11 @@
                                 <button class="btn btn-primary">Cari</button>
                             </form>
 
-                            <!-- Kanan: Tombol Tambah + Draft KK -->
+                            <!-- Kanan: Tombol Tambah -->
                             <div>
-                                <button type="button" class="btn btn-primary me-2" id="btnTambahPenduduk">
+                                <button type="button" class="btn btn-primary" id="btnTambahPenduduk">
                                    + Tambah Data
                                 </button>
-                                <a href="{{ route('draftkk', $no_kk) }}" 
-                                target="_blank" 
-                                class="btn btn-success">
-                                <i class="bi bi-printer-fill"></i> Draft KK
-                                </a>
                             </div>
 
                         </div>
