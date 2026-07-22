@@ -15,36 +15,77 @@
     <body>
 
         <section class="header-section">
-    <div class="container">
-        <div class="row align-items-center" style="height:70px;">
+    <div class="container-fluid px-4">
+        <div class="nav-wrapper">
 
             <!-- LOGO -->
-            <div class="col-lg-6 col-8">
-                <div class="logo-container">
-                    <img src="{{ asset('image/logo/logo.png') }}" alt="Logo Desa" class="logo-img">
-                    <div class="logo-text">
-                        <span class="logo-name">Desa Rambipuji</span>
-                        <span class="logo-sub">Kabupaten Jember</span>
-                    </div>
+            <a href="#hero-section" class="logo-container">
+                <img src="{{ asset('image/logo/logo.png') }}" alt="Logo Desa" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-name">Desa Rambipuji</span>
+                    <span class="logo-sub">Kabupaten Jember</span>
                 </div>
-            </div>
+            </a>
 
-            <!-- NAV -->
-            <div class="col-lg-6 col-4 d-flex justify-content-end align-items-center">
-                <button class="menu-toggle d-md-none" onclick="toggleMenu()">☰</button>
-                <nav class="menu d-none d-md-block">
-                    <ul class="d-flex flex-row mb-0 ps-0">
-                        <li><a href="#hero-section">Beranda</a></li>
-                        <li><a href="#section-1-first">Layanan</a></li>
-                        <li><a href="#footer-section">Tentang Kami</a></li>
-                        <li><a href="{{ route('login') }}" class="nav-link">Login</a></li>
-                    </ul>
-                </nav>
-            </div>
+            <!-- DESKTOP NAV -->
+            <nav class="desktop-nav">
+                <ul>
+                    <li><a href="#hero-section">Beranda</a></li>
+                    <li><a href="#section-1-first">Layanan</a></li>
+                    <li><a href="#footer-section">Tentang Kami</a></li>
+                    <li><a href="{{ route('login') }}" class="nav-login">Login</a></li>
+                </ul>
+            </nav>
+
+            <!-- HAMBURGER BUTTON -->
+            <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
         </div>
     </div>
 </section>
+
+<!-- MOBILE DRAWER OVERLAY -->
+<div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+        <div class="logo-container">
+            <img src="{{ asset('image/logo/logo.png') }}" alt="Logo Desa" class="logo-img">
+            <div class="logo-text">
+                <span class="logo-name">Desa Rambipuji</span>
+                <span class="logo-sub">Kabupaten Jember</span>
+            </div>
+        </div>
+        <button class="drawer-close" onclick="closeMobileMenu()">✕</button>
+    </div>
+    <nav class="drawer-nav">
+        <ul>
+            <li><a href="#hero-section" onclick="closeMobileMenu()">
+                <span class="drawer-icon">🏠</span> Beranda
+            </a></li>
+            <li><a href="#section-1-first" onclick="closeMobileMenu()">
+                <span class="drawer-icon">⚙️</span> Layanan
+            </a></li>
+            <li><a href="#footer-section" onclick="closeMobileMenu()">
+                <span class="drawer-icon">ℹ️</span> Tentang Kami
+            </a></li>
+            <li class="drawer-login">
+                <a href="{{ route('login') }}">
+                    <span class="drawer-icon">🔐</span> Login
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="drawer-footer">
+        <p>© 2026 Desa Rambipuji</p>
+    </div>
+</div>
+
 
     <section class="hero-section" id="hero-section">
         <div class="container">
@@ -349,28 +390,33 @@
         </div>
     </footer>
     
-       <script>
-    function toggleMenu() {
-        const menu = document.querySelector('.menu');
-        menu.classList.toggle('d-none');
-        menu.classList.toggle('mobile-menu-open');
+        <script>
+    function toggleMobileMenu() {
+        const drawer = document.getElementById('mobileDrawer');
+        const overlay = document.getElementById('mobileOverlay');
+        const btn = document.getElementById('hamburgerBtn');
+        drawer.classList.toggle('open');
+        overlay.classList.toggle('open');
+        btn.classList.toggle('active');
+        document.body.classList.toggle('drawer-open');
     }
 
-    // Tutup menu jika klik di luar area menu (opsional tapi direkomendasikan)
-    document.addEventListener('click', function (e) {
-        const toggle = document.querySelector('.menu-toggle');
-        const menu = document.querySelector('.menu');
+    function closeMobileMenu() {
+        const drawer = document.getElementById('mobileDrawer');
+        const overlay = document.getElementById('mobileOverlay');
+        const btn = document.getElementById('hamburgerBtn');
+        drawer.classList.remove('open');
+        overlay.classList.remove('open');
+        btn.classList.remove('active');
+        document.body.classList.remove('drawer-open');
+    }
 
-        if (!menu.contains(e.target) && !toggle.contains(e.target)) {
-            if (!menu.classList.contains('d-none')) {
-                menu.classList.add('d-none');
-                menu.classList.remove('mobile-menu-open');
-            }
-        }
+    // Close on ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeMobileMenu();
     });
-</script>
-
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{ asset('js/landingpage.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
