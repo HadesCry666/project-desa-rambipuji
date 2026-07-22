@@ -264,4 +264,43 @@
     @method('DELETE')
 </form>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    $(document).on('click', '.btn-hapus', function (e) {
+        e.preventDefault();
+        const $btn = $(this);
+        const id = $btn.attr('data-id') || $btn.data('id');
+        const nama = $btn.attr('data-nama') || $btn.data('nama') || '';
+
+        Swal.fire({
+            title: 'Yakin ingin menghapus?',
+            text: 'Data surat selesai atas nama "' + nama + '" akan dihapus!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Menghapus...',
+                    text: 'Mohon tunggu',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                const form = document.getElementById('formHapus');
+                if (form) {
+                    form.action = '/rw/suratselesai/' + id + '/delete';
+                    form.submit();
+                }
+            }
+        });
+    });
+});
+</script>
+
 @endsection

@@ -1,11 +1,11 @@
-
 $(document).ready(function () {
     // ================= DELETE =================
     $(document).on("click", ".btnDeleteKeluarga", function (e) {
         e.preventDefault();
 
-        const id = $(this).data("id");
-        const nama = $(this).data("nama_lengkap");
+        const $btn = $(this).closest(".btnDeleteKeluarga");
+        const $form = $btn.closest("form");
+        const nama = $btn.attr("data-nama_lengkap") || $btn.data("nama_lengkap") || "ini";
 
         Swal.fire({
             title: "Yakin ingin menghapus?",
@@ -18,7 +18,6 @@ $(document).ready(function () {
             cancelButtonText: "Batal",
         }).then((result) => {
             if (result.isConfirmed) {
-                // optional: loading biar lebih UX
                 Swal.fire({
                     title: "Menghapus...",
                     text: "Mohon tunggu",
@@ -28,83 +27,83 @@ $(document).ready(function () {
                     },
                 });
 
-                $("#formHapus" + id).submit();
+                $form.submit();
             }
         });
     });
 
-    // ================= TAMBAH =================
-    $("#btnTambah").click(function () {
-        let form = $("#keluargaForm");
+    // ================= TAMBAH DATA =================
+    $(document).on("click", "#btnTambah", function (e) {
+        e.preventDefault();
 
-        form[0].reset();
-        form.find('input[name="_method"]').remove();
-        form.attr("action", "/admin/master_kartukeluarga/masuk");
+        let form = $("#keluargaForm");
+        if (form.length) {
+            form[0].reset();
+            form.find('input[name="_method"]').remove();
+            form.attr("action", "/admin/master_kartukeluarga/masuk");
+        }
 
         $("#modalKeluargaLabel").text("Tambah Data Kepala Keluarga");
 
-        var myModal = new bootstrap.Modal(
-            document.getElementById("modalKeluarga"),
-        );
-        myModal.show();
+        // Set nilai default lokasi Rambipuji/Jember
+        $("#kode_pos").val("68152");
+        $("#desa").val("Rambipuji");
+        $("#kecamatan").val("Rambipuji");
+        $("#kabupaten").val("Jember");
+        $("#provinsi").val("Jawa Timur");
+
+        $("#modalKeluarga").modal("show");
     });
 
-    // ================= EDIT =================
-    $(".btnEditKeluarga").click(function () {
-        let data = $(this).data();
+    // ================= EDIT DATA =================
+    $(document).on("click", ".btnEditKeluarga", function (e) {
+        e.preventDefault();
 
-        $("#modalKeluargaLabel").text("Edit Data Kepala Keluarga");
+        const $btn = $(this).closest(".btnEditKeluarga");
 
         let form = $("#keluargaForm");
-        let actionUrl = "/admin/master_kartukeluarga/" + data.no_kk;
+        let no_kk = $btn.attr("data-no_kk") || $btn.data("no_kk");
+        let actionUrl = "/admin/master_kartukeluarga/" + no_kk;
 
         form.attr("action", actionUrl);
         form.find('input[name="_method"]').remove();
         form.append('<input type="hidden" name="_method" value="PUT">');
 
-        $("#no_kk").val(data.no_kk);
-        $("#nik").val(data.nik);
-        $("#nama_lengkap").val(data.nama_lengkap);
-        $("#alamat").val(data.alamat);
-        $("#rt").val(data.rt);
-        $("#rw").val(data.rw);
-        $("#kode_pos").val(data.kode_pos);
-        $("#desa").val(data.desa);
-        $("#kecamatan").val(data.kecamatan);
-        $("#kabupaten").val(data.kabupaten);
-        $("#provinsi").val(data.provinsi);
-        $("#tanggal_dibuat").val(data.tanggal_dibuat);
+        $("#modalKeluargaLabel").text("Edit Data Kepala Keluarga");
 
-        var myModal = new bootstrap.Modal(
-            document.getElementById("modalKeluarga"),
-        );
-        myModal.show();
+        $("#no_kk").val(no_kk);
+        $("#nik").val($btn.attr("data-nik") || $btn.data("nik") || "");
+        $("#nama_lengkap").val($btn.attr("data-nama_lengkap") || $btn.data("nama_lengkap") || "");
+        $("#alamat").val($btn.attr("data-alamat") || $btn.data("alamat") || "");
+        $("#rt").val($btn.attr("data-rt") || $btn.data("rt") || "");
+        $("#rw").val($btn.attr("data-rw") || $btn.data("rw") || "");
+        $("#kode_pos").val($btn.attr("data-kode_pos") || $btn.data("kode_pos") || "68152");
+        $("#desa").val($btn.attr("data-desa") || $btn.data("desa") || "Rambipuji");
+        $("#kecamatan").val($btn.attr("data-kecamatan") || $btn.data("kecamatan") || "Rambipuji");
+        $("#kabupaten").val($btn.attr("data-kabupaten") || $btn.data("kabupaten") || "Jember");
+        $("#provinsi").val($btn.attr("data-provinsi") || $btn.data("provinsi") || "Jawa Timur");
+        $("#tanggal_dibuat").val($btn.attr("data-tanggal_dibuat") || $btn.data("tanggal_dibuat") || "");
+
+        $("#modalKeluarga").modal("show");
     });
 
-    // ================= AUTO RESET =================
-    $("#modalKeluarga").on("hidden.bs.modal", function () {
-        let form = $("#keluargaForm");
+    // Safe listeners
+    const tglEl = document.getElementById("tanggal_dibuat");
+    if (tglEl) {
+        tglEl.addEventListener("focus", function (e) {
+            this.showPicker && this.showPicker();
+        });
+    }
 
-        form[0].reset();
-        form.find('input[name="_method"]').remove();
-        form.attr("action", "/admin/master_kartukeluarga/masuk");
-
-        form.find("input").not("[type=hidden]").val("");
-
-        $("#modalKeluargaLabel").text("Tambah Data Kepala Keluarga");
-    });
-});
-
-document.getElementById("tanggal_dibuat").addEventListener("focus", function (e) {
-    this.showPicker && this.showPicker(); // Untuk browser yang support showPicker()
-});
-
-const input = document.getElementById('input-cari');
-    let timeout = null;
-
-input.addEventListener('input', function () {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-        document.getElementById('form-cari').submit();
-    }, 500); // tunggu 500ms setelah mengetik terakhir
+    const inputCari = document.getElementById("input-cari");
+    if (inputCari) {
+        let timeout = null;
+        inputCari.addEventListener("input", function () {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                const formCari = document.getElementById("form-cari");
+                if (formCari) formCari.submit();
+            }, 500);
+        });
+    }
 });

@@ -35,27 +35,72 @@ function setujuiPengajuan(event, idPengajuan) {
     csrf.name = "_token";
     csrf.value = document
         .querySelector('meta[name="csrf-token"]')
-        .getAttribute("content");
+        ?.getAttribute("content") || "";
     form.appendChild(csrf);
 
     document.body.appendChild(form);
-    form.submit();
+
+    Swal.fire({
+        title: "Konfirmasi Persetujuan",
+        text: "Apakah Anda yakin ingin menyetujui pengajuan surat ini?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#28a745",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Ya, Setujui!",
+        cancelButtonText: "Batal",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "Memproses...",
+                text: "Mohon tunggu",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+            form.submit();
+        }
+    });
 }
 
-function confirmDelete(id) {
+function confirmDelete(arg1, arg2) {
+    let id = arg2 !== undefined ? arg2 : arg1;
+    let form = null;
+
+    if (typeof arg1 === "object" && arg1 !== null) {
+        if (arg1.preventDefault) arg1.preventDefault();
+        const btn = arg1.currentTarget || arg1.target;
+        if (btn) form = btn.closest("form");
+    }
+
+    if (!form && id) {
+        form = document.getElementById("deleteForm-" + id);
+    }
+
     Swal.fire({
         title: "Yakin ingin menghapus?",
-        text: "Data yang dihapus tidak dapat dikembalikan!",
+        text: "Data pengajuan surat ini akan dihapus!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
-        confirmButtonText: "Hapus",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Ya, hapus!",
         cancelButtonText: "Batal",
     }).then((result) => {
-        if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
-            // Jika klik "Hapus" atau timer habis, kirim form untuk delete
-            document.getElementById("deleteForm-" + id).submit();
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "Menghapus...",
+                text: "Mohon tunggu",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+
+            if (form) {
+                form.submit();
+            }
         }
     });
 }

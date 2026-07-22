@@ -67,7 +67,8 @@
                                                     <i class="fas fa-eye"></i>
                                                 </button>
 
-                                                <form action="{{ url('admin/suratmasuk/'.$a->id_pengajuan.'/delete') }}"
+                                                <form id="deleteForm-{{ $a->id_pengajuan }}"
+                                                    action="{{ url('admin/suratmasuk/'.$a->id_pengajuan.'/delete') }}"
                                                     method="POST"
                                                     style="display:inline">
                                                     @csrf
@@ -75,7 +76,7 @@
 
                                                     <button type="button"
                                                         class="btn btn-danger btn-sm"
-                                                        onclick="confirmDelete({{ $a->id_pengajuan }})">
+                                                        onclick="confirmDelete(event, {{ $a->id_pengajuan }})">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
@@ -235,23 +236,8 @@
         </div>
     </div>
 </div>
+@push('scripts')
 <script src="{{ asset('js/suratmasuk.js') }}"></script>
-
-<style>
-.alert-floating {
-    position: fixed;
-    top: 20px;
-    right: -400px;
-    z-index: 9999;
-    min-width: 320px;
-    transition: all 0.5s ease-in-out;
-}
-
-.alert-floating.show {
-    right: 20px;
-}
-</style>
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -269,5 +255,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+@endpush
+
+<style>
+.alert-floating {
+    position: fixed;
+    top: 20px;
+    right: -400px;
+    z-index: 9999;
+    min-width: 320px;
+    transition: all 0.5s ease-in-out;
+}
+
+.alert-floating.show {
+    right: 20px;
+}
+</style>
 
 @endsection

@@ -71,6 +71,41 @@
   <script src="{{ asset('assets/modules/moment.min.js') }}"></script>
   <script src="{{ asset('assets/js/stisla.js') }}"></script>
 
+  <!-- Bootstrap 4 / 5 JS Compatibility Polyfill -->
+  <script>
+    (function($) {
+      if (typeof window.bootstrap === 'undefined') {
+        window.bootstrap = {};
+      }
+      window.bootstrap.Modal = window.bootstrap.Modal || class {
+        constructor(el) {
+          this.el = typeof el === 'string' ? document.querySelector(el) : el;
+        }
+        show() { if (this.el) $(this.el).modal('show'); }
+        hide() { if (this.el) $(this.el).modal('hide'); }
+        toggle() { if (this.el) $(this.el).modal('toggle'); }
+        static getInstance(el) { return new window.bootstrap.Modal(el); }
+        static getOrCreateInstance(el) { return new window.bootstrap.Modal(el); }
+      };
+
+      $(document).ready(function() {
+        $(document).on('click', '[data-bs-dismiss="modal"]', function(e) {
+          e.preventDefault();
+          $(this).closest('.modal').modal('hide');
+        });
+        $(document).on('click', '[data-bs-toggle="modal"]', function(e) {
+          e.preventDefault();
+          var target = $(this).attr('data-bs-target') || $(this).attr('href');
+          if (target) $(target).modal('show');
+        });
+        $(document).on('click', '[data-bs-toggle="dropdown"]', function(e) {
+          e.preventDefault();
+          $(this).dropdown('toggle');
+        });
+      });
+    })(jQuery);
+  </script>
+
   <script src="{{ asset('assets/modules/simple-weather/jquery.simpleWeather.min.js') }}"></script>
   <script src="{{ asset('assets/modules/chart.min.js') }}"></script>
   <script src="{{ asset('assets/modules/jqvmap/dist/jquery.vmap.min.js') }}"></script>

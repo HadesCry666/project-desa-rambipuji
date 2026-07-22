@@ -5,7 +5,6 @@
 
 <section class="section">
 
-```
 <div class="section-header">
     <h1>Edit Landingpage</h1>
 </div>
@@ -117,7 +116,6 @@
         </div>
     </div>
 </div>
-```
 
 </section>
 

@@ -326,13 +326,21 @@ function confirmDelete(id) {
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
-        confirmButtonText: "Hapus",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Ya, hapus!",
         cancelButtonText: "Batal",
 
     }).then((result) => {
 
         if (result.isConfirmed) {
+            Swal.fire({
+                title: "Menghapus...",
+                text: "Mohon tunggu",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
 
             document.getElementById("deleteForm-" + id).submit();
 

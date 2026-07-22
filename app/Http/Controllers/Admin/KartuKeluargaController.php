@@ -14,11 +14,14 @@ class KartuKeluargaController extends Controller
     {
         $keyword = $request->katakunci;
 
-        $query = master_kartukeluarga::join(
+        $query = master_kartukeluarga::leftJoin(
             'master_penduduks',
             function ($join) {
                 $join->on('master_kartukeluargas.no_kk', '=', 'master_penduduks.no_kk')
-                    ->where('master_penduduks.status_keluarga', '=', 'KEPALA KELUARGA');
+                    ->where(function ($q) {
+                        $q->where('master_penduduks.status_keluarga', 'LIKE', '%KEPALA KELUARGA%')
+                          ->orWhere('master_penduduks.status_keluarga', 'LIKE', '%Kepala Keluarga%');
+                    });
             }
         )->select(
             'master_kartukeluargas.no_kk',
@@ -105,8 +108,15 @@ class KartuKeluargaController extends Controller
     public function update(Request $request, $no_kk_lama)
     {
         $pendudukLama = master_penduduk::where('no_kk', $no_kk_lama)
-            ->where('status_keluarga', 'KEPALA KELUARGA')
+            ->where(function ($q) {
+                $q->where('status_keluarga', 'LIKE', '%KEPALA KELUARGA%')
+                  ->orWhere('status_keluarga', 'LIKE', '%Kepala Keluarga%');
+            })
             ->first();
+
+        if (!$pendudukLama) {
+            $pendudukLama = master_penduduk::where('no_kk', $no_kk_lama)->first();
+        }
 
         if (!$pendudukLama) {
             return back()->withErrors([

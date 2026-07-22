@@ -38,11 +38,9 @@
 
                             <!-- Kanan: Tombol Tambah + Draft KK -->
                             <div>
-                                <a href="#" class="btn btn-primary me-2"
-                                   data-bs-toggle="modal"
-                                   data-bs-target="#exampleModal">
+                                <button type="button" class="btn btn-primary me-2" id="btnTambahPenduduk">
                                    + Tambah Data
-                                </a>
+                                </button>
                                 <a href="{{ route('draftkk', $no_kk) }}" 
                                 target="_blank" 
                                 class="btn btn-success">
@@ -81,8 +79,6 @@
                                             <!-- Tombol Edit -->
                                             <a href="#" 
                                                class="btn btn-warning btn-sm btn-edit"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal"
                                                 data-nik="{{ $a->nik }}"
                                                 data-nama_lengkap="{{ $a->nama_lengkap }}"
                                                 data-tempat_lahir="{{ $a->tempat_lahir }}"
@@ -257,7 +253,7 @@
                         <label class="form-label">Status Keluarga</label>
                         <select id="status_keluarga" class="form-control selectric" name="status_keluarga"  required>
                             <option> -- Pilih Status -- </option>
-                            <option>KEPALA KELUARGA </option>
+                            <option value="KEPALA KELUARGA">KEPALA KELUARGA</option>
                             <option>SUAMI</option>
                             <option>ISTRI</option>
                             <option>ANAK</option>
@@ -310,12 +306,13 @@
 </div>
 
 <!-- SCRIPTS -->
-<script src="{{ asset('assets/modules/sweetalert/sweetalert.min.js') }}"></script>
-<script src="{{ asset('assets/js/page/modules-sweetalert.js') }}"></script>
+@push('scripts')
 <script>
     $(document).ready(function() {
         // Inisialisasi Selectric untuk semua dropdown
-        $('.selectric').selectric();
+        if ($.fn.selectric) {
+            $('.selectric').selectric();
+        }
     });
 </script>
 <script src="{{ asset('js/penduduk.js') }}"></script>
@@ -328,5 +325,6 @@
     });
 </script>
 @endif
+@endpush
 
 @endsection

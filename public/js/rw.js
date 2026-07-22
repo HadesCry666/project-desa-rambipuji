@@ -55,14 +55,17 @@ $(document).ready(function () {
     // =========================
     $(document).on("change", "#nama", function () {
         let selected = $(this).find(":selected");
-        $("#nik").val(selected.data("nik") || "");
-        $("#rw").val(selected.data("rw") || "");
+        let nikVal = selected.attr("data-nik") || selected.data("nik");
+        if (nikVal) $("#nik").val(nikVal);
+
+        let rwVal = selected.attr("data-rw") || selected.data("rw");
+        if (rwVal) $("#rw").val(rwVal);
     });
 
     // =========================
     // BTN TAMBAH
     // =========================
-    $("#btnTambah").click(function () {
+    $(document).on("click", "#btnTambah", function () {
         $("#modalTitle").text("Tambah Akun Ketua RW");
         $("#modalForm").find('[name="_method"]').remove();
         $("#modalForm")[0].reset();
@@ -75,13 +78,14 @@ $(document).ready(function () {
     // =========================
     // BTN EDIT
     // =========================
-    $(".btn-edit").click(function () {
-        var id_rtrw = $(this).data("id_rtrw");
-        var nik = $(this).data("nik");
-        var nama = $(this).data("nama");
-        var no_hp = $(this).data("no_hp");
-        var rw = $(this).data("rw");
-        var updateUrl = $(this).data("url");
+    $(document).on("click", ".btn-edit", function () {
+        const $btn = $(this).closest(".btn-edit");
+        var id_rtrw = $btn.attr("data-id_rtrw") || $btn.data("id_rtrw");
+        var nik = $btn.attr("data-nik") || $btn.data("nik");
+        var nama = $btn.attr("data-nama") || $btn.data("nama");
+        var no_hp = $btn.attr("data-no_hp") || $btn.data("no_hp");
+        var rw = $btn.attr("data-rw") || $btn.data("rw");
+        var updateUrl = $btn.attr("data-url") || $btn.data("url");
 
         $("#modalTitle").text("Edit Akun Ketua RW");
         $("#modalForm").attr("action", updateUrl);
@@ -99,7 +103,9 @@ $(document).ready(function () {
         modal.modal("show");
 
         setTimeout(() => {
-            $("#nama").val(nama).trigger("change");
+            if (nama) {
+                $("#nama").val(nama).trigger("change.select2");
+            }
         }, 200);
     });
 
@@ -109,8 +115,9 @@ $(document).ready(function () {
     $(document).on("click", ".btndeleteAkunrw", function (e) {
         e.preventDefault();
 
-        const id = $(this).data("id_rtrw");
-        const nama = $(this).data("nama");
+        const $btn = $(this);
+        const $form = $btn.closest("form");
+        const nama = $btn.attr("data-nama") || $btn.data("nama") || "";
 
         Swal.fire({
             title: "Yakin ingin menghapus?",
@@ -123,7 +130,6 @@ $(document).ready(function () {
             cancelButtonText: "Batal",
         }).then((result) => {
             if (result.isConfirmed) {
-                // loading biar UX lebih bagus
                 Swal.fire({
                     title: "Menghapus...",
                     text: "Mohon tunggu",
@@ -133,7 +139,7 @@ $(document).ready(function () {
                     },
                 });
 
-                $("#formHapus" + id).submit();
+                $form.submit();
             }
         });
     });

@@ -176,35 +176,34 @@ function showError($field) {
                 </div>
 
 
-            <!-- Tambahkan jQuery -->
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script src="{{ asset('assets/modules/sweetalert/sweetalert.min.js') }}"></script>
-            <script src="{{ asset('assets/js/page/modules-sweetalert.js') }}"></script>
-            <script src="{{ asset('js/rt.js') }}"></script>
-            @if ($errors->any())
-            <script>
-                $(document).ready(function () {
-                    $("#modal").modal("show");
-                });
-            </script>
-            @endif
-            <style>
-               .select2-container {
-                    width: 100% !important;
-                }
+@push('scripts')
+<script src="{{ asset('js/rt.js') }}"></script>
+@if ($errors->any())
+<script>
+    $(document).ready(function () {
+        $("#modal").modal("show");
+    });
+</script>
+@endif
+@endpush
 
-                .select2-container {
-                    z-index: 9999 !important;
-                }
+<style>
+   .select2-container {
+        width: 100% !important;
+    }
 
-                .select2-dropdown {
-                    z-index: 9999 !important;
-                }
-                .select2-container--default.select2-container--focus .select2-selection,
-                .is-invalid + .select2 .select2-selection {
-                    border-color: red !important;
-                }
-            </style>
-        </div>
-    </div>
+    .select2-container {
+        z-index: 9999 !important;
+    }
+
+    .select2-dropdown {
+        z-index: 9999 !important;
+    }
+    .select2-container--default.select2-container--focus .select2-selection,
+    .is-invalid + .select2 .select2-selection {
+        border-color: red !important;
+    }
+</style>
+</div>
+</div>
 @endsection

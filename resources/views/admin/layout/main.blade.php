@@ -382,11 +382,59 @@
   <script src="{{ asset('assets/modules/moment.min.js') }}"></script>
   <script src="{{ asset('assets/js/stisla.js') }}"></script>
 
+  <!-- Bootstrap 4 / 5 JS Compatibility Polyfill -->
+  <script>
+    (function($) {
+      if (typeof window.bootstrap === 'undefined') {
+        window.bootstrap = {};
+      }
+
+      // Polyfill bootstrap.Modal
+      window.bootstrap.Modal = window.bootstrap.Modal || class {
+        constructor(el) {
+          this.el = typeof el === 'string' ? document.querySelector(el) : el;
+        }
+        show() {
+          if (this.el) $(this.el).modal('show');
+        }
+        hide() {
+          if (this.el) $(this.el).modal('hide');
+        }
+        toggle() {
+          if (this.el) $(this.el).modal('toggle');
+        }
+        static getInstance(el) {
+          return new window.bootstrap.Modal(el);
+        }
+        static getOrCreateInstance(el) {
+          return new window.bootstrap.Modal(el);
+        }
+      };
+
+      // Handle Bootstrap 5 data attributes (data-bs-dismiss & data-bs-toggle) for Bootstrap 4
+      $(document).ready(function() {
+        $(document).on('click', '[data-bs-dismiss="modal"]', function(e) {
+          e.preventDefault();
+          $(this).closest('.modal').modal('hide');
+        });
+        $(document).on('click', '[data-bs-toggle="modal"]', function(e) {
+          e.preventDefault();
+          var target = $(this).attr('data-bs-target') || $(this).attr('href');
+          if (target) $(target).modal('show');
+        });
+        $(document).on('click', '[data-bs-toggle="dropdown"]', function(e) {
+          e.preventDefault();
+          $(this).dropdown('toggle');
+        });
+      });
+    })(jQuery);
+  </script>
+
   <script src="{{ asset('assets/modules/simple-weather/jquery.simpleWeather.min.js') }}"></script>
   <script src="{{ asset('assets/modules/chart.min.js') }}"></script>
   <script src="{{ asset('assets/modules/jqvmap/dist/jquery.vmap.min.js') }}"></script>
   <script src="{{ asset('assets/modules/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
-  <script src="{{ asset('assets/modules/summernote/summernote-bs4.js') }}"></script>
+  <script src="{{ asset('assets/modules/summernote/summernote-bs4.css') }}"></script>
   <script src="{{ asset('assets/modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
   <script src="{{ asset('assets/modules/jquery-selectric/jquery.selectric.min.js') }}"></script>
   <script src="{{ asset('assets/modules/select2/dist/js/select2.full.min.js') }}" ></script>

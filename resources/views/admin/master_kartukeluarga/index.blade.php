@@ -32,7 +32,7 @@
                           </form>
 
                           <!-- KANAN : TOMBOL TAMBAH -->
-                          <button id="btnTambah" class="btn btn-primary">
+                          <button id="btnTambah" type="button" class="btn btn-primary">
                             + Tambah Data
                         </button>
 
@@ -64,7 +64,8 @@
                                         <td>{{ $a->rt }}</td>
                                         <td>
                                             <!-- EDIT -->
-                                            <button class="btn btn-warning btn-sm btnEditKeluarga"
+                                            <button type="button"
+                                                class="btn btn-warning btn-sm btnEditKeluarga"
                                                 data-id="{{ $a->no_kk }}"
                                                 data-no_kk="{{ $a->no_kk }}"
                                                 data-nik="{{ $a->nik ?? '' }}"
@@ -217,7 +218,7 @@
                    class="form-control"
                    id="kode_pos"
                    name="kode_pos"
-                   value="67358"
+                   value="68152"
                    readonly>
         </div>
 
@@ -233,7 +234,7 @@
                    class="form-control"
                    id="desa"
                    name="desa"
-                   value="Wonorejo"
+                   value="Rambipuji"
                    readonly>
         </div>
 
@@ -244,7 +245,7 @@
                    class="form-control"
                    id="kecamatan"
                    name="kecamatan"
-                   value="Kedungjajang"
+                   value="Rambipuji"
                    readonly>
         </div>
 
@@ -260,7 +261,7 @@
                    class="form-control"
                    id="kabupaten"
                    name="kabupaten"
-                   value="Lumajang"
+                   value="Jember"
                    readonly>
         </div>
 
@@ -300,9 +301,7 @@
 </div>
 
 {{-- SCRIPTS --}}
-<!-- Bootstrap CSS -->
-<script src="{{ asset('assets/modules/sweetalert/sweetalert.min.js') }}"></script>
-<script src="{{ asset('assets/js/page/modules-sweetalert.js') }}"></script>
+@push('scripts')
 <script src="{{ asset('js/kartukeluarga.js') }}"></script>
 @if ($errors->any())
 <script>
@@ -312,5 +311,6 @@
     });
 </script>
 @endif
+@endpush
 
 @endsection

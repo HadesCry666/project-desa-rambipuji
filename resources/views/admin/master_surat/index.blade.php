@@ -183,9 +183,7 @@
 
 
 {{-- JAVASCRIPT --}}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{{ asset('assets/modules/sweetalert/sweetalert.min.js') }}"></script>
-<script src="{{ asset('assets/js/page/modules-sweetalert.js') }}"></script>
+@push('scripts')
 <script src="{{ asset('js/mastersurat.js') }}"></script>
 <script>
 let jumlahBerkas = 0;
@@ -240,5 +238,6 @@ $(document).on('click', '.btnHapus', function () {
 
 });
 </script>
+@endpush
 
 @endsection

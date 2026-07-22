@@ -71,8 +71,9 @@
                                                 @csrf
                                                 @method('DELETE')
 
-                                                <button type="submit"
-                                                    class="btn btn-danger btn-sm btnDeleteProfile">
+                                                <button type="button"
+                                                    class="btn btn-danger btn-sm btnDeleteProfile"
+                                                    data-id="{{ $item->id }}">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
@@ -144,6 +145,7 @@
 
 
 {{-- SCRIPT --}}
+<script src="{{ asset('assets/modules/sweetalert/sweetalert.min.js') }}"></script>
 <script>
 document.getElementById('btnTambahProfile').addEventListener('click', function () {
     document.getElementById('modalTitleProfile').innerText = 'Tambah Perangkat Desa';
@@ -177,18 +179,15 @@ document.querySelectorAll('.btnEditProfile').forEach(btn => {
         new bootstrap.Modal(document.getElementById('modalProfile')).show();
     });
 });
-</script>
-<script src="{{ asset('assets/modules/sweetalert/sweetalert.min.js') }}"></script>
-<script src="{{ asset('assets/js/page/modules-sweetalert.js') }}"></script>
 
-<script>
 document.querySelectorAll('.btnDeleteProfile').forEach(button => {
 
     button.addEventListener('click', function (e) {
 
         e.preventDefault();
 
-        let form = this.closest('form');
+        const id = this.dataset.id;
+        let form = document.getElementById('formHapus' + id);
 
         Swal.fire({
             title: 'Yakin ingin menghapus?',

@@ -34,32 +34,23 @@ $(document).ready(function () {
     // =========================
     $(document).on("click", ".btnEditSurat", function () {
         const action = $(this).data("action");
-
         const id = $(this).data("id");
-
         const nama = $(this).data("nama");
-
         const ket = $(this).data("keterangan");
-
         const slug = $(this).data("slug");
 
         // reset container berkas
         $("#containerBerkas").html("");
-
         jumlahBerkas = 0;
 
         // set form
         $("#formSurat").attr("action", action);
-
         $("#formMethod").val("PUT");
 
         // isi data
         $("#inputIdSurat").val(id);
-
         $("#inputNamaSurat").val(nama);
-
         $("#inputKetSurat").val(ket);
-
         $("#slug").val(slug);
 
         // =========================
@@ -72,36 +63,24 @@ $(document).ready(function () {
                 jumlahBerkas++;
 
                 $("#containerBerkas").append(`
-
                     <div class="mb-3 d-flex justify-content-between align-items-end item-berkas">
-
                         <div style="width: 82%;">
-
                             <label>
                                 Berkas ${jumlahBerkas}
                             </label>
-
                             <input type="text"
                                    name="berkas${jumlahBerkas}"
                                    class="form-control"
                                    value="${value}"
                                    placeholder="Contoh: KTP">
-
                         </div>
-
                         <div style="width: 15%;">
-
                             <button type="button"
                                     class="btn btn-danger btnHapus w-100">
-
                                 Hapus
-
                             </button>
-
                         </div>
-
                     </div>
-
                 `);
             }
         }
@@ -119,41 +98,31 @@ $(document).ready(function () {
     $(document).on("click", ".btnDeleteSurat", function (e) {
         e.preventDefault();
 
-        const id = $(this).data("id");
-
-        const nama = $(this).data("nama");
+        const $btn = $(this);
+        const $form = $btn.closest("form");
+        const nama = $btn.attr("data-nama") || $btn.data("nama") || "";
 
         Swal.fire({
             title: "Yakin ingin menghapus?",
-
             text: "Data surat " + nama + " akan dihapus!",
-
             icon: "warning",
-
             showCancelButton: true,
-
             confirmButtonColor: "#d33",
-
             cancelButtonColor: "#6c757d",
-
             confirmButtonText: "Ya, hapus!",
-
             cancelButtonText: "Batal",
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire({
                     title: "Menghapus...",
-
                     text: "Mohon tunggu",
-
                     allowOutsideClick: false,
-
                     didOpen: () => {
                         Swal.showLoading();
                     },
                 });
 
-                $("#formHapus" + id).submit();
+                $form.submit();
             }
         });
     });
