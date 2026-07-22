@@ -27,21 +27,33 @@
   {{-- Slot tambahan di <head> jika perlu --}}
   @stack('head')
 
-  {{-- Google Analytics: aktif hanya di production --}}
-  @env('production')
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.ga.id', 'UA-94034622-3') }}"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '{{ config('services.ga.id', 'UA-94034622-3') }}');
-    </script>
-  @endenv
+  <style>
+    .sidebar-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(3px);
+      z-index: 1040;
+      opacity: 0; visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    body.sidebar-show .sidebar-overlay { opacity: 1; visibility: visible; }
+    @media (max-width: 1024px) {
+      .main-sidebar { left: -260px !important; position: fixed !important; top: 0 !important; height: 100vh !important; z-index: 1050 !important; transition: left 0.3s ease !important; }
+      body.sidebar-show .main-sidebar { left: 0 !important; width: 260px !important; box-shadow: 4px 0 25px rgba(0,0,0,0.15) !important; }
+      .main-navbar { left: 0 !important; width: 100% !important; position: fixed !important; top: 0 !important; z-index: 1030 !important; }
+      .main-content { padding-left: 16px !important; padding-right: 16px !important; padding-top: 85px !important; }
+      .card-header { padding: 14px 16px !important; flex-direction: column !important; align-items: stretch !important; gap: 12px !important; }
+      .table-responsive { border-radius: 12px !important; border: 1px solid #e2e8f0 !important; -webkit-overflow-scrolling: touch; }
+      .table td, .table th { white-space: nowrap !important; }
+    }
+  </style>
 </head>
 
 <body>
   <div id="app">
     <div class="main-wrapper">
+      <div class="sidebar-overlay"></div>
 
       @include('rt.layout.alerts')
       
@@ -101,6 +113,10 @@
         $(document).on('click', '[data-bs-toggle="dropdown"]', function(e) {
           e.preventDefault();
           $(this).dropdown('toggle');
+        });
+        $(document).on('click', '[data-toggle="sidebar"], .sidebar-overlay', function(e) {
+          e.preventDefault();
+          $('body').toggleClass('sidebar-show');
         });
       });
     })(jQuery);
