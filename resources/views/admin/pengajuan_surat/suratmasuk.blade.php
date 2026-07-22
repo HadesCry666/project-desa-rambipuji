@@ -103,7 +103,6 @@
     </div>
 </section>
 
-
 {{-- ================= MODAL DETAIL (DI LUAR SECTION) ================= --}}
 @foreach ($datapengajuan as $a)
 <div class="modal fade" id="modalDetail-{{ $a->id_pengajuan }}" tabindex="-1">

@@ -40,10 +40,22 @@
       --text-muted: #64748b;
     }
 
+    html, body {
+      overflow-x: hidden !important;
+      max-width: 100vw !important;
+      width: 100% !important;
+    }
+
     body {
       font-family: 'Plus Jakarta Sans', 'Poppins', sans-serif !important;
       background-color: var(--bg-main) !important;
       color: var(--text-dark) !important;
+    }
+
+    .main-wrapper {
+      overflow-x: hidden !important;
+      max-width: 100vw !important;
+      width: 100% !important;
     }
 
     /* ===== NAVBAR STYLING ===== */
@@ -56,8 +68,9 @@
 
     .main-navbar {
       height: 70px !important;
-      left: 250px;
-      right: 0;
+      left: 250px !important;
+      right: 0 !important;
+      width: calc(100% - 250px) !important;
       background: transparent !important;
       transition: left 0.3s ease, width 0.3s ease;
     }
@@ -77,6 +90,12 @@
         background-color: #ffffff !important;
         border-right: 1px solid var(--border-color) !important;
         box-shadow: 2px 0 12px rgba(0, 0, 0, 0.02) !important;
+        overflow-x: hidden !important;
+      }
+
+      body:not(.sidebar-mini) #sidebar-wrapper {
+        width: 250px !important;
+        overflow-x: hidden !important;
       }
 
       body:not(.sidebar-mini) .main-sidebar .sidebar-menu > li > a {
@@ -131,12 +150,14 @@
       }
 
       body:not(.sidebar-mini) .main-content {
-        padding-left: 275px !important;
+        padding-left: 250px !important;
         padding-top: 90px !important;
         padding-right: 25px !important;
         padding-bottom: 40px !important;
         background-color: var(--bg-main) !important;
         min-height: 100vh;
+        box-sizing: border-box !important;
+        width: 100% !important;
         transition: padding-left 0.3s ease;
       }
 
@@ -363,7 +384,14 @@
         width: 260px !important;
         z-index: 1050 !important;
         background-color: #ffffff !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
         transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      }
+
+      body .main-sidebar #sidebar-wrapper {
+        width: 260px !important;
+        overflow-x: hidden !important;
       }
 
       body.sidebar-show .main-sidebar,

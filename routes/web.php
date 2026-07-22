@@ -15,6 +15,7 @@
     use App\Http\Controllers\Admin\SuratDitolakController;
     use App\Http\Controllers\Admin\SuratMasukController;
     use App\Http\Controllers\Admin\SuratSelesaiController;
+    use App\Http\Controllers\Admin\TambahPengajuanController;
 
     // RW
     use App\Http\Controllers\RW\DashboardRWController;
@@ -130,6 +131,10 @@
         Route::post('/suratmasuk/{id_pengajuan}/tolak', [SuratMasukController::class, 'tolak'])->name('pengajuan.tolak');
         Route::delete('/suratmasuk/{id_pengajuan}/delete', [SuratMasukController::class, 'destroy'])->name('pengajuan.hapus');
         Route::get('/suratmasuk/{id_pengajuan}/cetak', [GeneratePDFController::class, 'generateAndStorePdf']);
+
+        // TAMBAH PENGAJUAN SURAT (oleh Admin)
+        Route::get('/tambah-pengajuan', [TambahPengajuanController::class, 'index'])->name('pengajuan.tambah.index');
+        Route::post('/tambah-pengajuan', [TambahPengajuanController::class, 'store'])->name('pengajuan.tambah.store');
 
         // SURAT DITOLAK
         Route::get('/suratditolak', [SuratditolakController::class, 'index'])->name('suratditolak.tampil');

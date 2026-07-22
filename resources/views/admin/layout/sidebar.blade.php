@@ -36,12 +36,17 @@
       </li>
 
       <!-- Pengajuan Surat -->
-      <li class="dropdown {{ Request::is('admin/suratmasuk*') || Request::is('admin/suratselesai*') || Request::is('admin/suratditolak*') ? 'active' : '' }}">
+      <li class="dropdown {{ Request::is('admin/suratmasuk*') || Request::is('admin/suratselesai*') || Request::is('admin/suratditolak*') || Request::is('admin/tambah-pengajuan*') ? 'active' : '' }}">
         <a href="#" class="nav-link has-dropdown">
           <i class="fas fa-envelope"></i>
           <span>Pengajuan Surat</span>
         </a>
         <ul class="dropdown-menu">
+          <li class="{{ Request::is('admin/tambah-pengajuan*') ? 'active' : '' }}">
+            <a href="{{ url('admin/tambah-pengajuan') }}" class="nav-link">
+              <i class="fas fa-plus-circle me-1 text-success"></i> Tambah Pengajuan
+            </a>
+          </li>
           <li class="{{ Request::is('admin/suratmasuk*') ? 'active' : '' }}">
             <a href="{{ url('admin/suratmasuk') }}" class="nav-link">Surat Masuk</a>
           </li>
