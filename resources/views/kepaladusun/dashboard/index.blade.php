@@ -14,8 +14,8 @@
       </p>
     </div>
     <div class="badge bg-light text-primary border px-3 py-2 rounded-pill fw-semibold shadow-sm d-none d-md-flex align-items-center gap-2">
-      <i class="far fa-calendar-alt"> </i>
-      <span> {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</span>
+      <i class="far fa-calendar-alt"></i>
+      <span>{{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</span>
     </div>
   </div>
 

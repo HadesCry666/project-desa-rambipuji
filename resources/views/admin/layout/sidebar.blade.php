@@ -44,7 +44,8 @@
         <ul class="dropdown-menu">
           <li class="{{ Request::is('admin/tambah-pengajuan*') ? 'active' : '' }}">
             <a href="{{ url('admin/tambah-pengajuan') }}" class="nav-link">
-              <i class="fas fa-plus-circle me-1 text-success"></i> Tambah Pengajuan
+              {{-- <i class="fas fa-plus-circle me-1 text-success"></i> Tambah Pengajuan --}}
+              Tambah Pengajuan
             </a>
           </li>
           <li class="{{ Request::is('admin/suratmasuk*') ? 'active' : '' }}">

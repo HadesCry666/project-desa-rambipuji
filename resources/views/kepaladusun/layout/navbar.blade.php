@@ -17,12 +17,12 @@
           <i class="fas fa-user-shield"></i>
         </div>
         <div class="d-none d-md-inline-block fw-bold text-dark ms-2">
-          Hi, {{ auth()->user()->name ?? session('nama') ?? 'Admin Desa' }}
+          Hi, {{ auth()->user()->name ?? session('nama') ?? 'Kepala Dusun' }}
         </div>
       </a>
       
       <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 rounded-4">
-        <div class="dropdown-title">Administrator</div>
+        <div class="dropdown-title">Kepala Dusun</div>
         <a href="{{ url('/') }}" class="dropdown-item has-icon" target="_blank">
           <i class="fas fa-external-link-alt text-info"></i> Lihat Website
         </a>
@@ -45,7 +45,7 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: #ffffff;
+    background: #e0f2fe;
     color: #0057A6;
     display: inline-flex;
     align-items: center;

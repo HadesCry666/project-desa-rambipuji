@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>@yield('title', 'Admin Panel') - Desa Rambipuji</title>
+  <title>@yield('title', 'Kepala Dusun Panel') - Desa Rambipuji</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +27,6 @@
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
 
-  <!-- Custom Modern White Admin Theme Stylesheet -->
   <style>
     :root {
       --primary: #0057A6;
@@ -71,7 +70,7 @@
       left: 250px !important;
       right: 0 !important;
       width: calc(100% - 250px) !important;
-      background: #ffffff !important;
+      background: transparent !important;
       transition: left 0.3s ease, width 0.3s ease;
     }
 
@@ -97,10 +96,6 @@
         width: 250px !important;
         overflow-x: hidden !important;
       }
-
-      body:not(.sidebar-mini) .main-sidebar .sidebar-menu{
-    padding-right:28px;
-}
 
       body:not(.sidebar-mini) .main-sidebar .sidebar-menu > li > a {
         color: #475569 !important;
@@ -154,8 +149,8 @@
       }
 
       body:not(.sidebar-mini) .main-content {
-        padding-left: 275px !important;
-        padding-top: 100px !important;
+        padding-left: 250px !important;
+        padding-top: 90px !important;
         padding-right: 25px !important;
         padding-bottom: 40px !important;
         background-color: var(--bg-main) !important;
@@ -535,13 +530,13 @@
     <div class="main-wrapper">
       <div class="sidebar-overlay"></div>
 
-      @include('admin.layout.alerts')
+      @include('kepaladusun.layout.alerts')
       
       {{-- Navbar --}}
-      @include('admin.layout.navbar')
+      @include('kepaladusun.layout.navbar')
 
       {{-- Sidebar --}}
-      @include('admin.layout.sidebar')
+      @include('kepaladusun.layout.sidebar')
 
       {{-- Main Content --}}
       <div class="main-content">

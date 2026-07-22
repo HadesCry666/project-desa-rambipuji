@@ -7,7 +7,7 @@
 <section class="section">
     <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <div>
-            <h1 class="mb-0 text-primary fw-bold"><i class="fas fa-paper-plane me-2"></i>Tambah Pengajuan Surat</h1>
+            <h1 class="mb-0 text-primary fw-bold">{{-- <i class="fas fa-paper-plane me-2"></i> --}}Tambah Pengajuan Surat</h1>
             <p class="text-muted mb-0 mt-1" style="font-size: 13.5px;">Buat pengajuan surat baru secara langsung atas nama warga/penduduk desa.</p>
         </div>
         <div>
