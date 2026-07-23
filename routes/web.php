@@ -32,9 +32,18 @@
     use App\Http\Controllers\SekretarisDesa\SekdesDashboardController;
     use App\Http\Controllers\SekretarisDesa\SekdesKartuKeluargaController;
     use App\Http\Controllers\SekretarisDesa\SekdesPendudukController;
+    use App\Http\Controllers\SekretarisDesa\SekdesSuratMasukController;
+    use App\Http\Controllers\SekretarisDesa\SekdesSuratSelesaiController;
+    use App\Http\Controllers\SekretarisDesa\SekdesSuratDitolakController;
+    use App\Http\Controllers\SekretarisDesa\SekdesPengaduanController;
+
     use App\Http\Controllers\KepalaDesa\KadesDashboardController;
     use App\Http\Controllers\KepalaDesa\KadesKartuKeluargaController;
     use App\Http\Controllers\KepalaDesa\KadesPendudukController;
+    use App\Http\Controllers\KepalaDesa\KadesSuratMasukController;
+    use App\Http\Controllers\KepalaDesa\KadesSuratSelesaiController;
+    use App\Http\Controllers\KepalaDesa\KadesPengaduanController;
+
     use App\Http\Controllers\KepalaDusun\KadusDashboardController;
 
     // USER
@@ -174,19 +183,16 @@
         Route::get('/dashboard', [SekdesDashboardController::class, 'index'])->name('sekdes.dashboard');
 
         // Surat Masuk
-        Route::get('/suratmasuk', function () {
-            return view('sekretarisdesa.suratmasuk.index');
-        })->name('sekdes.suratmasuk.index');
+        Route::get('/suratmasuk', [SekdesSuratMasukController::class, 'index'])->name('sekdes.suratmasuk.index');
+        Route::post('/suratmasuk/{id}/setuju', [SekdesSuratMasukController::class, 'setuju'])->name('sekdes.suratmasuk.setuju');
+        Route::post('/suratmasuk/{id}/tolak', [SekdesSuratMasukController::class, 'tolak'])->name('sekdes.suratmasuk.tolak');
 
         // Surat Selesai
-        Route::get('/suratselesai', function () {
-            return view('sekretarisdesa.suratselesai.index');
-        })->name('sekdes.suratselesai.index');
+        Route::get('/suratselesai', [SekdesSuratSelesaiController::class, 'index'])->name('sekdes.suratselesai.index');
 
         // Master Pengaduan
-        Route::get('/pengaduan', function () {
-            return view('sekretarisdesa.pengaduan.index');
-        })->name('sekdes.pengaduan.index');
+        Route::get('/pengaduan', [SekdesPengaduanController::class, 'index'])->name('sekdes.pengaduan.index');
+        Route::post('/pengaduan/{id}/feedback', [SekdesPengaduanController::class, 'feedback'])->name('sekdes.pengaduan.feedback');
 
         // Master Kartu Keluarga
         Route::get('/kartukeluarga', [SekdesKartuKeluargaController::class, 'index'])->name('sekdes.kartukeluarga.index');
@@ -198,9 +204,7 @@
         Route::delete('/penduduk/{nik}', [SekdesPendudukController::class, 'delete'])->name('sekdes.penduduk.delete');
 
         // Surat Ditolak
-        Route::get('/suratditolak', function () {
-            return view('sekretarisdesa.suratditolak.index');
-        })->name('sekdes.suratditolak.index');
+        Route::get('/suratditolak', [SekdesSuratDitolakController::class, 'index'])->name('sekdes.suratditolak.index');
 
     });
 
@@ -211,19 +215,15 @@
         Route::get('/dashboard', [KadesDashboardController::class, 'index'])->name('kades.dashboard');
 
         // Surat Masuk
-        Route::get('/suratmasuk', function () {
-            return view('kepaladesa.suratmasuk.index');
-        })->name('kades.suratmasuk.index');
+        Route::get('/suratmasuk', [KadesSuratMasukController::class, 'index'])->name('kades.suratmasuk.index');
+        Route::post('/suratmasuk/{id}/setuju', [KadesSuratMasukController::class, 'setuju'])->name('kades.suratmasuk.setuju');
+        Route::post('/suratmasuk/{id}/tolak', [KadesSuratMasukController::class, 'tolak'])->name('kades.suratmasuk.tolak');
 
         // Surat Selesai
-        Route::get('/suratselesai', function () {
-            return view('kepaladesa.suratselesai.index');
-        })->name('kades.suratselesai.index');
+        Route::get('/suratselesai', [KadesSuratSelesaiController::class, 'index'])->name('kades.suratselesai.index');
 
         // Master Pengaduan
-        Route::get('/pengaduan', function () {
-            return view('kepaladesa.pengaduan.index');
-        })->name('kades.pengaduan.index');
+        Route::get('/pengaduan', [KadesPengaduanController::class, 'index'])->name('kades.pengaduan.index');
 
         // Master Kartu Keluarga
         Route::get('/kartukeluarga', [KadesKartuKeluargaController::class, 'index'])->name('kades.kartukeluarga.index');

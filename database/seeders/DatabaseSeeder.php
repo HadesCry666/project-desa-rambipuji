@@ -17,11 +17,14 @@ class DatabaseSeeder extends Seeder
             // Tidak perlu field karena misalnya hanya butuh trigger ID otomatis
         ]);
 
-        // Panggil seeder lain
+        // Panggil seeder
         $this->call([
             MasterKartuKeluargaSeeder::class,
             MasterPendudukSeeder::class,
             MasterUserSeeder::class,
+            MasterSuratSeeder::class,
+            MasterPengajuanSeeder::class,
+            MasterPengaduanSeeder::class,
         ]);
     }
 }
