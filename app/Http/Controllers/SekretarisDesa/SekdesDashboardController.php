@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\SekretarisDesa;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class DashboardController extends Controller
+class SekdesDashboardController extends Controller
 {
     public function index()
     {
         // 1. Total Pengajuan
         $totalPengajuan = DB::table('master_pengajuan')->count();
 
-        // 2. Menunggu Verifikasi Admin (Disetujui Kepala Dusun)
+        // 2. Menunggu Persetujuan Sekdes (status = Disetujui Admin)
         $menunggu = DB::table('master_pengajuan')
-            ->whereIn('status', ['Diajukan', 'Disetujui Kepala Dusun'])
+            ->where('status', 'Disetujui Admin')
             ->count();
 
         // 3. Surat Selesai
@@ -31,32 +31,32 @@ class DashboardController extends Controller
 
         // 5. Data Per Bulan (12 Bulan Tahun Ini)
         $tahun = Carbon::now()->year;
-        $suratBulanDiajukan = [];
-        $suratBulanSelesai  = [];
+        $suratBulanMasuk    = [];
+        $suratBulanDisetujui = [];
 
         for ($m = 1; $m <= 12; $m++) {
-            $diajukanCount = DB::table('master_pengajuan')
+            $masukCount = DB::table('master_pengajuan')
                 ->whereYear('created_at', $tahun)
                 ->whereMonth('created_at', $m)
                 ->count();
 
-            $selesaiCount = DB::table('master_pengajuan')
+            $disetujuiCount = DB::table('master_pengajuan')
                 ->whereYear('created_at', $tahun)
                 ->whereMonth('created_at', $m)
-                ->where('status', 'Selesai')
+                ->whereIn('status', ['Disetujui Sekretaris Desa', 'Selesai'])
                 ->count();
 
-            $suratBulanDiajukan[] = $diajukanCount;
-            $suratBulanSelesai[]  = $selesaiCount;
+            $suratBulanMasuk[]    = $masukCount;
+            $suratBulanDisetujui[] = $disetujuiCount;
         }
 
-        return view('admin.dashboard.index', compact(
+        return view('sekretarisdesa.dashboard.index', compact(
             'totalPengajuan',
             'menunggu',
             'selesai',
             'ditolak',
-            'suratBulanDiajukan',
-            'suratBulanSelesai'
+            'suratBulanMasuk',
+            'suratBulanDisetujui'
         ));
     }
 }

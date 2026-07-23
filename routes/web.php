@@ -28,6 +28,11 @@
     use App\Http\Controllers\RT\SuratDitolakRTController;
     use App\Http\Controllers\RT\SuratSelesaiRTController;
 
+    // SEKDES, KADES, KADUS
+    use App\Http\Controllers\SekretarisDesa\SekdesDashboardController;
+    use App\Http\Controllers\KepalaDesa\KadesDashboardController;
+    use App\Http\Controllers\KepalaDusun\KadusDashboardController;
+
     // USER
     use App\Http\Controllers\LoginController;
 
@@ -156,4 +161,103 @@
         Route::get('pengaduan/{id}', [PengaduanController::class, 'show'])->name('master-pengaduan.show');
         Route::delete('pengaduan/{id}', [PengaduanController::class, 'destroy'])->name('master-pengaduan.destroy');
         Route::post('/pengaduan/{id}/feedback', [PengaduanController::class, 'feedback'])->name('pengaduan.feedback');
+    });
+
+    // SEKRETARIS DESA
+    Route::middleware(['auth'])->prefix('sekretarisdesa')->group(function () {
+
+        // Dashboard
+        Route::get('/dashboard', [SekdesDashboardController::class, 'index'])->name('sekdes.dashboard');
+
+        // Surat Masuk
+        Route::get('/suratmasuk', function () {
+            return view('sekretarisdesa.suratmasuk.index');
+        })->name('sekdes.suratmasuk.index');
+
+        // Surat Selesai
+        Route::get('/suratselesai', function () {
+            return view('sekretarisdesa.suratselesai.index');
+        })->name('sekdes.suratselesai.index');
+
+        // Master Pengaduan
+        Route::get('/pengaduan', function () {
+            return view('sekretarisdesa.pengaduan.index');
+        })->name('sekdes.pengaduan.index');
+
+        // Master Kartu Keluarga
+        Route::get('/kartukeluarga', function () {
+            return view('sekretarisdesa.master_kartukeluarga.index');
+        })->name('sekdes.kartukeluarga.index');
+
+        // Master Penduduk
+        Route::get('/penduduk', function () {
+            return view('sekretarisdesa.master_penduduk.index');
+        })->name('sekdes.penduduk.index');
+
+        // Surat Ditolak
+        Route::get('/suratditolak', function () {
+            return view('sekretarisdesa.suratditolak.index');
+        })->name('sekdes.suratditolak.index');
+
+    });
+
+    // KEPALA DESA
+    Route::middleware(['auth'])->prefix('kepaladesa')->group(function () {
+
+        // Dashboard
+        Route::get('/dashboard', [KadesDashboardController::class, 'index'])->name('kades.dashboard');
+
+        // Surat Masuk
+        Route::get('/suratmasuk', function () {
+            return view('kepaladesa.suratmasuk.index');
+        })->name('kades.suratmasuk.index');
+
+        // Surat Selesai
+        Route::get('/suratselesai', function () {
+            return view('kepaladesa.suratselesai.index');
+        })->name('kades.suratselesai.index');
+
+        // Master Pengaduan
+        Route::get('/pengaduan', function () {
+            return view('kepaladesa.pengaduan.index');
+        })->name('kades.pengaduan.index');
+
+        // Master Kartu Keluarga
+        Route::get('/kartukeluarga', function () {
+            return view('kepaladesa.master_kartukeluarga.index');
+        })->name('kades.kartukeluarga.index');
+
+        // Master Penduduk
+        Route::get('/penduduk', function () {
+            return view('kepaladesa.master_penduduk.index');
+        })->name('kades.penduduk.index');
+
+    });
+
+    // KEPALA DUSUN
+    Route::middleware(['auth'])->prefix('kepaladusun')->group(function () {
+
+        // Dashboard
+        Route::get('/dashboard', [KadusDashboardController::class, 'index'])->name('kadus.dashboard');
+
+        // Surat Masuk (Diajukan)
+        Route::get('/suratmasuk', function () {
+            return view('kepaladusun.suratmasuk.index');
+        })->name('kadus.suratmasuk.index');
+
+        // Tambah Pengajuan (jika warga tidak bisa mengajukan sendiri)
+        Route::get('/tambah-pengajuan', function () {
+            return view('kepaladusun.tambah_pengajuan.index');
+        })->name('kadus.tambahpengajuan.index');
+
+        // Surat Selesai
+        Route::get('/suratselesai', function () {
+            return view('kepaladusun.suratselesai.index');
+        })->name('kadus.suratselesai.index');
+
+        // Surat Ditolak
+        Route::get('/suratditolak', function () {
+            return view('kepaladusun.suratditolak.index');
+        })->name('kadus.suratditolak.index');
+
     });

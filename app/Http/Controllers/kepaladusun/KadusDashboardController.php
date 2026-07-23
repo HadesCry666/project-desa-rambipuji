@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\KepalaDusun;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class DashboardController extends Controller
+class KadusDashboardController extends Controller
 {
     public function index()
     {
         // 1. Total Pengajuan
         $totalPengajuan = DB::table('master_pengajuan')->count();
 
-        // 2. Menunggu Verifikasi Admin (Disetujui Kepala Dusun)
+        // 2. Menunggu Persetujuan Kadus (status = Diajukan)
         $menunggu = DB::table('master_pengajuan')
-            ->whereIn('status', ['Diajukan', 'Disetujui Kepala Dusun'])
+            ->where('status', 'Diajukan')
             ->count();
 
         // 3. Surat Selesai
@@ -50,7 +50,7 @@ class DashboardController extends Controller
             $suratBulanSelesai[]  = $selesaiCount;
         }
 
-        return view('admin.dashboard.index', compact(
+        return view('kepaladusun.dashboard.index', compact(
             'totalPengajuan',
             'menunggu',
             'selesai',

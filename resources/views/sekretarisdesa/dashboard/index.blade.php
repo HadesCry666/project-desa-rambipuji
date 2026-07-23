@@ -1,10 +1,5 @@
-{{--
-    _PARTIAL BLADE: Komponen dashboard statistik surat yang dipakai oleh semua role.
-    Gunakan: @include('_partials.dashboard_stats', ['role' => 'Admin'])
-    Catatan: ini hanya referensi komponen, tidak dipakai langsung.
---}}
 @extends('admin.layout.main')
-@section('title', 'Dashboard Admin')
+@section('title', 'Dashboard Sekretaris Desa')
 
 @push('css-lib')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -27,8 +22,8 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
 <section class="section">
     <div class="section-header d-flex align-items-center justify-content-between mb-4">
         <div>
-            <h1 class="fw-bold text-dark mb-1">Dashboard Admin Desa 👋</h1>
-            <p class="text-muted mb-0 small">Sistem Persuratan Desa Rambipuji — Verifikasi dan kelola semua pengajuan surat warga.</p>
+            <h1 class="fw-bold text-dark mb-1">Dashboard Sekretaris Desa 👋</h1>
+            <p class="text-muted mb-0 small">Sistem Persuratan Desa Rambipuji — Verifikasi & persetujuan surat masuk tingkat Sekretaris Desa.</p>
         </div>
         <div class="badge bg-light text-primary border px-3 py-2 rounded-pill fw-semibold shadow-sm d-none d-md-flex align-items-center gap-2">
             <i class="bi bi-calendar-event me-1"></i>
@@ -51,7 +46,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
             <div class="stat-card d-flex align-items-center gap-3">
                 <div class="stat-icon" style="background:#fff7ed;color:#ea580c;"><i class="bi bi-hourglass-split"></i></div>
                 <div>
-                    <div class="stat-label">Menunggu Verifikasi</div>
+                    <div class="stat-label">Menunggu Persetujuan</div>
                     <div class="stat-value">{{ $menunggu }}</div>
                 </div>
             </div>
@@ -82,9 +77,9 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
             <div class="chart-card p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="fw-bold text-dark mb-0"><i class="bi bi-bar-chart-fill text-primary me-2"></i>Surat Per Bulan</h5>
-                    <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-1" style="font-size:11px;">Tahun {{ date('Y') }}</span>
+                    <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-1" style="font-size:11px;">Tahun 2026</span>
                 </div>
-                <div style="height:260px;"><canvas id="chartSuratBulanAdmin"></canvas></div>
+                <div style="height:260px;"><canvas id="chartSuratSekdes"></canvas></div>
             </div>
         </div>
         <div class="col-lg-5">
@@ -94,7 +89,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
                     <span class="badge bg-success-subtle text-success fw-semibold px-3 py-1" style="font-size:11px;">Realtime</span>
                 </div>
                 <div style="height:260px;display:flex;align-items:center;justify-content:center;">
-                    <canvas id="chartStatusAdmin" style="max-height:240px;max-width:280px;"></canvas>
+                    <canvas id="chartStatusSekdes" style="max-height:240px;max-width:280px;"></canvas>
                 </div>
             </div>
         </div>
@@ -106,19 +101,19 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const ctxBar = document.getElementById('chartSuratBulanAdmin');
+    const ctxBar = document.getElementById('chartSuratSekdes');
     if (ctxBar) {
         new Chart(ctxBar, {
             type: 'bar',
             data: {
                 labels: ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'],
                 datasets: [{
-                    label: 'Surat Diajukan',
-                    data: {!! json_encode($suratBulanDiajukan) !!},
+                    label: 'Surat Masuk Sekdes',
+                    data: {!! json_encode($suratBulanMasuk) !!},
                     backgroundColor: 'rgba(0,87,166,0.12)', borderColor: '#0057A6', borderWidth: 2, borderRadius: 8, borderSkipped: false,
                 },{
-                    label: 'Surat Selesai',
-                    data: {!! json_encode($suratBulanSelesai) !!},
+                    label: 'Disetujui Sekdes',
+                    data: {!! json_encode($suratBulanDisetujui) !!},
                     backgroundColor: 'rgba(22,163,74,0.12)', borderColor: '#16a34a', borderWidth: 2, borderRadius: 8, borderSkipped: false,
                 }]
             },
@@ -132,13 +127,13 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-    const ctxD = document.getElementById('chartStatusAdmin');
+    const ctxD = document.getElementById('chartStatusSekdes');
     if (ctxD) {
         new Chart(ctxD, {
             type: 'doughnut',
             data: {
-                labels: ['Menunggu','Selesai','Ditolak'],
-                datasets: [{ data: [{{ $menunggu }}, {{ $selesai }}, {{ $ditolak }}], backgroundColor:['#f59e0b','#22c55e','#ef4444'], borderWidth:3, borderColor:'#fff' }]
+                labels: ['Menunggu Persetujuan','Selesai','Ditolak'],
+                datasets: [{ data: [{{ $menunggu }}, {{ $selesai }}, {{ $ditolak }}], backgroundColor:['#3b82f6','#22c55e','#ef4444'], borderWidth:3, borderColor:'#fff' }]
             },
             options: {
                 responsive: true, maintainAspectRatio: false, cutout: '65%',

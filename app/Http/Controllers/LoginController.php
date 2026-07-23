@@ -22,16 +22,18 @@ class LoginController extends Controller
         Log::info('Proses login dimulai', ['nik' => $request->nik]);
 
         $request->validate([
-            'nik' => 'required|string|size:16',
+            'nik' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        // cek user berdasarkan nik
-        $user = master_akun::where('nik', $request->nik)->first();
+        // Cek user berdasarkan NIK atau Email
+        $user = master_akun::where('nik', $request->nik)
+            ->orWhere('email', $request->nik)
+            ->first();
 
         if (!$user) {
-            Log::warning('Login gagal: user tidak ditemukan', ['nik' => $request->nik]);
-            return back()->with('error', 'NIK atau Password salah');
+            Log::warning('Login gagal: user tidak ditemukan', ['input' => $request->nik]);
+            return back()->with('error', 'NIK/Email atau Password salah');
         }
 
         Log::info('User ditemukan', [
@@ -42,7 +44,7 @@ class LoginController extends Controller
         // cek password
         if (!Hash::check($request->password, $user->password)) {
             Log::warning('Login gagal: password salah', ['nik' => $user->nik]);
-            return back()->with('error', 'NIK atau Password salah');
+            return back()->with('error', 'NIK/Email atau Password salah');
         }
 
         // login user
@@ -70,17 +72,27 @@ class LoginController extends Controller
             case 1:
                 Log::info('Redirect ke dashboard admin');
                 return redirect('/admin/dashboard')
-                    ->with('success', 'Login sebagai Admin');
+                    ->with('success', 'Login sebagai Admin Desa');
 
             case 2:
-                Log::info('Redirect ke dashboard RW');
-                return redirect('/rw/dashboard-rw')
-                    ->with('success', 'Login sebagai RW');
+                Log::info('Redirect ke dashboard Kepala Dusun');
+                return redirect('/kepaladusun/dashboard')
+                    ->with('success', 'Login sebagai Kepala Dusun');
 
             case 3:
                 Log::info('Redirect ke dashboard RT');
                 return redirect('/rt/dashboard-rt')
                     ->with('success', 'Login sebagai RT');
+
+            case 4:
+                Log::info('Redirect ke dashboard Sekretaris Desa');
+                return redirect('/sekretarisdesa/dashboard')
+                    ->with('success', 'Login sebagai Sekretaris Desa');
+
+            case 5:
+                Log::info('Redirect ke dashboard Kepala Desa');
+                return redirect('/kepaladesa/dashboard')
+                    ->with('success', 'Login sebagai Kepala Desa');
 
             default:
                 Auth::logout();
