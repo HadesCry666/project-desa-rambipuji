@@ -19,6 +19,18 @@
     </div>
     @endif
 
+    @if($no_kk)
+    <div class="alert alert-info d-flex align-items-center justify-content-between mb-3">
+        <div>
+            <i class="fas fa-users me-2"></i>
+            <strong>Menampilkan anggota keluarga dengan No. KK: {{ $no_kk }}</strong>
+        </div>
+        <a href="{{ route('kartukeluarga.view') }}" class="btn btn-sm btn-outline-primary">
+            <i class="fas fa-arrow-left me-1"></i> Kembali ke Kartu Keluarga
+        </a>
+    </div>
+    @endif
+
     <div class="section-body">
         <div class="row">
             <div class="col-12">

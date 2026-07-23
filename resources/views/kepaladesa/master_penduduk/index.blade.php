@@ -3,7 +3,6 @@
 @section('title', 'Master Penduduk Kepala Desa')
 
 @push('css-lib')
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -65,15 +64,30 @@
         </div>
     </div>
 
+    @if($no_kk)
+    <div class="alert alert-info d-flex align-items-center justify-content-between mb-3">
+        <div>
+            <i class="bi bi-people-fill me-2"></i>
+            <strong>Menampilkan anggota keluarga dengan No. KK: {{ $no_kk }}</strong>
+        </div>
+        <a href="{{ route('kades.kartukeluarga.index') }}" class="btn btn-sm btn-outline-primary btn-rounded px-3">
+            <i class="bi bi-arrow-left me-1"></i> Kembali ke Kartu Keluarga
+        </a>
+    </div>
+    @endif
+
     <div class="section-body">
         <div class="card card-modern">
             <div class="card-header bg-white py-3 border-bottom-0 d-flex justify-content-between align-items-center">
                 <h4 class="fw-bold text-dark m-0">
                     <i class="bi bi-people-fill text-primary me-2"></i>Tabel Master Data Penduduk
                 </h4>
-                <span class="badge bg-light text-muted border px-3 py-2 small">
-                    <i class="bi bi-lock-fill me-1"></i> Hanya Bisa Dilihat
-                </span>
+                <form class="d-flex" action="{{ route('kades.penduduk.index') }}" method="get">
+                    <input class="form-control me-2" type="search" name="katakunci"
+                        value="{{ Request::get('katakunci') }}"
+                        placeholder="Cari NIK / Nama">
+                    <button class="btn btn-primary btn-rounded px-4">Cari</button>
+                </form>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -85,181 +99,32 @@
                                 <th>NIK</th>
                                 <th>Nama Lengkap</th>
                                 <th>Tanggal Lahir</th>
-                                <th>Jenis Kelamin</th>
                                 <th>Status Keluarga</th>
-                                <th class="text-center">Detail</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @php
-                                $dummyPendudukKades = [
-                                    [
-                                        'no_kk'       => '3509121508100001',
-                                        'nik'         => '3509121203850004',
-                                        'nama'        => 'Bambang Triyono',
-                                        'tgl_lahir'   => '12 Maret 1985',
-                                        'jk'          => 'Laki-Laki',
-                                        'status'      => 'KEPALA KELUARGA',
-                                        'pekerjaan'   => 'Wiraswasta',
-                                        'agama'       => 'ISLAM',
-                                        'pendidikan'  => 'SLTA / SEDERAJAT',
-                                        'alamat'      => 'Dusun Krajan RT 001 / RW 004',
-                                    ],
-                                    [
-                                        'no_kk'       => '3509121508100001',
-                                        'nik'         => '3509124409920001',
-                                        'nama'        => 'Dewi Lestari',
-                                        'tgl_lahir'   => '04 September 1992',
-                                        'jk'          => 'Perempuan',
-                                        'status'      => 'ISTRI',
-                                        'pekerjaan'   => 'Ibu Rumah Tangga',
-                                        'agama'       => 'ISLAM',
-                                        'pendidikan'  => 'SLTA / SEDERAJAT',
-                                        'alamat'      => 'Dusun Krajan RT 001 / RW 004',
-                                    ],
-                                    [
-                                        'no_kk'       => '3509122002150003',
-                                        'nik'         => '3509121807890005',
-                                        'nama'        => 'Eko Prasetyo',
-                                        'tgl_lahir'   => '18 Juli 1989',
-                                        'jk'          => 'Laki-Laki',
-                                        'status'      => 'KEPALA KELUARGA',
-                                        'pekerjaan'   => 'Petani',
-                                        'agama'       => 'ISLAM',
-                                        'pendidikan'  => 'DIPLOMA IV / STRATA I',
-                                        'alamat'      => 'Dusun Rambie RT 003 / RW 002',
-                                    ],
-                                ];
-                            @endphp
-
-                            @foreach($dummyPendudukKades as $index => $row)
+                            @foreach($master_penduduk as $index => $row)
                             <tr>
-                                <td class="text-center fw-bold text-muted">{{ $index + 1 }}</td>
-                                <td><code class="text-muted">{{ $row['no_kk'] }}</code></td>
-                                <td><span class="fw-bold text-primary"><code>{{ $row['nik'] }}</code></span></td>
-                                <td class="fw-semibold text-dark">{{ $row['nama'] }}</td>
-                                <td class="text-muted">{{ $row['tgl_lahir'] }}</td>
+                                <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
+                                <td><code class="text-muted">{{ $row->no_kk }}</code></td>
+                                <td><span class="fw-bold text-primary"><code>{{ $row->nik }}</code></span></td>
+                                <td class="fw-semibold text-dark">{{ $row->nama_lengkap }}</td>
+                                <td class="text-muted">{{ $row->tanggal_lahir }}</td>
                                 <td>
-                                    @if($row['jk'] == 'Laki-Laki')
-                                        <span class="badge bg-info-subtle text-info fw-semibold">
-                                            <i class="bi bi-gender-male me-1"></i> Laki-Laki
-                                        </span>
-                                    @else
-                                        <span class="badge bg-danger-subtle text-danger fw-semibold">
-                                            <i class="bi bi-gender-female me-1"></i> Perempuan
-                                        </span>
-                                    @endif
-                                </td>
-                                <td>
-                                    <span class="badge bg-light text-dark border">{{ $row['status'] }}</span>
-                                </td>
-                                <td class="text-center">
-                                    <button type="button"
-                                            class="btn btn-sm btn-info btn-rounded px-3"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalDetailPendudukKades-{{ $index }}">
-                                        <i class="bi bi-eye-fill me-1"></i> Detail
-                                    </button>
+                                    <span class="badge bg-light text-dark border">{{ $row->status_keluarga }}</span>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+
+                <!-- PAGINATION -->
+                <div class="mt-3">
+                    {{ $master_penduduk->links() }}
+                </div>
             </div>
         </div>
     </div>
 </section>
-
-{{-- MODAL DETAIL PENDUDUK KEPALA DESA --}}
-@foreach($dummyPendudukKades as $index => $row)
-<div class="modal fade" id="modalDetailPendudukKades-{{ $index }}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-            <div class="modal-header bg-primary text-white py-3 px-4">
-                <h5 class="modal-title fw-bold">
-                    <i class="bi bi-person-badge-fill me-2"></i>Detail Data Penduduk
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-4" style="background-color: #f8fafc;">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="card card-modern p-3 h-100">
-                            <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">
-                                <i class="bi bi-person-fill me-2"></i>Identitas Pribadi
-                            </h6>
-                            <div class="mb-2">
-                                <span class="text-muted small d-block">Nama Lengkap</span>
-                                <strong class="text-dark">{{ $row['nama'] }}</strong>
-                            </div>
-                            <div class="mb-2">
-                                <span class="text-muted small d-block">NIK</span>
-                                <code class="text-primary fw-bold">{{ $row['nik'] }}</code>
-                            </div>
-                            <div class="mb-2">
-                                <span class="text-muted small d-block">Jenis Kelamin</span>
-                                <span class="fw-medium text-dark">{{ $row['jk'] }}</span>
-                            </div>
-                            <div class="mb-2">
-                                <span class="text-muted small d-block">Tanggal Lahir</span>
-                                <span class="fw-medium text-dark">{{ $row['tgl_lahir'] }}</span>
-                            </div>
-                            <div>
-                                <span class="text-muted small d-block">Agama</span>
-                                <span class="fw-medium text-dark">{{ $row['agama'] }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card card-modern p-3 h-100">
-                            <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">
-                                <i class="bi bi-info-circle-fill me-2"></i>Data Kependudukan
-                            </h6>
-                            <div class="mb-2">
-                                <span class="text-muted small d-block">Nomor KK</span>
-                                <code class="text-muted">{{ $row['no_kk'] }}</code>
-                            </div>
-                            <div class="mb-2">
-                                <span class="text-muted small d-block">Status Dalam Keluarga</span>
-                                <span class="badge bg-primary fw-semibold px-3 py-1">{{ $row['status'] }}</span>
-                            </div>
-                            <div class="mb-2">
-                                <span class="text-muted small d-block">Pekerjaan</span>
-                                <span class="fw-medium text-dark">{{ $row['pekerjaan'] }}</span>
-                            </div>
-                            <div class="mb-2">
-                                <span class="text-muted small d-block">Pendidikan Terakhir</span>
-                                <span class="fw-medium text-dark">{{ $row['pendidikan'] }}</span>
-                            </div>
-                            <div>
-                                <span class="text-muted small d-block">Alamat</span>
-                                <span class="fw-medium text-dark">{{ $row['alamat'] }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer bg-white py-3 px-4">
-                <button type="button" class="btn btn-secondary btn-rounded px-4" data-bs-dismiss="modal">Tutup</button>
-            </div>
-        </div>
-    </div>
-</div>
-@endforeach
-
-@push('scripts')
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#tablePendudukKades').DataTable({
-            language: { url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/id.json' },
-            pageLength: 10,
-            responsive: true,
-            columnDefs: [{ orderable: false, targets: 7 }]
-        });
-    });
-</script>
-@endpush
 @endsection

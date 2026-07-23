@@ -30,7 +30,11 @@
 
     // SEKDES, KADES, KADUS
     use App\Http\Controllers\SekretarisDesa\SekdesDashboardController;
+    use App\Http\Controllers\SekretarisDesa\SekdesKartuKeluargaController;
+    use App\Http\Controllers\SekretarisDesa\SekdesPendudukController;
     use App\Http\Controllers\KepalaDesa\KadesDashboardController;
+    use App\Http\Controllers\KepalaDesa\KadesKartuKeluargaController;
+    use App\Http\Controllers\KepalaDesa\KadesPendudukController;
     use App\Http\Controllers\KepalaDusun\KadusDashboardController;
 
     // USER
@@ -185,14 +189,13 @@
         })->name('sekdes.pengaduan.index');
 
         // Master Kartu Keluarga
-        Route::get('/kartukeluarga', function () {
-            return view('sekretarisdesa.master_kartukeluarga.index');
-        })->name('sekdes.kartukeluarga.index');
+        Route::get('/kartukeluarga', [SekdesKartuKeluargaController::class, 'index'])->name('sekdes.kartukeluarga.index');
 
         // Master Penduduk
-        Route::get('/penduduk', function () {
-            return view('sekretarisdesa.master_penduduk.index');
-        })->name('sekdes.penduduk.index');
+        Route::get('/penduduk', [SekdesPendudukController::class, 'index'])->name('sekdes.penduduk.index');
+        Route::post('/penduduk/masuk', [SekdesPendudukController::class, 'masuk'])->name('sekdes.penduduk.masuk');
+        Route::put('/penduduk/{nik}', [SekdesPendudukController::class, 'update'])->name('sekdes.penduduk.update');
+        Route::delete('/penduduk/{nik}', [SekdesPendudukController::class, 'delete'])->name('sekdes.penduduk.delete');
 
         // Surat Ditolak
         Route::get('/suratditolak', function () {
@@ -223,14 +226,10 @@
         })->name('kades.pengaduan.index');
 
         // Master Kartu Keluarga
-        Route::get('/kartukeluarga', function () {
-            return view('kepaladesa.master_kartukeluarga.index');
-        })->name('kades.kartukeluarga.index');
+        Route::get('/kartukeluarga', [KadesKartuKeluargaController::class, 'index'])->name('kades.kartukeluarga.index');
 
         // Master Penduduk
-        Route::get('/penduduk', function () {
-            return view('kepaladesa.master_penduduk.index');
-        })->name('kades.penduduk.index');
+        Route::get('/penduduk', [KadesPendudukController::class, 'index'])->name('kades.penduduk.index');
 
     });
 

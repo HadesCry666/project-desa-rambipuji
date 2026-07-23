@@ -91,10 +91,10 @@
                                                 </button>
                                             </form>
 
-                                            <!-- TAMBAH PENDUDUK -->
+                                            <!-- LIHAT ANGGOTA KK -->
                                             <a href="{{ url('admin/master_penduduk?nokk=' . $a->no_kk) }}"
-                                               class="btn btn-success btn-sm" title="Tambah Penduduk">
-                                                <i class="fas fa-user-plus"></i>
+                                               class="btn btn-info btn-sm" title="Lihat Anggota KK">
+                                                <i class="fas fa-users me-1"></i> Anggota KK
                                             </a>
                                         </td>
                                     </tr>
