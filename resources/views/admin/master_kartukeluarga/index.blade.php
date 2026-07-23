@@ -1,14 +1,36 @@
 @extends('admin.layout.main')
-@section('title', 'Kartu Keluarga')
+@section('title', 'Master Kartu Keluarga')
+
+@push('css-lib')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !important; }
+    .card-modern { border: 1px solid #e2e8f0; border-radius: 14px !important; box-shadow: 0 4px 18px rgba(0,0,0,0.03) !important; background: #fff; }
+    .table-modern { border-collapse: separate !important; border-spacing: 0 6px !important; }
+    .table-modern thead th { background: #f8fafc !important; color: #475569 !important; font-weight: 600 !important; text-transform: uppercase !important; font-size: .75rem !important; letter-spacing: .6px !important; border-bottom: 2px solid #e2e8f0 !important; padding: 14px 16px !important; }
+    .table-modern tbody tr { background: #fff !important; box-shadow: 0 2px 6px rgba(0,0,0,.02); border-radius: 10px !important; }
+    .table-modern tbody td { padding: 14px 16px !important; vertical-align: middle !important; border-top: 1px solid #f1f5f9 !important; font-size: .88rem !important; }
+    .btn-rounded { border-radius: 30px !important; }
+    .action-group { display: flex; align-items: center; justify-content: center; gap: 4px; flex-wrap: nowrap; white-space: nowrap; }
+    .btn-icon { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50% !important; padding: 0 !important; font-size: 0.8rem; }
+    .dropdown-item:hover { background: #f1f5ff; }
+</style>
+@endpush
+
 @section('content')
 
 <section class="section">
-    <div class="section-header">
-        <h1>Kartu Keluarga</h1>
+    <div class="section-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold text-dark mb-1">Master Kartu Keluarga</h1>
+            <p class="text-muted small mb-0">Kelola data Kartu Keluarga seluruh warga Desa Rambipuji.</p>
+        </div>
     </div>
     @if(session('success'))
-    <div id="alertPopup" class="alert alert-success alert-floating">
+    <div class="alert alert-success alert-dismissible fade show">
         {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
     @endif
 
@@ -16,86 +38,95 @@
         <div class="row">
             <div class="col-12">
 
-                <div class="card">
+                <div class="card card-modern">
 
                     <!-- CARD HEADER -->
-                    <div class="card-header">
-                      <div class="d-flex justify-content-between w-100">
+                    <div class="card-header bg-white py-3 border-bottom-0">
+                      <div class="d-flex justify-content-between w-100 align-items-center gap-2">
 
                           <!-- KIRI : PENCARIAN -->
                           <form class="d-flex" action="{{ route('kartukeluarga.view') }}" method="get">
-                              <input class="form-control me-2" type="search" name="katakunci"
+                              <input class="form-control me-2 rounded-pill px-3" type="search" name="katakunci"
                                   value="{{ Request::get('katakunci') }}"
                                   placeholder="Cari No KK / Nama Kepala Keluarga">
-
-                              <button class="btn btn-primary">Cari</button>
+                              <button class="btn btn-primary btn-rounded px-4"><i class="bi bi-search me-1"></i> Cari</button>
                           </form>
 
                           <!-- KANAN : TOMBOL TAMBAH -->
-                          <button id="btnTambah" type="button" class="btn btn-primary">
-                            + Tambah Data
-                        </button>
+                          <button id="btnTambah" type="button" class="btn btn-primary btn-rounded px-4">
+                            <i class="bi bi-plus-circle-fill me-1"></i> Tambah Data
+                          </button>
 
                       </div>
                   </div>
                     <!-- CARD BODY -->
                     <div class="card-body pt-0">
                         <div class="table-responsive">
-                            <table class="table table-striped" id="activityTable">
+                            <table class="table table-modern w-100" id="activityTable">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
+                                        <th class="text-center" style="width:50px;">No</th>
                                         <th>No Kartu Keluarga</th>
                                         <th>Nama Kepala Keluarga</th>
                                         <th>Alamat</th>
-                                        <th>RW</th>
-                                        <th>RT</th>
-                                        <th>Aksi</th>
+                                        <th class="text-center">RW</th>
+                                        <th class="text-center">RT</th>
+                                        <th class="text-center" style="width:130px;">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($master_kartukeluarga as $a)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $a->no_kk }}</td>
-                                        <td>{{ $a->nama_lengkap }}</td>
-                                        <td>{{ $a->alamat }}</td>
-                                        <td>{{ $a->rw }}</td>
-                                        <td>{{ $a->rt }}</td>
-                                        <td>
-                                            <!-- EDIT -->
-                                            <button type="button"
-                                                class="btn btn-warning btn-sm btnEditKeluarga"
-                                                data-id="{{ $a->no_kk }}"
-                                                data-no_kk="{{ $a->no_kk }}"
-                                                data-nik="{{ $a->nik ?? '' }}"
-                                                data-nama_lengkap="{{ $a->nama_lengkap ?? '' }}"
-                                                data-alamat="{{ $a->alamat }}"
-                                                data-rt="{{ $a->rt }}"
-                                                data-rw="{{ $a->rw }}"
-                                                data-kode_pos="{{ $a->kode_pos }}"
-                                                data-desa="{{ $a->desa }}"
-                                                data-kecamatan="{{ $a->kecamatan }}"
-                                                data-kabupaten="{{ $a->kabupaten }}"
-                                                data-provinsi="{{ $a->provinsi }}"
-                                                data-tanggal_dibuat="{{ $a->tanggal_dibuat }}">
-                                                <i class="fas fa-pencil-alt"></i>
-                                            </button>
-
-                                            <!-- HAPUS -->
-                                            <form id="formHapus{{ $a->no_kk }}" style="display: inline" action="{{ route('kartukeluarga.delete', $a->no_kk) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger btn-sm btnDeleteKeluarga" data-id="{{ $a->no_kk }}" data-nama_lengkap="{{ $a->nama_lengkap }}">
-                                                    <i class="fas fa-trash"></i>
+                                        <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
+                                        <td><span class="fw-bold text-primary"><code>{{ $a->no_kk }}</code></span></td>
+                                        <td class="fw-semibold text-dark">{{ $a->nama_lengkap }}</td>
+                                        <td class="text-muted small">{{ $a->alamat }}</td>
+                                        <td class="text-center"><span class="badge bg-light text-dark border">{{ $a->rw }}</span></td>
+                                        <td class="text-center"><span class="badge bg-light text-dark border">{{ $a->rt }}</span></td>
+                                        <td class="text-center">
+                                            <div class="action-group">
+                                                <!-- EDIT -->
+                                                <button type="button"
+                                                    class="btn btn-warning btn-icon btnEditKeluarga"
+                                                    title="Edit Data KK"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-id="{{ $a->no_kk }}"
+                                                    data-no_kk="{{ $a->no_kk }}"
+                                                    data-nik="{{ $a->nik ?? '' }}"
+                                                    data-nama_lengkap="{{ $a->nama_lengkap ?? '' }}"
+                                                    data-alamat="{{ $a->alamat }}"
+                                                    data-rt="{{ $a->rt }}"
+                                                    data-rw="{{ $a->rw }}"
+                                                    data-kode_pos="{{ $a->kode_pos }}"
+                                                    data-desa="{{ $a->desa }}"
+                                                    data-kecamatan="{{ $a->kecamatan }}"
+                                                    data-kabupaten="{{ $a->kabupaten }}"
+                                                    data-provinsi="{{ $a->provinsi }}"
+                                                    data-tanggal_dibuat="{{ $a->tanggal_dibuat }}">
+                                                    <i class="fas fa-pencil-alt"></i>
                                                 </button>
-                                            </form>
 
-                                            <!-- LIHAT ANGGOTA KK -->
-                                            <a href="{{ url('admin/master_penduduk?nokk=' . $a->no_kk) }}"
-                                               class="btn btn-info btn-sm" title="Lihat Anggota KK">
-                                                <i class="fas fa-users me-1"></i> Anggota KK
-                                            </a>
+                                                <!-- HAPUS -->
+                                                <form id="formHapus{{ $a->no_kk }}" style="display:inline" action="{{ route('kartukeluarga.delete', $a->no_kk) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button"
+                                                        class="btn btn-danger btn-icon btnDeleteKeluarga"
+                                                        title="Hapus KK"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        data-id="{{ $a->no_kk }}" data-nama_lengkap="{{ $a->nama_lengkap ?? 'ini' }}">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+
+                                                <!-- ANGGOTA KK -->
+                                                <a href="{{ url('admin/master_penduduk?nokk=' . $a->no_kk) }}"
+                                                   class="btn btn-info btn-icon"
+                                                   title="Lihat Anggota KK"
+                                                   data-bs-toggle="tooltip" data-bs-placement="top">
+                                                    <i class="fas fa-users"></i>
+                                                </a>
+                                            </div>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -104,9 +135,10 @@
                         </div>
 
                         <!-- PAGINATION -->
-                        <div class="mt-3">
-                            {{ $master_kartukeluarga->links() }}
-                        </div>
+                        <!-- PAGINATION -->
+<div class="mt-3">
+    {{ $master_kartukeluarga->links('pagination::bootstrap-5') }}
+</div>
                     </div>
                 </div>
             </div>
@@ -302,7 +334,38 @@
 
 {{-- SCRIPTS --}}
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/kartukeluarga.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Init Bootstrap Tooltips
+    const tooltipEls = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltipEls.forEach(el => new bootstrap.Tooltip(el));
+
+    // SweetAlert confirm delete
+    document.querySelectorAll('.btnDeleteKeluarga').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const nama = this.dataset.nama_lengkap || 'Kepala Keluarga';
+            Swal.fire({
+                title: 'Hapus Kartu Keluarga?',
+                text: 'KK No. ' + id + ' (' + nama + ') beserta seluruh anggotanya akan dihapus!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal',
+                customClass: { popup: 'rounded-4' }
+            }).then(result => {
+                if (result.isConfirmed) {
+                    document.getElementById('formHapus' + id).submit();
+                }
+            });
+        });
+    });
+});
+</script>
 @if ($errors->any())
 <script>
     document.addEventListener("DOMContentLoaded", function () {

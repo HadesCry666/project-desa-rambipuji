@@ -23,6 +23,15 @@ class LandingpageController extends Controller
     public function tampil() {
         $data = landing_page::first();
 
+        if (!$data) {
+            $data = new landing_page();
+            $data->judul = 'Sistem Informasi & Persuratan Desa Rambipuji';
+            $data->deskripsi1 = 'Pelayanan persuratan dan informasi desa yang lebih cepat, transparan, dan dapat diakses secara online.';
+            $data->subtittle = 'Layanan Persuratan Mandiri';
+            $data->section_text = 'Warga dapat mengajukan berbagai kebutuhan persuratan secara mudah.';
+            $data->about_us = 'Desa Rambipuji terus berkomitmen meningkatkan kualitas pelayanan publik.';
+        }
+
         return view('landingpage.index', compact('data'));
     }
 

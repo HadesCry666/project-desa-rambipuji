@@ -52,7 +52,7 @@
                                 <th>Kategori</th>
                                 <th>Ulasan / Laporan</th>
                                 <th>Feedback / Tanggapan</th>
-                                <th class="text-center" style="width: 140px;">Aksi</th>
+                                <th class="text-center" style="width: 220px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,18 +62,28 @@
                                 <td class="fw-semibold text-dark">{{ $row->penduduk->nama_lengkap ?? 'Warga' }}</td>
                                 <td><code>{{ $row->nik }}</code></td>
                                 <td><span class="badge bg-primary-subtle text-primary border border-primary fw-medium px-3 py-1 rounded-pill">{{ $row->kategori }}</span></td>
-                                <td class="small">{{ Str::limit($row->ulasan, 60) }}</td>
+                                <td class="small">{{ Str::limit($row->ulasan, 50) }}</td>
                                 <td>
                                     @if($row->feedback)
-                                        <span class="text-success small fw-semibold"><i class="bi bi-check-circle-fill me-1"></i> {{ Str::limit($row->feedback, 50) }}</span>
+                                        <span class="text-success small fw-semibold"><i class="bi bi-check-circle-fill me-1"></i> {{ Str::limit($row->feedback, 40) }}</span>
                                     @else
                                         <span class="badge bg-warning-subtle text-warning border border-warning fw-normal px-2 py-1">Belum Ditanggapi</span>
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-sm btn-info btn-rounded px-3" data-bs-toggle="modal" data-bs-target="#modalFeedbackSekdes-{{ $row->id }}">
+                                    <!-- TANGGAPI / FEEDBACK -->
+                                    <button type="button" class="btn btn-sm btn-info btn-rounded px-3 me-1" data-bs-toggle="modal" data-bs-target="#modalFeedbackSekdes-{{ $row->id }}">
                                         <i class="bi bi-reply-fill me-1"></i> Tanggapi
                                     </button>
+
+                                    <!-- HAPUS PENGADUAN -->
+                                    <form id="formHapusPengaduan-{{ $row->id }}" action="{{ route('sekdes.pengaduan.delete', $row->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-sm btn-danger btn-rounded px-3 btnHapusPengaduan" data-id="{{ $row->id }}" data-kategori="{{ $row->kategori }}" title="Hapus Pengaduan">
+                                            <i class="bi bi-trash-fill me-1"></i> Hapus
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             @empty
@@ -123,4 +133,36 @@
     </div>
 </div>
 @endforeach
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.btnHapusPengaduan').forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const id = this.getAttribute('data-id');
+                const kategori = this.getAttribute('data-kategori');
+                const form = document.getElementById('formHapusPengaduan-' + id);
+
+                Swal.fire({
+                    title: 'Hapus Laporan Pengaduan?',
+                    text: 'Laporan pengaduan kategori "' + kategori + '" akan dihapus permanen dari database!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal',
+                    customClass: { popup: 'rounded-4' }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
+@endpush
 @endsection

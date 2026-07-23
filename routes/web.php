@@ -193,9 +193,11 @@
         // Master Pengaduan
         Route::get('/pengaduan', [SekdesPengaduanController::class, 'index'])->name('sekdes.pengaduan.index');
         Route::post('/pengaduan/{id}/feedback', [SekdesPengaduanController::class, 'feedback'])->name('sekdes.pengaduan.feedback');
+        Route::delete('/pengaduan/{id}', [SekdesPengaduanController::class, 'destroy'])->name('sekdes.pengaduan.delete');
 
         // Master Kartu Keluarga
         Route::get('/kartukeluarga', [SekdesKartuKeluargaController::class, 'index'])->name('sekdes.kartukeluarga.index');
+        Route::delete('/kartukeluarga/{no_kk}', [SekdesKartuKeluargaController::class, 'delete'])->name('sekdes.kartukeluarga.delete');
 
         // Master Penduduk
         Route::get('/penduduk', [SekdesPendudukController::class, 'index'])->name('sekdes.penduduk.index');

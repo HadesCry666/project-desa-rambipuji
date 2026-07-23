@@ -50,7 +50,7 @@
 <section class="section">
     <div class="section-header d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="fw-bold text-dark mb-1">Master Kartu Keluarga - Sekretaris Desa</h1>
+            <h1 class="fw-bold text-dark mb-1">Master Kartu Keluarga — Sekretaris Desa</h1>
             <p class="text-muted small mb-0">Kelola & pantau data Kartu Keluarga seluruh wilayah Desa Rambipuji.</p>
         </div>
     </div>
@@ -84,11 +84,11 @@
                                 <th>Alamat</th>
                                 <th class="text-center">RW</th>
                                 <th class="text-center">RT</th>
-                                <th class="text-center">Aksi</th>
+                                <th class="text-center" style="width: 220px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($master_kartukeluarga as $index => $row)
+                            @forelse($master_kartukeluarga as $index => $row)
                             <tr>
                                 <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
                                 <td><span class="fw-bold text-primary"><code>{{ $row->no_kk }}</code></span></td>
@@ -99,12 +99,25 @@
                                 <td class="text-center">
                                     <!-- LIHAT ANGGOTA KK -->
                                     <a href="{{ url('sekretarisdesa/penduduk?nokk=' . $row->no_kk) }}"
-                                       class="btn btn-sm btn-info btn-rounded px-3" title="Lihat Anggota KK">
-                                        <i class="bi bi-people-fill me-1"></i> Anggota KK
+                                       class="btn btn-sm btn-info btn-rounded px-3 me-1" title="Lihat Anggota KK">
+                                        <i class="bi bi-people-fill me-1"></i> Anggota
                                     </a>
+
+                                    <!-- HAPUS KK -->
+                                    <form id="formHapusKK-{{ $row->no_kk }}" action="{{ route('sekdes.kartukeluarga.delete', $row->no_kk) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-sm btn-danger btn-rounded px-3 btnHapusKK" data-nokk="{{ $row->no_kk }}" data-nama="{{ $row->nama_lengkap ?? 'Kepala Keluarga' }}" title="Hapus KK">
+                                            <i class="bi bi-trash-fill me-1"></i> Hapus
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="7" class="text-center py-4 text-muted">Belum ada data Kartu Keluarga.</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -117,4 +130,36 @@
         </div>
     </div>
 </section>
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.btnHapusKK').forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const noKk = this.getAttribute('data-nokk');
+                const nama = this.getAttribute('data-nama');
+                const form = document.getElementById('formHapusKK-' + noKk);
+
+                Swal.fire({
+                    title: 'Hapus Kartu Keluarga?',
+                    text: 'Data KK No. ' + noKk + ' (' + nama + ') beserta seluruh anggota keluarganya akan dihapus!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal',
+                    customClass: { popup: 'rounded-4' }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
+@endpush
 @endsection

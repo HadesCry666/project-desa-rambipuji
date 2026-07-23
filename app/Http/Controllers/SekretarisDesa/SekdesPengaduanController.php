@@ -42,4 +42,12 @@ class SekdesPengaduanController extends Controller
 
         return redirect()->back()->with('success', 'Tanggapan/feedback berhasil disimpan.');
     }
+
+    public function destroy($id)
+    {
+        $item = master_pengaduan::findOrFail($id);
+        $item->delete();
+
+        return redirect()->route('sekdes.pengaduan.index')->with('success', 'Data pengaduan berhasil dihapus.');
+    }
 }

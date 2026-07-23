@@ -144,10 +144,10 @@
                                 <td>{{ $row->tanggal_lahir }}</td>
                                 <td><span class="badge bg-light text-dark border">{{ $row->status_keluarga }}</span></td>
                                 <td class="text-center">
-                                    <form action="{{ route('sekdes.penduduk.delete', $row->nik) }}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data anggota keluarga ini?');">
+                                    <form id="formHapusPenduduk-{{ $row->nik }}" action="{{ route('sekdes.penduduk.delete', $row->nik) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger btn-rounded px-3" title="Hapus Anggota">
+                                        <button type="button" class="btn btn-sm btn-danger btn-rounded px-3 btnHapusPenduduk" data-nik="{{ $row->nik }}" data-nama="{{ $row->nama_lengkap }}" title="Hapus Anggota">
                                             <i class="bi bi-trash-fill me-1"></i> Hapus
                                         </button>
                                     </form>
@@ -291,6 +291,35 @@
 </div>
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.btnHapusPenduduk').forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const nik = this.getAttribute('data-nik');
+                const nama = this.getAttribute('data-nama');
+                const form = document.getElementById('formHapusPenduduk-' + nik);
+
+                Swal.fire({
+                    title: 'Hapus Data Penduduk?',
+                    text: 'Data penduduk atas nama "' + nama + '" (NIK: ' + nik + ') akan dihapus!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal',
+                    customClass: { popup: 'rounded-4' }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
 @if ($errors->any())
 <script>
     document.addEventListener("DOMContentLoaded", function () {

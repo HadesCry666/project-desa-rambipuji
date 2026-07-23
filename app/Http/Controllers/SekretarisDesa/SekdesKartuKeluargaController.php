@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SekretarisDesa;
 
 use App\Http\Controllers\Controller;
 use App\Models\master_kartukeluarga;
+use App\Models\master_penduduk;
 use Illuminate\Http\Request;
 
 class SekdesKartuKeluargaController extends Controller
@@ -46,5 +47,14 @@ class SekdesKartuKeluargaController extends Controller
         $master_kartukeluarga = $query->paginate(10);
 
         return view('sekretarisdesa.master_kartukeluarga.index', compact('master_kartukeluarga'));
+    }
+
+    public function delete($no_kk)
+    {
+        master_penduduk::where('no_kk', $no_kk)->delete();
+        master_kartukeluarga::where('no_kk', $no_kk)->delete();
+
+        return redirect()->route('sekdes.kartukeluarga.index')
+            ->with('success', 'Data Kartu Keluarga dan anggotanya berhasil dihapus.');
     }
 }

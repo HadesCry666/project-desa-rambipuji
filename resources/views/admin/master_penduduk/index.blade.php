@@ -1,21 +1,40 @@
 @extends('admin.layout.main')
-@section('title', 'Penduduk')
+@section('title', 'Master Penduduk')
+
+@push('css-lib')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- CSS Selectric -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-selectric/1.13.0/selectric.css" integrity="sha512-0qVbXztEFgh+qSrfFQaA/2z2P7sHqv6pouVbC+6p4rt5WjEM45ZUBQdqU30z4RhvYVq4Nnhq2vLQfYgOZyLxUQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !important; }
+    .card-modern { border: 1px solid #e2e8f0; border-radius: 14px !important; box-shadow: 0 4px 18px rgba(0,0,0,0.03) !important; background: #fff; }
+    .table-modern { border-collapse: separate !important; border-spacing: 0 6px !important; }
+    .table-modern thead th { background: #f8fafc !important; color: #475569 !important; font-weight: 600 !important; text-transform: uppercase !important; font-size: .75rem !important; letter-spacing: .6px !important; border-bottom: 2px solid #e2e8f0 !important; padding: 14px 16px !important; }
+    .table-modern tbody tr { background: #fff !important; box-shadow: 0 2px 6px rgba(0,0,0,.02); border-radius: 10px !important; }
+    .table-modern tbody td { padding: 14px 16px !important; vertical-align: middle !important; border-top: 1px solid #f1f5f9 !important; font-size: .88rem !important; }
+    .btn-rounded { border-radius: 30px !important; }
+    .action-group { display: flex; align-items: center; justify-content: center; gap: 5px; flex-wrap: wrap; }
+</style>
+@endpush
+
 @section('content')
 
 @php
     $no_kk = request('nokk');
 @endphp
 
-<!-- CSS Selectric -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-selectric/1.13.0/selectric.css" integrity="sha512-0qVbXztEFgh+qSrfFQaA/2z2P7sHqv6pouVbC+6p4rt5WjEM45ZUBQdqU30z4RhvYVq4Nnhq2vLQfYgOZyLxUQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 <section class="section">
-    <div class="section-header">
-        <h1>Penduduk</h1>
+    <div class="section-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold text-dark mb-1">Master Data Penduduk</h1>
+            <p class="text-muted small mb-0">Kelola biodata seluruh warga & anggota keluarga Desa Rambipuji.</p>
+        </div>
     </div>
     @if(session('success'))
-    <div id="alertPopup" class="alert alert-success alert-floating">
+    <div class="alert alert-success alert-dismissible fade show">
         {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
     @endif
 
@@ -25,7 +44,7 @@
             <i class="fas fa-users me-2"></i>
             <strong>Menampilkan anggota keluarga dengan No. KK: {{ $no_kk }}</strong>
         </div>
-        <a href="{{ route('kartukeluarga.view') }}" class="btn btn-sm btn-outline-primary">
+        <a href="{{ route('kartukeluarga.view') }}" class="btn btn-sm btn-outline-primary btn-rounded px-3">
             <i class="fas fa-arrow-left me-1"></i> Kembali ke Kartu Keluarga
         </a>
     </div>
@@ -34,24 +53,24 @@
     <div class="section-body">
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                <div class="card card-modern">
 
                     <!-- CARD HEADER -->
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between w-100 align-items-center">
+                    <div class="card-header bg-white py-3 border-bottom-0">
+                        <div class="d-flex justify-content-between w-100 align-items-center gap-2">
 
                             <!-- Kiri: Pencarian -->
                             <form class="d-flex" action="{{ url('master_penduduk') }}" method="get">
-                                <input class="form-control me-2" type="search" name="katakunci"
+                                <input class="form-control me-2 rounded-pill px-3" type="search" name="katakunci"
                                     value="{{ Request::get('katakunci') }}"
                                     placeholder="Cari NIK / Nama">
-                                <button class="btn btn-primary">Cari</button>
+                                <button class="btn btn-primary btn-rounded px-4"><i class="bi bi-search me-1"></i> Cari</button>
                             </form>
 
                             <!-- Kanan: Tombol Tambah -->
                             <div>
-                                <button type="button" class="btn btn-primary" id="btnTambahPenduduk">
-                                   + Tambah Data
+                                <button type="button" class="btn btn-primary btn-rounded px-4" id="btnTambahPenduduk">
+                                   <i class="bi bi-person-plus-fill me-1"></i> Tambah Data
                                 </button>
                             </div>
 
@@ -61,65 +80,67 @@
                     <!-- TABEL ANGGOTA KELUARGA -->
                     <div class="card-body pt-0">
                         <div class="table-responsive">
-                            <table class="table table-striped" id="activityTable">
+                            <table class="table table-modern w-100" id="activityTable">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
+                                        <th class="text-center" style="width:50px;">No</th>
                                         <th>NO KK</th>
                                         <th>NIK</th>
                                         <th>Nama Lengkap</th>
                                         <th>Tanggal Lahir</th>
                                         <th>Status Keluarga</th>
-                                        <th>Aksi</th>
+                                        <th class="text-center" style="width:160px;">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($master_penduduk as $a)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $a->no_kk }}</td>
-                                        <td>{{ $a->nik }}</td>
-                                        <td>{{ $a->nama_lengkap }}</td>
-                                        <td>{{ $a->tanggal_lahir }}</td>
-                                        <td>{{ $a->status_keluarga }}</td>
-                                        <td>
-                                            <!-- Tombol Edit -->
-                                            <a href="#" 
-                                               class="btn btn-warning btn-sm btn-edit"
-                                                data-nik="{{ $a->nik }}"
-                                                data-nama_lengkap="{{ $a->nama_lengkap }}"
-                                                data-tempat_lahir="{{ $a->tempat_lahir }}"
-                                                data-tanggal_lahir="{{ $a->tanggal_lahir }}"
-                                                data-jenis_kelamin="{{ $a->jenis_kelamin }}"
-                                                data-agama="{{ $a->agama }}"
-                                                data-pendidikan="{{ $a->pendidikan }}"
-                                                data-pekerjaan="{{ $a->pekerjaan }}"
-                                                data-golongan_darah="{{ $a->golongan_darah }}"
-                                                data-status_perkawinan="{{ $a->status_perkawinan }}"
-                                                data-tanggal_perkawinan="{{ $a->tanggal_perkawinan }}"
-                                                data-status_keluarga="{{ $a->status_keluarga }}"
-                                                data-kewarganegaraan="{{ $a->kewarganegaraan }}"
-                                                data-no_paspor="{{ $a->no_paspor }}"
-                                                data-no_kitap="{{ $a->no_kitap }}"
-                                                data-nama_ayah="{{ $a->nama_ayah }}"
-                                                data-nama_ibu="{{ $a->nama_ibu }}">
-                                               <i class="fas fa-pencil-alt"></i>
-                                            </a>
+                                        <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
+                                        <td><code>{{ $a->no_kk }}</code></td>
+                                        <td><span class="fw-bold text-primary"><code>{{ $a->nik }}</code></span></td>
+                                        <td class="fw-semibold text-dark">{{ $a->nama_lengkap }}</td>
+                                        <td class="text-muted small">{{ $a->tanggal_lahir }}</td>
+                                        <td><span class="badge bg-light text-dark border">{{ $a->status_keluarga }}</span></td>
+                                        <td class="text-center">
+                                            <div class="action-group">
+                                                <!-- Tombol Edit -->
+                                                <a href="#"
+                                                   class="btn btn-warning btn-sm btn-rounded px-3 btn-edit"
+                                                    data-nik="{{ $a->nik }}"
+                                                    data-nama_lengkap="{{ $a->nama_lengkap }}"
+                                                    data-tempat_lahir="{{ $a->tempat_lahir }}"
+                                                    data-tanggal_lahir="{{ $a->tanggal_lahir }}"
+                                                    data-jenis_kelamin="{{ $a->jenis_kelamin }}"
+                                                    data-agama="{{ $a->agama }}"
+                                                    data-pendidikan="{{ $a->pendidikan }}"
+                                                    data-pekerjaan="{{ $a->pekerjaan }}"
+                                                    data-golongan_darah="{{ $a->golongan_darah }}"
+                                                    data-status_perkawinan="{{ $a->status_perkawinan }}"
+                                                    data-tanggal_perkawinan="{{ $a->tanggal_perkawinan }}"
+                                                    data-status_keluarga="{{ $a->status_keluarga }}"
+                                                    data-kewarganegaraan="{{ $a->kewarganegaraan }}"
+                                                    data-no_paspor="{{ $a->no_paspor }}"
+                                                    data-no_kitap="{{ $a->no_kitap }}"
+                                                    data-nama_ayah="{{ $a->nama_ayah }}"
+                                                    data-nama_ibu="{{ $a->nama_ibu }}">
+                                                   <i class="fas fa-pencil-alt me-1"></i> Edit
+                                                </a>
 
-                                            <!-- Tombol Hapus -->
-                                            <form id="formHapus{{ $a->nik }}" action="{{ route('penduduk.delete', $a->nik) }}" 
-                                                method="POST" 
-                                                style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
+                                                <!-- Tombol Hapus -->
+                                                <form id="formHapus{{ $a->nik }}" action="{{ route('penduduk.delete', $a->nik) }}"
+                                                    method="POST"
+                                                    style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
 
-                                                <button type="button"
-                                                    class="btn btn-danger btn-sm btndeletependuduk"
-                                                    data-id="{{ $a->nik }}"
-                                                    data-nama_lengkap="{{ $a->nama_lengkap }}">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
+                                                    <button type="button"
+                                                        class="btn btn-danger btn-sm btn-rounded px-3 btndeletependuduk"
+                                                        data-id="{{ $a->nik }}"
+                                                        data-nama_lengkap="{{ $a->nama_lengkap }}">
+                                                        <i class="fas fa-trash me-1"></i> Hapus
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                     @endforeach
