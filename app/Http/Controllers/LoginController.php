@@ -80,19 +80,19 @@ class LoginController extends Controller
                     ->with('success', 'Login sebagai Kepala Dusun');
 
             case 3:
-                Log::info('Redirect ke dashboard RT');
-                return redirect('/rt/dashboard-rt')
-                    ->with('success', 'Login sebagai RT');
-
-            case 4:
                 Log::info('Redirect ke dashboard Sekretaris Desa');
                 return redirect('/sekretarisdesa/dashboard')
                     ->with('success', 'Login sebagai Sekretaris Desa');
 
-            case 5:
+            case 4:
                 Log::info('Redirect ke dashboard Kepala Desa');
                 return redirect('/kepaladesa/dashboard')
                     ->with('success', 'Login sebagai Kepala Desa');
+
+            case 5:
+                Log::info('Redirect ke dashboard Warga');
+                return redirect('/')
+                    ->with('success', 'Login sebagai Warga');
 
             default:
                 Auth::logout();

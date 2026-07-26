@@ -179,7 +179,7 @@ Route::middleware(['auth', 'role:1'])->prefix('admin')->group(function () {
 });
 
 // SEKRETARIS DESA
-Route::middleware(['auth', 'role:4'])->prefix('sekretarisdesa')->group(function () {
+Route::middleware(['auth', 'role:3'])->prefix('sekretarisdesa')->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [SekdesDashboardController::class, 'index'])->name('sekdes.dashboard');
@@ -211,7 +211,7 @@ Route::middleware(['auth', 'role:4'])->prefix('sekretarisdesa')->group(function 
 });
 
 // KEPALA DESA
-Route::middleware(['auth', 'role:5'])->prefix('kepaladesa')->group(function () {
+Route::middleware(['auth', 'role:4'])->prefix('kepaladesa')->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [KadesDashboardController::class, 'index'])->name('kades.dashboard');

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class LoginControllerMobile extends Controller
 {
     /**
-     * Aktivasi akun baru untuk warga (level 4).
+     * Aktivasi akun baru untuk warga (level 5).
      * NIK harus terdaftar di master_penduduks dan belum pernah diaktivasi.
      */
     public function register(Request $request)
@@ -64,14 +64,14 @@ class LoginControllerMobile extends Controller
             ], 422);
         }
 
-        // 4. Simpan akun dengan level 4 (warga)
+        // 4. Simpan akun dengan level 5 (warga)
         try {
             $user = master_akun::create([
                 'nik'         => $nik,
                 'email'       => $request->email,
                 'password'    => Hash::make($request->password),
                 'no_hp'       => $request->no_hp,
-                'level'       => 4,
+                'level'       => 5,
                 'id_penduduk' => $penduduk->id_penduduk ?? null,
             ]);
 
@@ -95,10 +95,11 @@ class LoginControllerMobile extends Controller
 
     /**
      * Login Multi-Role untuk aplikasi Mobile:
-     * - Warga (level 4)
+     * - Admin Desa (level 1)
      * - Kepala Dusun (level 2)
-     * - Sekretaris Desa (level 4 / email sekdes)
-     * - Kepala Desa (level 5)
+     * - Sekretaris Desa (level 3)
+     * - Kepala Desa (level 4)
+     * - Warga (level 5)
      */
     public function login(Request $request)
     {
@@ -147,22 +148,20 @@ class LoginControllerMobile extends Controller
         }
 
         // Tentukan role_name berdasarkan level
-        // Level 1 = Admin (Web Only), Level 2 = Kadus, Level 4 = Warga atau Sekdes, Level 5 = Kades
+        // Level 1 = Admin, Level 2 = Kadus, Level 3 = Sekdes, Level 4 = Kades, Level 5 = Warga
         $level = (int)$user->level;
         $roleName = 'warga';
 
-        if ($level === 2) {
+        if ($level === 1) {
+            $roleName = 'admin';
+        } elseif ($level === 2) {
             $roleName = 'kepala_dusun';
-        } elseif ($level === 5) {
-            $roleName = 'kepala_desa';
+        } elseif ($level === 3) {
+            $roleName = 'sekretaris_desa';
         } elseif ($level === 4) {
-            // Sekretaris Desa dibedakan dari Warga melalui email yang mengandung kata 'sekdes' atau 'sekretaris'
-            $emailLower = strtolower($user->email ?? '');
-            if (str_contains($emailLower, 'sekdes') || str_contains($emailLower, 'sekretaris')) {
-                $roleName = 'sekretaris_desa';
-            } else {
-                $roleName = 'warga';
-            }
+            $roleName = 'kepala_desa';
+        } elseif ($level === 5) {
+            $roleName = 'warga';
         }
 
         // Hapus token lama
