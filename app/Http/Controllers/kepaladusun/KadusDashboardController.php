@@ -11,12 +11,18 @@ class KadusDashboardController extends Controller
 {
     public function index()
     {
-        // 1. Total Pengajuan
-        $totalPengajuan = DB::table('master_pengajuan')->count();
-
-        // 2. Menunggu Persetujuan Kadus (status = Diajukan)
-        $menunggu = DB::table('master_pengajuan')
+        // 1. Surat Masuk (menunggu persetujuan Kadus)
+        $suratMasuk = DB::table('master_pengajuan')
             ->where('status', 'Diajukan')
+            ->count();
+
+        // 2. Surat Diproses (sudah melewati Kadus, sedang dalam proses selanjutnya)
+        $diproses = DB::table('master_pengajuan')
+            ->whereIn('status', [
+                'Disetujui Kepala Dusun',
+                'Disetujui Admin',
+                'Disetujui Sekretaris Desa',
+            ])
             ->count();
 
         // 3. Surat Selesai
@@ -26,7 +32,7 @@ class KadusDashboardController extends Controller
 
         // 4. Surat Ditolak
         $ditolak = DB::table('master_pengajuan')
-            ->where('status', 'like', '%Ditolak%')
+            ->where('status', 'Ditolak')
             ->count();
 
         // 5. Data Per Bulan (12 Bulan Tahun Ini)
@@ -51,8 +57,8 @@ class KadusDashboardController extends Controller
         }
 
         return view('kepaladusun.dashboard.index', compact(
-            'totalPengajuan',
-            'menunggu',
+            'suratMasuk',
+            'diproses',
             'selesai',
             'ditolak',
             'suratBulanDiajukan',

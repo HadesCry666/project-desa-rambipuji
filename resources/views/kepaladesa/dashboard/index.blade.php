@@ -31,27 +31,22 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
         </div>
     </div>
 
-    {{-- 4 STAT CARDS --}}
+    {{-- 3 STAT CARDS KADES --}}
     <div class="row g-3 mb-4">
-        <div class="col-6 col-lg-3">
+        <div class="col-12 col-lg-4">
+            <a href="{{ url('/kepaladesa/suratmasuk') }}" class="text-decoration-none">
             <div class="stat-card d-flex align-items-center gap-3">
-                <div class="stat-icon" style="background:#e0f2fe;color:#0284c7;"><i class="bi bi-envelope-fill"></i></div>
-                <div>
-                    <div class="stat-label">Total Pengajuan</div>
-                    <div class="stat-value">{{ $totalPengajuan }}</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-lg-3">
-            <div class="stat-card d-flex align-items-center gap-3">
-                <div class="stat-icon" style="background:#fff7ed;color:#ea580c;"><i class="bi bi-hourglass-split"></i></div>
+                <div class="stat-icon" style="background:#fef3c7;color:#d97706;"><i class="bi bi-pen-fill"></i></div>
                 <div>
                     <div class="stat-label">Menunggu TTE Kades</div>
                     <div class="stat-value">{{ $menunggu }}</div>
+                    <div class="text-muted" style="font-size:0.72rem;">Status: Disetujui Sekretaris Desa</div>
                 </div>
             </div>
+            </a>
         </div>
-        <div class="col-6 col-lg-3">
+        <div class="col-12 col-lg-4">
+            <a href="{{ url('/kepaladesa/suratselesai') }}" class="text-decoration-none">
             <div class="stat-card d-flex align-items-center gap-3">
                 <div class="stat-icon" style="background:#dcfce7;color:#16a34a;"><i class="bi bi-check-circle-fill"></i></div>
                 <div>
@@ -59,8 +54,9 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
                     <div class="stat-value">{{ $selesai }}</div>
                 </div>
             </div>
+            </a>
         </div>
-        <div class="col-6 col-lg-3">
+        <div class="col-12 col-lg-4">
             <div class="stat-card d-flex align-items-center gap-3">
                 <div class="stat-icon" style="background:#fee2e2;color:#dc2626;"><i class="bi bi-x-circle-fill"></i></div>
                 <div>

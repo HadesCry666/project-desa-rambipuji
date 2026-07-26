@@ -35,10 +35,10 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
     <div class="row g-3 mb-4">
         <div class="col-6 col-lg-3">
             <div class="stat-card d-flex align-items-center gap-3">
-                <div class="stat-icon" style="background:#e0f2fe;color:#0284c7;"><i class="bi bi-envelope-fill"></i></div>
+                <div class="stat-icon" style="background:#e0f2fe;color:#0284c7;"><i class="bi bi-inbox-fill"></i></div>
                 <div>
-                    <div class="stat-label">Total Pengajuan</div>
-                    <div class="stat-value">{{ $totalPengajuan }}</div>
+                    <div class="stat-label">Surat Masuk</div>
+                    <div class="stat-value">{{ $suratMasuk }}</div>
                 </div>
             </div>
         </div>
@@ -46,8 +46,8 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
             <div class="stat-card d-flex align-items-center gap-3">
                 <div class="stat-icon" style="background:#fff7ed;color:#ea580c;"><i class="bi bi-hourglass-split"></i></div>
                 <div>
-                    <div class="stat-label">Menunggu Persetujuan</div>
-                    <div class="stat-value">{{ $menunggu }}</div>
+                    <div class="stat-label">Surat Diproses</div>
+                    <div class="stat-value">{{ $diproses }}</div>
                 </div>
             </div>
         </div>
@@ -146,8 +146,8 @@ document.addEventListener('DOMContentLoaded', function () {
         new Chart(ctxDoughnut, {
             type: 'doughnut',
             data: {
-                labels: ['Menunggu','Selesai','Ditolak'],
-                datasets: [{ data: [{{ $menunggu }}, {{ $selesai }}, {{ $ditolak }}], backgroundColor:['#3b82f6','#22c55e','#ef4444'], borderWidth:3, borderColor:'#fff' }]
+                labels: ['Surat Masuk','Diproses','Selesai','Ditolak'],
+                datasets: [{ data: [{{ $suratMasuk }}, {{ $diproses }}, {{ $selesai }}, {{ $ditolak }}], backgroundColor:['#3b82f6','#f59e0b','#22c55e','#ef4444'], borderWidth:3, borderColor:'#fff' }]
             },
             options: {
                 responsive: true, maintainAspectRatio: false,

@@ -14,9 +14,9 @@ class DashboardController extends Controller
         // 1. Total Pengajuan
         $totalPengajuan = DB::table('master_pengajuan')->count();
 
-        // 2. Menunggu Verifikasi Admin (Disetujui Kepala Dusun)
+        // 2. Menunggu Verifikasi Admin (status = Disetujui Kepala Dusun)
         $menunggu = DB::table('master_pengajuan')
-            ->whereIn('status', ['Diajukan', 'Disetujui Kepala Dusun'])
+            ->where('status', 'Disetujui Kepala Dusun')
             ->count();
 
         // 3. Surat Selesai
@@ -26,8 +26,11 @@ class DashboardController extends Controller
 
         // 4. Surat Ditolak
         $ditolak = DB::table('master_pengajuan')
-            ->where('status', 'like', '%Ditolak%')
+            ->where('status', 'Ditolak')
             ->count();
+
+        // 5. Pengaduan Baru
+        $pengaduanBaru = DB::table('master_pengaduan')->count();
 
         // 5. Data Per Bulan (12 Bulan Tahun Ini)
         $tahun = Carbon::now()->year;
@@ -55,6 +58,7 @@ class DashboardController extends Controller
             'menunggu',
             'selesai',
             'ditolak',
+            'pengaduanBaru',
             'suratBulanDiajukan',
             'suratBulanSelesai'
         ));

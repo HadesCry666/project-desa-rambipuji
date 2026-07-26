@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 
-@section('title', 'Pengaduan Masyarakat Sekretaris Desa')
+@section('title', 'Monitoring Pengaduan — Sekretaris Desa')
 
 @push('css-lib')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -13,6 +13,7 @@
     .table-modern tbody tr { background-color: #ffffff !important; box-shadow: 0 2px 6px rgba(0,0,0,0.02); border-radius: 10px !important; }
     .table-modern tbody td { padding: 14px 16px !important; vertical-align: middle !important; border-top: 1px solid #f1f5f9 !important; font-size: 0.88rem !important; }
     .btn-rounded { border-radius: 30px !important; }
+    .readonly-badge { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
 </style>
 @endpush
 
@@ -20,17 +21,13 @@
 <section class="section">
     <div class="section-header d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="fw-bold text-dark mb-1">Pengaduan Masyarakat — Sekretaris Desa</h1>
-            <p class="text-muted small mb-0">Pantau dan berikan feedback atas laporan atau aspirasi warga desa.</p>
+            <h1 class="fw-bold text-dark mb-1">Monitoring Pengaduan Masyarakat</h1>
+            <p class="text-muted small mb-0">
+                Pantau laporan dan aspirasi warga desa.
+                <span class="readonly-badge ms-2"><i class="bi bi-eye-fill me-1"></i>Mode: Hanya Lihat</span>
+            </p>
         </div>
     </div>
-
-    @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-    @endif
 
     <div class="section-body">
         <div class="card card-modern">
@@ -43,7 +40,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-modern w-100" id="tablePengaduanSekdes">
+                    <table class="table table-modern w-100">
                         <thead>
                             <tr>
                                 <th class="text-center" style="width: 50px;">No</th>
@@ -51,8 +48,8 @@
                                 <th>NIK</th>
                                 <th>Kategori</th>
                                 <th>Ulasan / Laporan</th>
-                                <th>Feedback / Tanggapan</th>
-                                <th class="text-center" style="width: 220px;">Aksi</th>
+                                <th>Feedback Admin</th>
+                                <th class="text-center">Tanggal</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,29 +59,20 @@
                                 <td class="fw-semibold text-dark">{{ $row->penduduk->nama_lengkap ?? 'Warga' }}</td>
                                 <td><code>{{ $row->nik }}</code></td>
                                 <td><span class="badge bg-primary-subtle text-primary border border-primary fw-medium px-3 py-1 rounded-pill">{{ $row->kategori }}</span></td>
-                                <td class="small">{{ Str::limit($row->ulasan, 50) }}</td>
+                                <td class="small">
+                                    <span title="{{ $row->ulasan }}">{{ Str::limit($row->ulasan, 60) }}</span>
+                                </td>
                                 <td>
                                     @if($row->feedback)
-                                        <span class="text-success small fw-semibold"><i class="bi bi-check-circle-fill me-1"></i> {{ Str::limit($row->feedback, 40) }}</span>
+                                        <span class="text-success small fw-semibold">
+                                            <i class="bi bi-check-circle-fill me-1"></i>
+                                            {{ Str::limit($row->feedback, 50) }}
+                                        </span>
                                     @else
-                                        <span class="badge bg-warning-subtle text-warning border border-warning fw-normal px-2 py-1">Belum Ditanggapi</span>
+                                        <span class="badge bg-warning-subtle text-warning border border-warning fw-normal px-2 py-1">Belum Ditanggapi Admin</span>
                                     @endif
                                 </td>
-                                <td class="text-center">
-                                    <!-- TANGGAPI / FEEDBACK -->
-                                    <button type="button" class="btn btn-sm btn-info btn-rounded px-3 me-1" data-bs-toggle="modal" data-bs-target="#modalFeedbackSekdes-{{ $row->id }}">
-                                        <i class="bi bi-reply-fill me-1"></i> Tanggapi
-                                    </button>
-
-                                    <!-- HAPUS PENGADUAN -->
-                                    <form id="formHapusPengaduan-{{ $row->id }}" action="{{ route('sekdes.pengaduan.delete', $row->id) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-sm btn-danger btn-rounded px-3 btnHapusPengaduan" data-id="{{ $row->id }}" data-kategori="{{ $row->kategori }}" title="Hapus Pengaduan">
-                                            <i class="bi bi-trash-fill me-1"></i> Hapus
-                                        </button>
-                                    </form>
-                                </td>
+                                <td class="text-center text-muted small">{{ $row->created_at ? $row->created_at->format('d/m/Y') : '-' }}</td>
                             </tr>
                             @empty
                             <tr>
@@ -100,69 +88,12 @@
                 </div>
             </div>
         </div>
-    </div>
-</section>
 
-{{-- MODAL FEEDBACK SEKDES --}}
-@foreach($pengaduan as $row)
-<div class="modal fade" id="modalFeedbackSekdes-{{ $row->id }}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg rounded-4 p-2">
-            <form action="{{ route('sekdes.pengaduan.feedback', $row->id) }}" method="POST">
-                @csrf
-                <div class="modal-header border-0 pb-0">
-                    <h5 class="modal-title fw-bold text-primary"><i class="bi bi-reply-fill me-2"></i>Tanggapan Pengaduan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body p-3">
-                    <div class="mb-3">
-                        <label class="form-label text-muted small mb-1">Laporan dari {{ $row->penduduk->nama_lengkap ?? 'Warga' }} ({{ $row->kategori }})</label>
-                        <div class="p-3 bg-light rounded-3 small text-dark border">{{ $row->ulasan }}</div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Tanggapan / Feedback Desa</label>
-                        <textarea class="form-control rounded-3" name="feedback" rows="4" required placeholder="Tuliskan tindak lanjut atau tanggapan resmi desa...">{{ $row->feedback }}</textarea>
-                    </div>
-                    <div class="d-flex justify-content-end gap-2">
-                        <button type="button" class="btn btn-secondary btn-rounded px-4" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary btn-rounded px-4">Kirim Tanggapan</button>
-                    </div>
-                </div>
-            </form>
+        {{-- Info read-only notice --}}
+        <div class="alert alert-info border-0 rounded-3 mt-3 py-2 px-4 small">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            <strong>Sekretaris Desa</strong> hanya dapat memantau pengaduan dan melihat feedback dari Admin Desa. Untuk memberikan tanggapan, silahkan hubungi Admin Desa.
         </div>
     </div>
-</div>
-@endforeach
-
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.btnHapusPengaduan').forEach(function(button) {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const id = this.getAttribute('data-id');
-                const kategori = this.getAttribute('data-kategori');
-                const form = document.getElementById('formHapusPengaduan-' + id);
-
-                Swal.fire({
-                    title: 'Hapus Laporan Pengaduan?',
-                    text: 'Laporan pengaduan kategori "' + kategori + '" akan dihapus permanen dari database!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#dc3545',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Ya, Hapus!',
-                    cancelButtonText: 'Batal',
-                    customClass: { popup: 'rounded-4' }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
-        });
-    });
-</script>
-@endpush
+</section>
 @endsection

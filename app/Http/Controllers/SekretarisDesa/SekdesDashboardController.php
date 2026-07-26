@@ -11,22 +11,19 @@ class SekdesDashboardController extends Controller
 {
     public function index()
     {
-        // 1. Total Pengajuan
-        $totalPengajuan = DB::table('master_pengajuan')->count();
-
-        // 2. Menunggu Persetujuan Sekdes (status = Disetujui Admin)
+        // 1. Menunggu Persetujuan Sekdes (status = Disetujui Admin)
         $menunggu = DB::table('master_pengajuan')
             ->where('status', 'Disetujui Admin')
             ->count();
 
-        // 3. Surat Selesai
+        // 2. Surat Selesai
         $selesai = DB::table('master_pengajuan')
             ->where('status', 'Selesai')
             ->count();
 
-        // 4. Surat Ditolak
+        // 3. Surat Ditolak
         $ditolak = DB::table('master_pengajuan')
-            ->where('status', 'like', '%Ditolak%')
+            ->where('status', 'Ditolak')
             ->count();
 
         // 5. Data Per Bulan (12 Bulan Tahun Ini)
@@ -51,7 +48,6 @@ class SekdesDashboardController extends Controller
         }
 
         return view('sekretarisdesa.dashboard.index', compact(
-            'totalPengajuan',
             'menunggu',
             'selesai',
             'ditolak',

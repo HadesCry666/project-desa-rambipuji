@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 
 class SekdesPengaduanController extends Controller
 {
+    /**
+     * Sekretaris Desa hanya dapat melihat pengaduan dan feedback Admin (Read-Only).
+     */
     public function index(Request $request)
     {
         $katakunci = $request->katakunci;
@@ -28,26 +31,5 @@ class SekdesPengaduanController extends Controller
         $pengaduan = $query->orderBy('created_at', 'desc')->paginate(10)->appends($request->query());
 
         return view('sekretarisdesa.pengaduan.index', compact('pengaduan'));
-    }
-
-    public function feedback(Request $request, $id)
-    {
-        $request->validate([
-            'feedback' => 'required|string|max:1000',
-        ]);
-
-        $item = master_pengaduan::findOrFail($id);
-        $item->feedback = $request->feedback;
-        $item->save();
-
-        return redirect()->back()->with('success', 'Tanggapan/feedback berhasil disimpan.');
-    }
-
-    public function destroy($id)
-    {
-        $item = master_pengaduan::findOrFail($id);
-        $item->delete();
-
-        return redirect()->route('sekdes.pengaduan.index')->with('success', 'Data pengaduan berhasil dihapus.');
     }
 }

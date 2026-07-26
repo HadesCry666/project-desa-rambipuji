@@ -46,6 +46,7 @@ use App\Http\Controllers\KepalaDesa\KadesPengaduanController;
 
 use App\Http\Controllers\KepalaDusun\KadusDashboardController;
 use App\Http\Controllers\KepalaDusun\KadusSuratMasukController;
+use App\Http\Controllers\KepalaDusun\KadusTambahPengajuanController;
 
 // USER
 use App\Http\Controllers\LoginController;
@@ -178,7 +179,7 @@ Route::middleware(['auth', 'role:1'])->prefix('admin')->group(function () {
 });
 
 // SEKRETARIS DESA
-Route::middleware(['auth'])->prefix('sekretarisdesa')->group(function () {
+Route::middleware(['auth', 'role:4'])->prefix('sekretarisdesa')->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [SekdesDashboardController::class, 'index'])->name('sekdes.dashboard');
@@ -191,10 +192,8 @@ Route::middleware(['auth'])->prefix('sekretarisdesa')->group(function () {
     // Surat Selesai
     Route::get('/suratselesai', [SekdesSuratSelesaiController::class, 'index'])->name('sekdes.suratselesai.index');
 
-    // Master Pengaduan
+    // Master Pengaduan — Read-Only (Sekdes hanya bisa melihat, tidak bisa membalas/menghapus)
     Route::get('/pengaduan', [SekdesPengaduanController::class, 'index'])->name('sekdes.pengaduan.index');
-    Route::post('/pengaduan/{id}/feedback', [SekdesPengaduanController::class, 'feedback'])->name('sekdes.pengaduan.feedback');
-    Route::delete('/pengaduan/{id}', [SekdesPengaduanController::class, 'destroy'])->name('sekdes.pengaduan.delete');
 
     // Master Kartu Keluarga
     Route::get('/kartukeluarga', [SekdesKartuKeluargaController::class, 'index'])->name('sekdes.kartukeluarga.index');
@@ -212,7 +211,7 @@ Route::middleware(['auth'])->prefix('sekretarisdesa')->group(function () {
 });
 
 // KEPALA DESA
-Route::middleware(['auth'])->prefix('kepaladesa')->group(function () {
+Route::middleware(['auth', 'role:5'])->prefix('kepaladesa')->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [KadesDashboardController::class, 'index'])->name('kades.dashboard');
@@ -225,7 +224,7 @@ Route::middleware(['auth'])->prefix('kepaladesa')->group(function () {
     // Surat Selesai
     Route::get('/suratselesai', [KadesSuratSelesaiController::class, 'index'])->name('kades.suratselesai.index');
 
-    // Master Pengaduan
+    // Master Pengaduan — Read-Only (Kades hanya bisa melihat)
     Route::get('/pengaduan', [KadesPengaduanController::class, 'index'])->name('kades.pengaduan.index');
 
     // Master Kartu Keluarga
@@ -237,7 +236,7 @@ Route::middleware(['auth'])->prefix('kepaladesa')->group(function () {
 });
 
 // KEPALA DUSUN
-Route::middleware(['auth'])->prefix('kepaladusun')->group(function () {
+Route::middleware(['auth', 'role:2'])->prefix('kepaladusun')->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [KadusDashboardController::class, 'index'])->name('kadus.dashboard');
@@ -247,10 +246,12 @@ Route::middleware(['auth'])->prefix('kepaladusun')->group(function () {
     Route::post('/suratmasuk/{id}/setuju', [KadusSuratMasukController::class, 'setuju'])->name('kadus.suratmasuk.setuju');
     Route::post('/suratmasuk/{id}/tolak', [KadusSuratMasukController::class, 'tolak'])->name('kadus.suratmasuk.tolak');
 
-    // Tambah Pengajuan (jika warga tidak bisa mengajukan sendiri)
-    Route::get('/tambah-pengajuan', function () {
-        return view('kepaladusun.tambah_pengajuan.index');
-    })->name('kadus.tambahpengajuan.index');
+    // Tambah Pengajuan oleh Kepala Dusun atas nama Warga
+    Route::get('/tambah-pengajuan', [KadusTambahPengajuanController::class, 'index'])->name('kadus.tambahpengajuan.index');
+    Route::post('/tambah-pengajuan', [KadusTambahPengajuanController::class, 'store'])->name('kadus.tambahpengajuan.store');
+    Route::get('/get-kk-list', [KadusTambahPengajuanController::class, 'getKKList'])->name('kadus.get.kk.list');
+    Route::get('/get-anggota-kk/{no_kk}', [KadusTambahPengajuanController::class, 'getAnggotaKK'])->name('kadus.get.anggota.kk');
+    Route::get('/get-penduduk-by-nik', [KadusTambahPengajuanController::class, 'getPendudukByNik'])->name('kadus.get.penduduk.nik');
 
     // Surat Selesai
     Route::get('/suratselesai', [KadusSuratMasukController::class, 'suratselesai'])->name('kadus.suratselesai.index');
