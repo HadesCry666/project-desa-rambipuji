@@ -31,8 +31,14 @@
     </div>
 
     @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show">
-        {{ session('success') }}
+    <div class="alert alert-success alert-dismissible fade show rounded-3 shadow-sm mb-4">
+        <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    @endif
+    @if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm mb-4">
+        <i class="bi bi-exclamation-circle-fill me-2"></i>{{ session('error') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
     @endif
@@ -40,7 +46,7 @@
     <div class="section-body">
         <div class="card card-modern">
             <div class="card-header bg-white py-3 border-bottom-0 d-flex justify-content-between align-items-center">
-                <h4 class="fw-bold text-dark m-0"><i class="bi bi-file-earmark-arrow-up-fill text-primary me-2"></i>Pengajuan Menunggu Pengesahan</h4>
+                <h4 class="fw-bold text-dark m-0"><i class="bi bi-file-earmark-arrow-up-fill text-primary me-2"></i>Pengajuan Menunggu Pengesahan (Disetujui Sekretaris Desa)</h4>
                 <form class="d-flex" action="{{ route('kades.suratmasuk.index') }}" method="get">
                     <input class="form-control me-2" type="search" name="katakunci" value="{{ Request::get('katakunci') }}" placeholder="Cari NIK / Nama / Surat">
                     <button class="btn btn-primary btn-rounded px-4">Cari</button>
@@ -52,40 +58,47 @@
                         <thead>
                             <tr>
                                 <th class="text-center" style="width: 50px;">No</th>
-                                <th>ID Pengajuan</th>
                                 <th>Nama Pemohon</th>
                                 <th>NIK</th>
                                 <th>Jenis Surat</th>
-                                <th>Tanggal Masuk</th>
+                                <th>Keterangan Admin</th>
                                 <th class="text-center">Status</th>
-                                <th class="text-center" style="width: 210px;">Aksi TTE</th>
+                                <th class="text-center" style="width: 250px;">Aksi TTE</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($datapengajuan as $row)
                             <tr>
                                 <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
-                                <td><span class="fw-bold text-primary">#{{ $row->id_pengajuan }}</span></td>
                                 <td class="fw-semibold text-dark">{{ $row->nama_lengkap ?? 'Warga' }}</td>
                                 <td><code>{{ $row->nik }}</code></td>
                                 <td><span class="badge bg-light text-dark border">{{ $row->nama_surat ?? 'Surat Keterangan' }}</span></td>
-                                <td class="text-muted">{{ $row->tanggal_diajukan ? \Carbon\Carbon::parse($row->tanggal_diajukan)->translatedFormat('d M Y') : '-' }}</td>
+                                <td>
+                                    @if(!empty($row->keterangan_admin))
+                                        <span class="text-dark small d-inline-block text-truncate" style="max-width:180px;" title="{{ $row->keterangan_admin }}">
+                                            <i class="bi bi-chat-quote-fill text-warning me-1"></i>{{ $row->keterangan_admin }}
+                                        </span>
+                                    @else
+                                        <span class="text-muted small">-</span>
+                                    @endif
+                                </td>
                                 <td class="text-center">
-                                    <span class="badge bg-warning-subtle text-warning border border-warning fw-semibold px-3 py-1 rounded-pill">
-                                        {{ $row->status }}
+                                    <span class="badge bg-info text-dark border fw-semibold px-3 py-1 rounded-pill">
+                                        ✓ {{ $row->status }}
                                     </span>
                                 </td>
                                 <td class="text-center">
+                                    <button class="btn btn-sm btn-info btn-rounded px-2 me-1" data-bs-toggle="modal" data-bs-target="#modalDetailKades-{{ $row->id_pengajuan }}"><i class="bi bi-eye-fill"></i> Detail</button>
                                     <form action="{{ route('kades.suratmasuk.setuju', $row->id_pengajuan) }}" method="POST" style="display:inline;">
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-success btn-rounded px-3 me-1"><i class="bi bi-pen-fill me-1"></i> Sahkan TTE</button>
+                                        <button type="submit" class="btn btn-sm btn-success btn-rounded px-2 me-1"><i class="bi bi-pen-fill me-1"></i> Sahkan TTE</button>
                                     </form>
-                                    <button type="button" class="btn btn-sm btn-danger btn-rounded px-3" data-bs-toggle="modal" data-bs-target="#modalTolakKades-{{ $row->id_pengajuan }}"><i class="bi bi-x-lg"></i> Tolak</button>
+                                    <button type="button" class="btn btn-sm btn-danger btn-rounded px-2" data-bs-toggle="modal" data-bs-target="#modalTolakKades-{{ $row->id_pengajuan }}"><i class="bi bi-x-lg"></i> Tolak</button>
                                 </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="8" class="text-center py-4 text-muted">Belum ada pengajuan surat yang menunggu TTE Kepala Desa.</td>
+                                <td colspan="7" class="text-center py-4 text-muted">Belum ada pengajuan surat yang menunggu TTE Kepala Desa.</td>
                             </tr>
                             @endforelse
                         </tbody>
@@ -100,8 +113,96 @@
     </div>
 </section>
 
-{{-- MODALS TOLAK --}}
+{{-- MODALS --}}
 @foreach($datapengajuan as $row)
+
+{{-- MODAL DETAIL KADES --}}
+<div class="modal fade" id="modalDetailKades-{{ $row->id_pengajuan }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="modal-header bg-primary text-white py-3 px-4">
+                <h5 class="modal-title fw-bold"><i class="bi bi-file-earmark-text-fill me-2"></i>Detail Pengajuan & Persetujuan — {{ $row->nama_surat }}</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4" style="background:#f8fafc">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm rounded-3 p-3 h-100">
+                            <h6 class="fw-bold text-primary border-bottom pb-2 mb-3"><i class="bi bi-person-badge-fill me-2"></i>Data Pemohon</h6>
+                            <div class="mb-2"><span class="text-muted small d-block">Nama Lengkap</span><strong>{{ $row->nama_lengkap }}</strong></div>
+                            <div class="mb-2"><span class="text-muted small d-block">NIK</span><code>{{ $row->nik }}</code></div>
+                            <div class="mb-2"><span class="text-muted small d-block">Alamat</span><span>{{ $row->alamat }} RT {{ $row->rt }} / RW {{ $row->rw }}</span></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm rounded-3 p-3 h-100">
+                            <h6 class="fw-bold text-primary border-bottom pb-2 mb-3"><i class="bi bi-file-earmark-richtext-fill me-2"></i>Data Surat</h6>
+                            <div class="mb-2"><span class="text-muted small d-block">Jenis Surat</span><span class="badge bg-primary">{{ $row->nama_surat }}</span></div>
+                            <div class="mb-2"><span class="text-muted small d-block">Keperluan</span><span>{{ $row->keperluan }}</span></div>
+                            <div class="mb-2"><span class="text-muted small d-block">Tanggal Pengajuan</span><span class="fw-medium"><i class="bi bi-calendar-event text-primary me-1"></i>{{ $row->tanggal_diajukan ?? $row->created_at }}</span></div>
+                            <div><span class="text-muted small d-block mb-1">Lampiran Foto</span>
+                                @for($f=1; $f<=8; $f++)
+                                    @php $foto = 'foto'.$f; @endphp
+                                    @if(!empty($row->$foto))
+                                        <a href="{{ asset($row->$foto) }}" target="_blank" class="badge bg-light text-dark border me-1 mb-1 text-decoration-none">
+                                            <i class="bi bi-image me-1"></i>Foto {{ $f }}
+                                        </a>
+                                    @endif
+                                @endfor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Keterangan Admin --}}
+                <div class="card border-warning shadow-sm rounded-3 p-3 mb-3" style="background:#fffef3">
+                    <h6 class="fw-bold text-warning border-bottom pb-2 mb-2"><i class="bi bi-chat-square-quote-fill me-2"></i>Keterangan Verifikasi Admin</h6>
+                    <p class="mb-0 text-dark fw-medium">{{ $row->keterangan_admin ?? 'Berkas telah diverifikasi Admin.' }}</p>
+                </div>
+
+                {{-- Riwayat Persetujuan lengkap --}}
+                <div class="card border-0 shadow-sm rounded-3 p-3">
+                    <h6 class="fw-bold text-primary border-bottom pb-2 mb-3"><i class="bi bi-clock-history me-2"></i>Riwayat Persetujuan Berantai</h6>
+                    <div class="position-relative" style="padding-left:28px;border-left:2px solid #e2e8f0">
+                        <div class="mb-3 position-relative">
+                            <div class="position-absolute rounded-circle bg-primary d-flex align-items-center justify-content-center" style="width:22px;height:22px;left:-39px;top:2px"><i class="bi bi-check-lg text-white" style="font-size:.7rem"></i></div>
+                            <span class="fw-bold text-dark d-block">Diajukan</span>
+                            <small class="text-muted">{{ $row->tanggal_diajukan ?? $row->created_at }}</small>
+                        </div>
+                        <div class="mb-3 position-relative">
+                            <div class="position-absolute rounded-circle bg-info d-flex align-items-center justify-content-center" style="width:22px;height:22px;left:-39px;top:2px"><i class="bi bi-check-lg text-white" style="font-size:.7rem"></i></div>
+                            <span class="fw-bold text-dark d-block">Disetujui Kepala Dusun</span>
+                        </div>
+                        <div class="mb-3 position-relative">
+                            <div class="position-absolute rounded-circle bg-success d-flex align-items-center justify-content-center" style="width:22px;height:22px;left:-39px;top:2px"><i class="bi bi-check-lg text-white" style="font-size:.7rem"></i></div>
+                            <span class="fw-bold text-dark d-block">Disetujui Admin</span>
+                            <small class="text-muted">{{ $row->keterangan_admin }}</small>
+                        </div>
+                        <div class="mb-3 position-relative">
+                            <div class="position-absolute rounded-circle bg-primary d-flex align-items-center justify-content-center" style="width:22px;height:22px;left:-39px;top:2px"><i class="bi bi-check-lg text-white" style="font-size:.7rem"></i></div>
+                            <span class="fw-bold text-dark d-block">Disetujui Sekretaris Desa</span>
+                        </div>
+                        <div class="mb-1 position-relative opacity-50">
+                            <div class="position-absolute rounded-circle bg-secondary d-flex align-items-center justify-content-center" style="width:22px;height:22px;left:-39px;top:2px"><i class="bi bi-dash-lg text-white" style="font-size:.7rem"></i></div>
+                            <span class="fw-bold text-muted d-block">Pengesahan TTE Kepala Desa</span>
+                            <small class="text-muted">Menunggu tindakan Anda</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-white py-3 px-4">
+                <button type="button" class="btn btn-secondary btn-rounded px-4" data-bs-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-danger btn-rounded px-4" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#modalTolakKades-{{ $row->id_pengajuan }}"><i class="bi bi-x-circle-fill me-1"></i>Tolak</button>
+                <form action="{{ route('kades.suratmasuk.setuju', $row->id_pengajuan) }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-success btn-rounded px-4"><i class="bi bi-pen-fill me-1"></i>Sahkan TTE Sekarang</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- MODALS TOLAK --}}
 <div class="modal fade" id="modalTolakKades-{{ $row->id_pengajuan }}" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg rounded-4 p-2">

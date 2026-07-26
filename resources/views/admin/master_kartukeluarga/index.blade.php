@@ -136,9 +136,9 @@
 
                         <!-- PAGINATION -->
                         <!-- PAGINATION -->
-<div class="mt-3">
-    {{ $master_kartukeluarga->links('pagination::bootstrap-5') }}
-</div>
+                        <div class="mt-3">
+                            {{ $master_kartukeluarga->links('pagination::bootstrap-5') }}
+                        </div>
                     </div>
                 </div>
             </div>

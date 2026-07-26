@@ -10,15 +10,15 @@ use Illuminate\Http\Request;
 
 class KadesSuratMasukController extends Controller
 {
+    /**
+     * Tampilkan surat masuk berstatus 'Disetujui Sekretaris Desa' untuk Kepala Desa.
+     * Surat berstatus 'Selesai' otomatis TIDAK akan tampil di halaman ini.
+     */
     public function index(Request $request)
     {
         $katakunci = $request->katakunci;
 
-        $query = View_data_pengajuan::where(function ($q) {
-            $q->where('status', 'Disetujui Sekdes')
-              ->orWhere('status', 'Disetujui RW')
-              ->orWhere('status', 'Diajukan');
-        });
+        $query = View_data_pengajuan::where('status', 'Disetujui Sekretaris Desa');
 
         if (!empty($katakunci)) {
             $query->where(function ($q) use ($katakunci) {
@@ -33,6 +33,12 @@ class KadesSuratMasukController extends Controller
         return view('kepaladesa.suratmasuk.index', compact('datapengajuan'));
     }
 
+    /**
+     * Kades Menyetujui Surat:
+     * 1. Ubah status menjadi 'Selesai'
+     * 2. Panggil GeneratePDFController untuk buat PDF resmi + TTD Digital
+     * 3. Simpan nama file PDF ke kolom file_pdf
+     */
     public function setuju($id_pengajuan)
     {
         $pengajuan = master_pengajuan::findOrFail($id_pengajuan);
@@ -43,23 +49,28 @@ class KadesSuratMasukController extends Controller
             $generate = new GeneratePDFController();
             $generate->generateAndStorePdf($id_pengajuan);
         } catch (\Exception $e) {
-            // PDF generator optional if template available
+            // PDF generator dipanggil untuk pembuatan PDF otomatis
         }
 
-        return redirect()->back()->with('success', 'Surat berhasil disahkan (TTE Kepala Desa).');
+        return redirect()->back()->with('success', 'Surat berhasil disahkan dengan Tanda Tangan Digital Kepala Desa.');
     }
 
+    /**
+     * Kades Menolak Surat -> ubah status menjadi 'Ditolak'.
+     */
     public function tolak(Request $request, $id_pengajuan)
     {
         $request->validate([
             'keterangan_ditolak' => 'required|string|max:255',
+        ], [
+            'keterangan_ditolak.required' => 'Alasan penolakan wajib diisi.',
         ]);
 
         $pengajuan = master_pengajuan::findOrFail($id_pengajuan);
-        $pengajuan->status = 'Ditolak Kades';
+        $pengajuan->status = 'Ditolak';
         $pengajuan->keterangan_ditolak = $request->keterangan_ditolak;
         $pengajuan->save();
 
-        return redirect()->back()->with('success', 'Pengajuan surat ditolak.');
+        return redirect()->back()->with('success', 'Pengajuan surat ditolak oleh Kepala Desa.');
     }
 }

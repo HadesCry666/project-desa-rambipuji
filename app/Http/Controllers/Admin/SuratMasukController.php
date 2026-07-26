@@ -4,75 +4,88 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\View_data_pengajuan;
-use Illuminate\Http\Request;
 use App\Models\master_pengajuan;
-use App\Http\Controllers\Admin\GeneratePDFController;
-
+use Illuminate\Http\Request;
 
 class SuratMasukController extends Controller
 {
-   public function index(Request $request)
-{
-    $jumlahbaris = 10;
-    $katakunci = $request->katakunci;
+    /**
+     * Tampilkan surat masuk untuk Admin.
+     * Status yang ditampilkan: 'Disetujui Kepala Dusun' dan 'Diajukan'.
+     */
+    public function index(Request $request)
+    {
+        $jumlahbaris = 10;
+        $katakunci = $request->katakunci;
 
-    if (strlen($katakunci)) {
-        $datapengajuan = View_data_pengajuan::where('status', 'Disetujui RW') 
-            ->where(function($query) use ($katakunci) {
-                $query->where('nik', 'like', "%$katakunci%")
-                    ->orWhere('nama_lengkap', 'like', "%$katakunci%")
-                    ->orWhere('nama_surat', 'like', "%$katakunci%");
-            })
-            ->orderBy('id_pengajuan', 'desc')
-            ->paginate($jumlahbaris);
-    } else {
-        $datapengajuan = View_data_pengajuan::where('status', 'Disetujui RW') 
-            ->orderBy('id_pengajuan', 'desc')
-            ->paginate($jumlahbaris);
+        $query = View_data_pengajuan::where(function ($q) {
+            $q->where('status', 'Disetujui Kepala Dusun')
+              ->orWhere('status', 'Diajukan');
+        });
+
+        if (strlen($katakunci)) {
+            $query->where(function ($q) use ($katakunci) {
+                $q->where('nik', 'like', "%$katakunci%")
+                  ->orWhere('nama_lengkap', 'like', "%$katakunci%")
+                  ->orWhere('nama_surat', 'like', "%$katakunci%");
+            });
+        }
+
+        $datapengajuan = $query->orderBy('id_pengajuan', 'desc')->paginate($jumlahbaris);
+
+        return view('admin.pengajuan_surat.suratmasuk', compact('datapengajuan'));
     }
 
-    return view('admin.pengajuan_surat.suratmasuk', compact('datapengajuan'));
-}
-
-   public function setuju(Request $request, $id_pengajuan)
-{
-    $pengajuan = View_data_pengajuan::findOrFail($id_pengajuan);
-    $pengajuan->status = 'Selesai';
-    $pengajuan->save();
-
-    $generate = new GeneratePDFController();
-    $generate->generateAndStorePdf($id_pengajuan);
-
-    return redirect()->back()->with('success', 'Pengajuan berhasil disetujui.');
-}
-
-
-
-    public function tolak(Request $request, $id_pengajuan)    {
-        
+    /**
+     * Admin Menyetujui Surat.
+     * WAJIB mengisi keterangan_admin terlebih dahulu!
+     * Status berubah menjadi 'Disetujui Admin'.
+     */
+    public function setuju(Request $request, $id_pengajuan)
+    {
         $request->validate([
-            'keterangan_ditolak' => 'nullable|string|max:50',
+            'keterangan_admin' => 'required|string|max:500',
+        ], [
+            'keterangan_admin.required' => 'Keterangan hasil verifikasi admin wajib diisi.',
+            'keterangan_admin.max'      => 'Keterangan admin maksimal 500 karakter.',
         ]);
 
-        $pengajuan = View_data_pengajuan::findOrFail($id_pengajuan);
-
-        $pengajuan->status = 'Ditolak'; // <-- langsung set di sini
-
-        $pengajuan->keterangan_ditolak = $request->keterangan_ditolak;
-
+        $pengajuan = master_pengajuan::findOrFail($id_pengajuan);
+        $pengajuan->status = 'Disetujui Admin';
+        $pengajuan->keterangan_admin = $request->keterangan_admin;
         $pengajuan->save();
 
-        return redirect()->back()->with('success', 'Status pengajuan berhasil diperbarui.');
+        return redirect()->back()->with('success', 'Pengajuan berhasil disetujui oleh Admin dan diteruskan ke Sekretaris Desa.');
     }
 
+    /**
+     * Admin Menolak Surat.
+     * Status berubah menjadi 'Ditolak'.
+     */
+    public function tolak(Request $request, $id_pengajuan)
+    {
+        $request->validate([
+            'keterangan_ditolak' => 'required|string|max:255',
+        ], [
+            'keterangan_ditolak.required' => 'Alasan penolakan wajib diisi.',
+        ]);
+
+        $pengajuan = master_pengajuan::findOrFail($id_pengajuan);
+        $pengajuan->status = 'Ditolak';
+        $pengajuan->keterangan_ditolak = $request->keterangan_ditolak;
+        $pengajuan->save();
+
+        return redirect()->back()->with('success', 'Status pengajuan berhasil diperbarui menjadi Ditolak.');
+    }
+
+    /**
+     * Hapus pengajuan.
+     */
     public function destroy($id_pengajuan)
-{
-    // Cari ke model asli
-    $pengajuan = master_pengajuan::findOrFail($id_pengajuan);
+    {
+        $pengajuan = master_pengajuan::findOrFail($id_pengajuan);
+        $pengajuan->delete();
 
-    $pengajuan->delete();
-
-    return redirect()->back()->with('success', 'Pengajuan berhasil dihapus.');
-}
-
+        return redirect()->back()->with('success', 'Pengajuan berhasil dihapus.');
+    }
 }

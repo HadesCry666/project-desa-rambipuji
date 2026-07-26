@@ -26,8 +26,12 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
 
     <div class="section-body">
         <div class="card card-modern">
-            <div class="card-header bg-white py-3 border-bottom-0">
+            <div class="card-header bg-white py-3 border-bottom-0 d-flex justify-content-between align-items-center">
                 <h4 class="fw-bold text-dark m-0"><i class="bi bi-x-circle-fill text-danger me-2"></i>Arsip Surat Ditolak</h4>
+                <form class="d-flex" action="{{ route('kadus.suratditolak.index') }}" method="get">
+                    <input class="form-control me-2" type="search" name="katakunci" value="{{ Request::get('katakunci') }}" placeholder="Cari NIK / Nama / Surat">
+                    <button class="btn btn-primary btn-rounded px-4">Cari</button>
+                </form>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -35,82 +39,48 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:50px">No</th>
-                                <th>Nomor Pengajuan</th>
                                 <th>Nama Pemohon</th>
+                                <th>NIK</th>
                                 <th>Jenis Surat</th>
-                                <th>Ditolak Oleh</th>
+                                <th>Status Penolakan</th>
                                 <th>Alasan Penolakan</th>
-                                <th>Tanggal</th>
-                                <th class="text-center">Detail</th>
+                                <th>Tanggal Update</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @php
-                            $ditolak = [
-                                ['id'=>1,'no'=>'PGJ-202607-004','nama'=>'Rina Wijaya','surat'=>'Surat Keterangan Kelahiran','oleh'=>'Kepala Dusun','alasan'=>'Berkas tidak lengkap, KTP dan KK tidak dilampirkan.','tgl'=>'21 Jul 2026'],
-                                ['id'=>2,'no'=>'PGJ-202606-012','nama'=>'Hendra Gunawan','surat'=>'SKTM','oleh'=>'Admin Desa','alasan'=>'Data pemohon tidak sesuai dengan catatan kependudukan desa.','tgl'=>'15 Jun 2026'],
-                            ];
-                            @endphp
-                            @foreach($ditolak as $i => $r)
+                            @forelse($datapengajuan as $i => $r)
                             <tr>
-                                <td class="text-center fw-bold text-muted">{{ $i+1 }}</td>
-                                <td><span class="fw-bold text-danger" style="font-size:.82rem">{{ $r['no'] }}</span></td>
-                                <td class="fw-semibold text-dark">{{ $r['nama'] }}</td>
-                                <td><span class="badge bg-light text-dark border fw-medium">{{ $r['surat'] }}</span></td>
+                                <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
+                                <td class="fw-semibold text-dark">{{ $r->nama_lengkap }}</td>
+                                <td><code>{{ $r->nik }}</code></td>
+                                <td><span class="badge bg-light text-dark border fw-medium">{{ $r->nama_surat }}</span></td>
                                 <td>
-                                    <span class="badge {{ $r['oleh'] == 'Kepala Dusun' ? 'bg-info-subtle text-info' : 'bg-warning-subtle text-warning' }} fw-semibold">
-                                        <i class="bi bi-person-fill me-1"></i>{{ $r['oleh'] }}
+                                    <span class="badge bg-danger text-white fw-semibold px-3 py-1 rounded-pill">
+                                        <i class="bi bi-x-circle-fill me-1"></i>{{ $r->status }}
                                     </span>
                                 </td>
-                                <td class="text-muted" style="max-width:220px;white-space:normal;font-size:.82rem">{{ $r['alasan'] }}</td>
-                                <td class="text-muted"><i class="bi bi-calendar-x text-danger me-1"></i>{{ $r['tgl'] }}</td>
-                                <td class="text-center">
-                                    <button class="btn btn-sm btn-secondary btn-rounded px-3" data-bs-toggle="modal" data-bs-target="#modalDetailDitolak-{{ $r['id'] }}">
-                                        <i class="bi bi-eye-fill me-1"></i>Detail
-                                    </button>
-                                </td>
+                                <td class="text-muted" style="max-width:250px;white-space:normal;font-size:.82rem">{{ $r->keterangan_ditolak ?? '-' }}</td>
+                                <td class="text-muted"><i class="bi bi-calendar-x text-danger me-1"></i>{{ $r->updated_at ?? $r->created_at }}</td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="7" class="text-center py-4 text-muted">Belum ada pengajuan surat yang ditolak.</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
+                </div>
+                <div class="mt-3">
+                    {{ $datapengajuan->links() }}
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-@foreach($ditolak as $r)
-<div class="modal fade" id="modalDetailDitolak-{{ $r['id'] }}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-            <div class="modal-header bg-danger text-white py-3 px-4">
-                <h5 class="modal-title fw-bold"><i class="bi bi-x-circle-fill me-2"></i>Detail Surat Ditolak</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body p-4" style="background:#f8fafc">
-                <div class="card border-0 shadow-sm rounded-3 p-3 mb-3">
-                    <div class="mb-2"><span class="text-muted small d-block">Nomor Pengajuan</span><strong class="text-danger">{{ $r['no'] }}</strong></div>
-                    <div class="mb-2"><span class="text-muted small d-block">Nama Pemohon</span><strong>{{ $r['nama'] }}</strong></div>
-                    <div class="mb-2"><span class="text-muted small d-block">Jenis Surat</span><span class="badge bg-light text-dark border">{{ $r['surat'] }}</span></div>
-                    <div class="mb-2"><span class="text-muted small d-block">Ditolak Oleh</span><strong>{{ $r['oleh'] }}</strong></div>
-                    <div class="mb-2"><span class="text-muted small d-block">Tanggal</span><span>{{ $r['tgl'] }}</span></div>
-                </div>
-                <div class="card border-danger border-opacity-25 bg-danger-subtle rounded-3 p-3">
-                    <h6 class="fw-bold text-danger mb-2"><i class="bi bi-exclamation-triangle-fill me-2"></i>Alasan Penolakan</h6>
-                    <p class="mb-0 text-dark">{{ $r['alasan'] }}</p>
-                </div>
-            </div>
-            <div class="modal-footer bg-white py-3 px-4">
-                <button type="button" class="btn btn-secondary btn-rounded px-4" data-bs-dismiss="modal">Tutup</button>
-            </div>
-        </div>
-    </div>
-</div>
-@endforeach
-
 @push('scripts')
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-<script>$(document).ready(function(){$('#tableDitolakKadus').DataTable({language:{url:'https://cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'},pageLength:10,responsive:true,columnDefs:[{orderable:false,targets:7}]});});</script>
+<script>$(document).ready(function(){$('#tableDitolakKadus').DataTable({language:{url:'https://cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'},pageLength:10,responsive:true});});</script>
 @endpush
 @endsection

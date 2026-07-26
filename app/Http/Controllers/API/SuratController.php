@@ -7,10 +7,32 @@ use App\Models\master_surat;
 
 class SuratController extends Controller
 {
+    /**
+     * Mengembalikan daftar semua jenis surat layanan desa beserta berkas syaratnya.
+     */
     public function index()
     {
-        $surat = master_surat::get();
+        $suratList = master_surat::all()->map(function ($item) {
+            $berkas = [];
+            for ($i = 1; $i <= 9; $i++) {
+                $field = 'berkas' . $i;
+                if (!empty($item->$field) && $item->$field !== '-') {
+                    $berkas[] = $item->$field;
+                }
+            }
 
-        return response()->json($surat);
+            return [
+                'id_surat'   => $item->id_surat,
+                'nama_surat' => $item->nama_surat,
+                'slug'       => $item->slug,
+                'keterangan' => $item->keterangan,
+                'syarat'     => $berkas,
+            ];
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'data'   => $suratList,
+        ], 200);
     }
 }

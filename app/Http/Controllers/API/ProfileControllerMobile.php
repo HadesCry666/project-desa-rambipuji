@@ -14,15 +14,13 @@ use Illuminate\Validation\Rule;
 
 class ProfileControllerMobile extends Controller
 {
+    /**
+     * Ambil profil gabungan (master_akun + master_penduduks) milik user yang login.
+     * NIK diambil dari token Sanctum — tidak perlu dikirim di query param.
+     */
     public function index(Request $request)
     {
-        $nik = $request->query('nik');
-
-        if (!$nik) {
-            return response()->json([
-                'error' => 'Parameter NIK tidak ditemukan'
-            ], 400);
-        }
+        $nik = $request->user()->nik;
 
         $profil = DB::table('master_penduduks')
             ->leftJoin('master_akun', 'master_penduduks.nik', '=', 'master_akun.nik')
@@ -32,213 +30,220 @@ class ProfileControllerMobile extends Controller
                 'master_penduduks.nama_lengkap',
                 'master_akun.no_hp',
                 'master_akun.email',
-                'master_akun.foto_profil'
+                'master_akun.foto_profil',
             )
             ->where('master_penduduks.nik', $nik)
             ->first();
 
         if (!$profil) {
             return response()->json([
-                'error' => 'Data tidak ditemukan'
+                'status'  => 'error',
+                'message' => 'Data profil tidak ditemukan.',
             ], 404);
         }
 
         return response()->json([
-            'success' => true,
-            'data' => [
-                'no_kk' => $profil->no_kk,
-                'nik' => $profil->nik,
+            'status' => 'success',
+            'data'   => [
+                'no_kk'        => $profil->no_kk,
+                'nik'          => $profil->nik,
                 'nama_lengkap' => $profil->nama_lengkap,
-                'no_hp' => $profil->no_hp,
-                'email' => $profil->email,
-                'foto_profil' => $profil->foto_profil
-                        ? asset('storage/foto_profil/' . $profil->foto_profil)
-                        : asset('storage/foto_profil/default.jpg'),
-
-            ]
+                'no_hp'        => $profil->no_hp,
+                'email'        => $profil->email,
+                'foto_profil'  => $profil->foto_profil
+                    ? asset('storage/foto_profil/' . $profil->foto_profil)
+                    : asset('storage/foto_profil/default.jpg'),
+            ],
         ]);
-
     }
 
+    /**
+     * Ambil data kependudukan lengkap milik user yang login.
+     * NIK diambil dari token Sanctum — tidak perlu dikirim di query param.
+     */
     public function getByNik(Request $request)
     {
-        $nik = $request->query('nik');
+        $nik = $request->user()->nik;
+
         $user = master_penduduk::where('nik', $nik)->first();
 
-        if ($user) {
+        if (!$user) {
             return response()->json([
-                'success' => true,
-                'data' => [
-                    'nama' => $user->nama_lengkap,
-                    'nik' => $user->nik,
-                    'tempatLahir' => $user->tempat_lahir,
-                    'tanggalLahir' => $user->tanggal_lahir,
-                    'golDarah' => $user->golongan_darah,
-                    'jk' => $user->jenis_kelamin,
-                    'kewarganegaraan' => $user->kewarganegaraan,
-                    'agama' => $user->agama,
-                    'statusKeluarga' => $user->status_keluarga,
-                    'pekerjaan' => $user->pekerjaan,
-                    'pendidikan' => $user->pendidikan,
-                ]
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'User dengan NIK tersebut tidak ditemukan.'
+                'status'  => 'error',
+                'message' => 'Data kependudukan tidak ditemukan.',
             ], 404);
         }
+
+        return response()->json([
+            'status' => 'success',
+            'data'   => [
+                'nama'           => $user->nama_lengkap,
+                'nik'            => $user->nik,
+                'no_kk'          => $user->no_kk,
+                'tempatLahir'    => $user->tempat_lahir,
+                'tanggalLahir'   => $user->tanggal_lahir,
+                'golDarah'       => $user->golongan_darah,
+                'jk'             => $user->jenis_kelamin,
+                'kewarganegaraan'=> $user->kewarganegaraan,
+                'agama'          => $user->agama,
+                'statusKeluarga' => $user->status_keluarga,
+                'pekerjaan'      => $user->pekerjaan,
+                'pendidikan'     => $user->pendidikan,
+                'namaAyah'       => $user->nama_ayah,
+                'namaIbu'        => $user->nama_ibu,
+            ],
+        ]);
     }
 
+    /**
+     * Update foto profil user yang sedang login.
+     * NIK diambil dari token Sanctum — tidak bisa di-spoof via request body.
+     */
     public function updateFoto(Request $request)
-{
-    try {
-        $request->validate([
-            'nik' => 'required|exists:master_akun,nik',
-            'foto_profil' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+    {
+        try {
+            $request->validate([
+                'foto_profil' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            ], [
+                'foto_profil.required' => 'File foto wajib diunggah.',
+                'foto_profil.image'    => 'File harus berupa gambar.',
+                'foto_profil.mimes'    => 'Format gambar harus JPG, JPEG, atau PNG.',
+                'foto_profil.max'      => 'Ukuran foto maksimal 2MB.',
+            ]);
 
-        $file = $request->file('foto_profil');
+            $nik  = $request->user()->nik;
+            $user = master_akun::where('nik', $nik)->first();
 
-        if (!$file) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'File foto_profil tidak ditemukan',
-            ], 400);
-        }
-
-        $user = master_akun::where('nik', $request->nik)->first();
-
-        $extension = $file->getClientOriginalExtension();
-        $randomName = Str::random(40) . '.' . $extension;
-
-        // Hapus foto lama jika ada
-        if ($user->foto_profil) {
-            $oldFileName = basename($user->foto_profil);
-
-            if (Storage::disk('public')->exists('foto_profil/' . $oldFileName)) {
-                Storage::disk('public')->delete('foto_profil/' . $oldFileName);
+            if (!$user) {
+                return response()->json([
+                    'status'  => 'error',
+                    'message' => 'Akun tidak ditemukan.',
+                ], 404);
             }
-        }
 
-        // Simpan ke storage/app/public/foto_profil
-        $path = $file->storeAs('foto_profil', $randomName, 'public');
+            $file      = $request->file('foto_profil');
+            $extension = $file->getClientOriginalExtension();
+            $randomName = Str::random(40) . '.' . $extension;
 
-        // Simpan hanya nama file ke database
-        $user->foto_profil = $randomName;
-        $user->save();
+            // Hapus foto lama jika ada (kecuali default)
+            if ($user->foto_profil && $user->foto_profil !== 'default.jpg') {
+                if (Storage::disk('public')->exists('foto_profil/' . $user->foto_profil)) {
+                    Storage::disk('public')->delete('foto_profil/' . $user->foto_profil);
+                }
+            }
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Foto profil berhasil diperbarui',
-            'foto_profil' => asset('storage/' . $path),
-            'foto_url' => asset('storage/' . $path),
-        ], 200);
+            // Simpan foto baru
+            $file->storeAs('foto_profil', $randomName, 'public');
 
-    } catch (ValidationException $e) {
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Validasi gagal',
-            'errors' => $e->errors(),
-        ], 422);
+            $user->foto_profil = $randomName;
+            $user->save();
 
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
-        ], 500);
-    }
-}
-
-public function updateEmailNoHp(Request $request)
-{
-    try {
-        // Validasi input
-        $request->validate([
-            'nik' => 'required|exists:master_akun,nik',
-
-            'email' => [
-                'nullable',
-                'email',
-                Rule::unique('master_akun', 'email')->ignore($request->nik, 'nik'),
-            ],
-
-            'no_hp' => [
-                'nullable',
-                'string',
-                'max:20',
-                Rule::unique('master_akun', 'no_hp')->ignore($request->nik, 'nik'),
-            ],
-        ], [
-            'nik.required' => 'NIK wajib diisi.',
-            'nik.exists' => 'Akun dengan NIK tersebut tidak ditemukan.',
-
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email telah digunakan, gunakan yang lain.',
-
-            'no_hp.max' => 'No HP maksimal 20 karakter.',
-            'no_hp.unique' => 'No HP telah digunakan, gunakan yang lain.',
-        ]);
-
-        // Cari user berdasarkan nik
-        $user = master_akun::where('nik', $request->nik)->first();
-
-        $updatedFields = [];
-
-        // Update email jika dikirim dan berbeda
-        if ($request->has('email') && $request->email !== $user->email) {
-            $user->email = $request->email;
-            $updatedFields[] = 'email';
-        }
-
-        // Update no_hp jika dikirim dan berbeda
-        if ($request->has('no_hp') && $request->no_hp !== $user->no_hp) {
-            $user->no_hp = $request->no_hp;
-            $updatedFields[] = 'no_hp';
-        }
-
-        // Jika tidak ada perubahan
-        if (empty($updatedFields)) {
             return response()->json([
-                'status' => 'info',
-                'message' => 'Tidak ada data yang diubah.',
+                'status'      => 'success',
+                'message'     => 'Foto profil berhasil diperbarui.',
+                'foto_profil' => asset('storage/foto_profil/' . $randomName),
             ], 200);
+
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => collect($e->errors())->flatten()->first(),
+                'errors'  => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+            ], 500);
         }
-
-        // Simpan perubahan
-        $user->save();
-
-        // Pesan sukses
-        if (count($updatedFields) == 2) {
-            $message = 'Email dan No HP berhasil diperbarui.';
-        } elseif ($updatedFields[0] == 'email') {
-            $message = 'Email berhasil diperbarui.';
-        } else {
-            $message = 'No HP berhasil diperbarui.';
-        }
-
-        return response()->json([
-            'status' => 'success',
-            'message' => $message,
-            'data' => [
-                'email' => $user->email,
-                'no_hp' => $user->no_hp,
-            ],
-        ], 200);
-
-    } catch (ValidationException $e) {
-        return response()->json([
-            'status' => 'error',
-            'message' => collect($e->errors())->flatten()->first(),
-            'errors' => $e->errors(),
-        ], 422);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
-        ], 500);
     }
-}
 
+    /**
+     * Update email dan/atau nomor HP user yang sedang login.
+     * NIK diambil dari token Sanctum — tidak bisa di-spoof via request body.
+     */
+    public function updateEmailNoHp(Request $request)
+    {
+        try {
+            $nik = $request->user()->nik;
+
+            $request->validate([
+                'email' => [
+                    'nullable',
+                    'email',
+                    Rule::unique('master_akun', 'email')->ignore($nik, 'nik'),
+                ],
+                'no_hp' => [
+                    'nullable',
+                    'string',
+                    'max:20',
+                    Rule::unique('master_akun', 'no_hp')->ignore($nik, 'nik'),
+                ],
+            ], [
+                'email.email'    => 'Format email tidak valid.',
+                'email.unique'   => 'Email telah digunakan, gunakan yang lain.',
+                'no_hp.max'      => 'No HP maksimal 20 karakter.',
+                'no_hp.unique'   => 'No HP telah digunakan, gunakan yang lain.',
+            ]);
+
+            $user = master_akun::where('nik', $nik)->first();
+
+            if (!$user) {
+                return response()->json([
+                    'status'  => 'error',
+                    'message' => 'Akun tidak ditemukan.',
+                ], 404);
+            }
+
+            $updatedFields = [];
+
+            if ($request->has('email') && $request->email !== $user->email) {
+                $user->email     = $request->email;
+                $updatedFields[] = 'email';
+            }
+
+            if ($request->has('no_hp') && $request->no_hp !== $user->no_hp) {
+                $user->no_hp     = $request->no_hp;
+                $updatedFields[] = 'no_hp';
+            }
+
+            if (empty($updatedFields)) {
+                return response()->json([
+                    'status'  => 'info',
+                    'message' => 'Tidak ada data yang diubah.',
+                ], 200);
+            }
+
+            $user->save();
+
+            if (count($updatedFields) === 2) {
+                $message = 'Email dan No HP berhasil diperbarui.';
+            } elseif ($updatedFields[0] === 'email') {
+                $message = 'Email berhasil diperbarui.';
+            } else {
+                $message = 'No HP berhasil diperbarui.';
+            }
+
+            return response()->json([
+                'status'  => 'success',
+                'message' => $message,
+                'data'    => [
+                    'email' => $user->email,
+                    'no_hp' => $user->no_hp,
+                ],
+            ], 200);
+
+        } catch (ValidationException $e) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => collect($e->errors())->flatten()->first(),
+                'errors'  => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
 }

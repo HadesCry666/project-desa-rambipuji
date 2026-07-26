@@ -9,15 +9,14 @@ use Illuminate\Http\Request;
 
 class SekdesSuratMasukController extends Controller
 {
+    /**
+     * Tampilkan surat masuk berstatus 'Disetujui Admin' untuk Sekretaris Desa.
+     */
     public function index(Request $request)
     {
         $katakunci = $request->katakunci;
 
-        $query = View_data_pengajuan::where(function ($q) {
-            $q->where('status', 'Disetujui RW')
-              ->orWhere('status', 'Disetujui Admin')
-              ->orWhere('status', 'Diajukan');
-        });
+        $query = View_data_pengajuan::where('status', 'Disetujui Admin');
 
         if (!empty($katakunci)) {
             $query->where(function ($q) use ($katakunci) {
@@ -32,23 +31,31 @@ class SekdesSuratMasukController extends Controller
         return view('sekretarisdesa.suratmasuk.index', compact('datapengajuan'));
     }
 
+    /**
+     * Sekdes Menyetujui Surat -> ubah status menjadi 'Disetujui Sekretaris Desa'.
+     */
     public function setuju($id_pengajuan)
     {
         $pengajuan = master_pengajuan::findOrFail($id_pengajuan);
-        $pengajuan->status = 'Disetujui Sekdes';
+        $pengajuan->status = 'Disetujui Sekretaris Desa';
         $pengajuan->save();
 
-        return redirect()->back()->with('success', 'Pengajuan berhasil disetujui oleh Sekretaris Desa.');
+        return redirect()->back()->with('success', 'Pengajuan berhasil disetujui oleh Sekretaris Desa dan diteruskan ke Kepala Desa.');
     }
 
+    /**
+     * Sekdes Menolak Surat -> ubah status menjadi 'Ditolak'.
+     */
     public function tolak(Request $request, $id_pengajuan)
     {
         $request->validate([
             'keterangan_ditolak' => 'required|string|max:255',
+        ], [
+            'keterangan_ditolak.required' => 'Alasan penolakan wajib diisi.',
         ]);
 
         $pengajuan = master_pengajuan::findOrFail($id_pengajuan);
-        $pengajuan->status = 'Ditolak Sekdes';
+        $pengajuan->status = 'Ditolak';
         $pengajuan->keterangan_ditolak = $request->keterangan_ditolak;
         $pengajuan->save();
 
