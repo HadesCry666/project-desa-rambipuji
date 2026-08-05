@@ -26,7 +26,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
             <p class="text-muted mb-0 small">Sistem Persuratan Desa Rambipuji — Pantau pengajuan surat warga wilayah Anda.</p>
         </div>
         <div class="badge bg-light text-primary border px-3 py-2 rounded-pill fw-semibold shadow-sm d-none d-md-flex align-items-center gap-2">
-            <i class="bi bi-calendar-event me-1"></i>
+            {{-- <i class="bi bi-calendar-event me-1"> </i> --}}
             <span>{{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</span>
         </div>
     </div>
@@ -34,7 +34,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
     {{-- 4 STAT CARDS --}}
     <div class="row g-3 mb-4">
         <div class="col-6 col-lg-3">
-            <div class="stat-card d-flex align-items-center gap-3">
+            <div class="stat-card d-flex align-items-center" style="gap:20px;">
                 <div class="stat-icon" style="background:#e0f2fe;color:#0284c7;"><i class="bi bi-inbox-fill"></i></div>
                 <div>
                     <div class="stat-label">Surat Masuk</div>
@@ -43,7 +43,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
             </div>
         </div>
         <div class="col-6 col-lg-3">
-            <div class="stat-card d-flex align-items-center gap-3">
+            <div class="stat-card d-flex align-items-center" style="gap:20px;">
                 <div class="stat-icon" style="background:#fff7ed;color:#ea580c;"><i class="bi bi-hourglass-split"></i></div>
                 <div>
                     <div class="stat-label">Surat Diproses</div>
@@ -52,7 +52,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
             </div>
         </div>
         <div class="col-6 col-lg-3">
-            <div class="stat-card d-flex align-items-center gap-3">
+            <div class="stat-card d-flex align-items-center" style="gap:20px;">
                 <div class="stat-icon" style="background:#dcfce7;color:#16a34a;"><i class="bi bi-check-circle-fill"></i></div>
                 <div>
                     <div class="stat-label">Surat Selesai</div>
@@ -61,7 +61,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
             </div>
         </div>
         <div class="col-6 col-lg-3">
-            <div class="stat-card d-flex align-items-center gap-3">
+            <div class="stat-card d-flex align-items-center" style="gap:20px;">
                 <div class="stat-icon" style="background:#fee2e2;color:#dc2626;"><i class="bi bi-x-circle-fill"></i></div>
                 <div>
                     <div class="stat-label">Surat Ditolak</div>

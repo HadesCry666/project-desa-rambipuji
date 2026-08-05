@@ -21,9 +21,6 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
 @section('content')
 <section class="section">
     <div class="section-header d-flex align-items-center gap-3 mb-4">
-        <a href="{{ route('kadus.suratmasuk.index') }}" class="btn btn-light btn-rounded px-3">
-            <i class="bi bi-arrow-left me-1"></i> Kembali
-        </a>
         <div>
             <h1 class="fw-bold text-dark mb-1">Tambah Pengajuan Surat</h1>
             <p class="text-muted small mb-0">Kepala Dusun dapat mengajukan surat atas nama warga. Status otomatis: <strong class="text-success">Disetujui Kepala Dusun</strong>.</p>
@@ -47,17 +44,17 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
     <form action="{{ route('kadus.tambahpengajuan.store') }}" method="POST" enctype="multipart/form-data" id="formPengajuanKadus">
         @csrf
         <div class="row justify-content-center">
-            <div class="col-lg-9">
+            <div class="col-12">
 
                 {{-- LANGKAH 1: PILIH KARTU KELUARGA --}}
                 <div class="card card-modern p-4 mb-4">
-                    <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-2">1</span>Pilih Kartu Keluarga</h5>
+                    <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-4" style="margin-right: 5px">1</span>Pilih Kartu Keluarga</h5>
                     <div class="row g-3">
                         <div class="col-md-8">
                             <label class="form-label">Nomor KK <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="inputNoKK" placeholder="Masukkan atau cari Nomor KK..." maxlength="16">
-                                <button class="btn btn-primary rounded-end" type="button" id="btnCariKK" style="border-radius:0 10px 10px 0!important">
+                                <button class="btn btn-primary" type="button" id="btnCariKK" style="border-radius:0 10px 10px 0!important">
                                     <i class="bi bi-search me-1"></i>Cari Anggota
                                 </button>
                             </div>
@@ -79,7 +76,7 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
 
                 {{-- LANGKAH 2: DATA PEMOHON (Auto-fill) --}}
                 <div class="card card-modern p-4 mb-4" id="wrapperDataPemohon" style="display:none">
-                    <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-2">2</span>Data Pemohon</h5>
+                    <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-2" style="margin-right: 5px">2</span>Data Pemohon</h5>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">NIK</label>
@@ -89,15 +86,15 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                             <label class="form-label">Nama Lengkap</label>
                             <div class="info-readonly" id="showNama">—</div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mt-3">
                             <label class="form-label">No. KK</label>
                             <div class="info-readonly" id="showNoKK">—</div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mt-3">
                             <label class="form-label">Status dalam Keluarga</label>
                             <div class="info-readonly" id="showStatus">—</div>
                         </div>
-                        <div class="col-12">
+                        <div class="col-12 mt-3">
                             <label class="form-label">Alamat</label>
                             <div class="info-readonly" id="showAlamat">—</div>
                         </div>
@@ -106,14 +103,17 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
 
                 {{-- LANGKAH 3: DATA SURAT --}}
                 <div class="card card-modern p-4 mb-4" id="wrapperDataSurat" style="display:none">
-                    <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-2">3</span>Data Surat</h5>
+                    <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-2" style="margin-right: 5px">3</span>Data Surat</h5>
                     <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Jenis Surat <span class="text-danger">*</span></label>
-                            <select class="form-select" name="id_surat" required>
+                      <div class="col-md-6">
+                            <label for="id_surat" class="form-label d-block mb-2">
+                                Jenis Surat <span class="text-danger">*</span>
+                            </label>
+
+                            <select id="id_surat" class="form-control selectric" name="id_surat" required>
                                 <option value="">— Pilih Jenis Surat —</option>
                                 @foreach($datasurat as $s)
-                                <option value="{{ $s->id_surat }}">{{ $s->nama_surat }}</option>
+                                    <option value="{{ $s->id_surat }}">{{ $s->nama_surat }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -121,7 +121,7 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                             <label class="form-label">Tanggal Pengajuan</label>
                             <input type="text" class="form-control" value="{{ date('d F Y') }}" readonly>
                         </div>
-                        <div class="col-12">
+                        <div class="col-12 mt-3">
                             <label class="form-label">Keperluan / Tujuan Surat <span class="text-danger">*</span></label>
                             <textarea class="form-control" name="keperluan" rows="3" placeholder="Jelaskan keperluan surat ini..." required></textarea>
                         </div>
@@ -130,7 +130,7 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
 
                 {{-- LANGKAH 4: LAMPIRAN --}}
                 <div class="card card-modern p-4 mb-4" id="wrapperLampiran" style="display:none">
-                    <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-2">4</span>Lampiran Berkas</h5>
+                    <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-2" style="margin-right: 5px">4</span>Lampiran Berkas</h5>
                     <div class="mb-2">
                         <label class="form-label">Upload Berkas Pendukung <span class="text-muted fw-normal">(Opsional, maks. 9 file, JPG/PNG, max 5MB/file)</span></label>
                         <input type="file" class="form-control" name="foto[]" id="inputFoto" multiple accept="image/jpg,image/jpeg,image/png">

@@ -20,14 +20,20 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
 @section('content')
 <section class="section">
     <div class="section-header mb-4">
+        <div>
         <h1 class="fw-bold text-dark mb-1">Surat Ditolak — Kepala Dusun</h1>
         <p class="text-muted small mb-0">Daftar pengajuan surat yang telah ditolak di tahap manapun.</p>
+        </div>
     </div>
-
+@if(session('success'))
+    <div id="alertPopup" class="alert alert-success alert-floating">
+        {{ session('success') }}
+    </div>
+@endif
     <div class="section-body">
         <div class="card card-modern">
             <div class="card-header bg-white py-3 border-bottom-0 d-flex justify-content-between align-items-center">
-                <h4 class="fw-bold text-dark m-0"><i class="bi bi-x-circle-fill text-danger me-2"></i>Arsip Surat Ditolak</h4>
+                <h4 class="fw-bold text-dark m-0">Arsip Surat Ditolak</h4>
                 <form class="d-flex" action="{{ route('kadus.suratditolak.index') }}" method="get">
                     <input class="form-control me-2" type="search" name="katakunci" value="{{ Request::get('katakunci') }}" placeholder="Cari NIK / Nama / Surat">
                     <button class="btn btn-primary btn-rounded px-4">Cari</button>
@@ -60,7 +66,7 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                                     </span>
                                 </td>
                                 <td class="text-muted" style="max-width:250px;white-space:normal;font-size:.82rem">{{ $r->keterangan_ditolak ?? '-' }}</td>
-                                <td class="text-muted"><i class="bi bi-calendar-x text-danger me-1"></i>{{ $r->updated_at ?? $r->created_at }}</td>
+                                <td class="text-muted">{{ $r->updated_at ?? $r->created_at }}</td>
                             </tr>
                             @empty
                             <tr>

@@ -19,15 +19,19 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
 
 @section('content')
 <section class="section">
-    <div class="section-header mb-4">
+    <div class="section-header d-flex justify-content-between align-items-center mb-4">
+    <div>
         <h1 class="fw-bold text-dark mb-1">Surat Selesai — Kepala Dusun</h1>
-        <p class="text-muted small mb-0">Arsip surat yang telah selesai diproses dan disahkan Kepala Desa.</p>
+        <p class="text-muted small mb-0">
+            Arsip surat yang telah selesai diproses dan disahkan Kepala Desa.
+        </p>
     </div>
+</div>
 
     <div class="section-body">
         <div class="card card-modern">
             <div class="card-header bg-white py-3 border-bottom-0 d-flex justify-content-between align-items-center">
-                <h4 class="fw-bold text-dark m-0"><i class="bi bi-check-circle-fill text-success me-2"></i>Arsip Surat Selesai</h4>
+                <h4 class="fw-bold text-dark m-0">Arsip Surat Selesai</h4>
                 <form class="d-flex" action="{{ route('kadus.suratselesai.index') }}" method="get">
                     <input class="form-control me-2" type="search" name="katakunci" value="{{ Request::get('katakunci') }}" placeholder="Cari NIK / Nama / Surat">
                     <button class="btn btn-primary btn-rounded px-4">Cari</button>
@@ -39,10 +43,10 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:50px">No</th>
-                                <th>Nama Pemohon</th>
-                                <th>NIK</th>
-                                <th>Jenis Surat</th>
-                                <th>Tanggal Disahkan</th>
+                                <th class="text-center">Nama Pemohon</th>
+                                <th class="text-center">NIK</th>
+                                <th class="text-center">Jenis Surat</th>
+                                <th class="text-center">Tanggal Disahkan</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Download PDF</th>
                             </tr>
@@ -51,10 +55,10 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                             @forelse($datapengajuan as $i => $r)
                             <tr>
                                 <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
-                                <td class="fw-semibold text-dark">{{ $r->nama_lengkap }}</td>
-                                <td><code>{{ $r->nik }}</code></td>
-                                <td><span class="badge bg-light text-dark border fw-medium">{{ $r->nama_surat }}</span></td>
-                                <td class="text-muted"><i class="bi bi-calendar-check text-success me-1"></i>{{ $r->updated_at ?? $r->created_at }}</td>
+                                <td class="fw-semibold text-dark text-center">{{ $r->nama_lengkap }}</td>
+                                <td class="text-center"><code>{{ $r->nik }}</code></td>
+                                <td class="text-center"><span class="badge bg-light text-dark border fw-medium">{{ $r->nama_surat }}</span></td>
+                                <td class="text-muted text-center">{{ $r->updated_at ?? $r->created_at }}</td>
                                 <td class="text-center"><span class="badge bg-success text-white fw-semibold px-3 py-2 rounded-pill">Selesai</span></td>
                                 <td class="text-center">
                                     @if(!empty($r->file_pdf) && $r->file_pdf !== '-')
