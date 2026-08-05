@@ -46,7 +46,7 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
     <div class="section-body">
         <div class="card card-modern">
             <div class="card-header bg-white py-3 border-bottom-0 d-flex align-items-center">
-                <h4 class="fw-bold text-dark m-0"><i class="bi bi-inbox-fill text-primary me-2"></i>Pengajuan Masuk — Status: Disetujui Kepala Dusun</h4>
+                <h4 class="fw-bold text-dark m-0">Pengajuan Masuk — Status: Disetujui Kepala Dusun</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -54,10 +54,10 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:50px">No</th>
-                                <th>Nama Pemohon</th>
-                                <th>NIK</th>
-                                <th>Jenis Surat</th>
-                                <th>Tanggal Pengajuan</th>
+                                <th class="text-center">Nama Pemohon</th>
+                                <th class="text-center">NIK</th>
+                                <th class="text-center">Jenis Surat</th>
+                                <th class="text-center">Tanggal Pengajuan</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center" style="width:190px">Aksi</th>
                             </tr>
@@ -66,10 +66,10 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                             @forelse($datapengajuan as $i => $r)
                             <tr>
                                 <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
-                                <td class="fw-semibold text-dark">{{ $r->nama_lengkap }}</td>
-                                <td><code style="font-size:.8rem">{{ $r->nik }}</code></td>
-                                <td><span class="badge bg-light text-dark border fw-medium" style="font-size:.78rem">{{ $r->nama_surat }}</span></td>
-                                <td class="text-muted">{{ $r->tanggal_diajukan ?? $r->created_at }}</td>
+                                <td class="fw-semibold text-dark text-center">{{ $r->nama_lengkap }}</td>
+                                <td class="text-center"><code style="font-size:.8rem">{{ $r->nik }}</code></td>
+                                <td class="text-center"><span class="badge bg-light text-dark border fw-medium" style="font-size:.78rem">{{ $r->nama_surat }}</span></td>
+                                <td class="text-muted text-center">{{ $r->tanggal_diajukan ?? $r->created_at }}</td>
                                 <td class="text-center">
                                     @if($r->status == 'Disetujui Kepala Dusun')
                                         <span class="badge-kadus">✓ Disetujui Kadus</span>
@@ -78,9 +78,9 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-sm btn-info btn-rounded px-2 me-1" data-bs-toggle="modal" data-bs-target="#modalDetailAdmin-{{ $r->id_pengajuan }}"><i class="bi bi-eye-fill"></i> Detail</button>
-                                    <button class="btn btn-sm btn-success btn-rounded px-2 me-1" data-bs-toggle="modal" data-bs-target="#modalSetujuiAdmin-{{ $r->id_pengajuan }}"><i class="bi bi-check-lg"></i> Setujui</button>
-                                    <button class="btn btn-sm btn-danger btn-rounded px-2" data-bs-toggle="modal" data-bs-target="#modalTolakAdmin-{{ $r->id_pengajuan }}"><i class="bi bi-x-lg"></i> Tolak</button>
+                                    <button class="btn btn-sm btn-info btn-rounded px-2 me-1" data-bs-toggle="modal" data-bs-target="#modalDetailAdmin-{{ $r->id_pengajuan }}"><i class="bi bi-eye-fill"></i> </button>
+                                    <button class="btn btn-sm btn-success btn-rounded px-2 me-1" data-bs-toggle="modal" data-bs-target="#modalSetujuiAdmin-{{ $r->id_pengajuan }}"><i class="bi bi-check-lg"></i> </button>
+                                    <button class="btn btn-sm btn-danger btn-rounded px-2" data-bs-toggle="modal" data-bs-target="#modalTolakAdmin-{{ $r->id_pengajuan }}"><i class="bi bi-x-lg"></i> </button>
                                 </td>
                             </tr>
                             @empty

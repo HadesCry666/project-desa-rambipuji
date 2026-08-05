@@ -45,7 +45,7 @@
 
     <div class="section-body">
         <div class="row justify-content-center">
-            <div class="col-12 col-xl-10">
+            <div class="col-12">
                 <form action="{{ route('pengajuan.tambah.store') }}" method="POST" enctype="multipart/form-data" id="formTambahPengajuan">
                     @csrf
 
