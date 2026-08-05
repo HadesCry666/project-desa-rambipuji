@@ -27,7 +27,11 @@ class StatusDitolakControllerMobile extends Controller
                 'master_pengajuan.updated_at',
             )
             ->where('master_pengajuan.nik', $nik)
-            ->where('master_pengajuan.status', 'Ditolak')
+            ->whereIn('master_pengajuan.status', [
+                'Ditolak Sekdes',
+                'Ditolak RW',
+                'Ditolak',
+            ])
             ->orderBy('master_pengajuan.updated_at', 'desc')
             ->get();
 

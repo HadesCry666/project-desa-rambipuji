@@ -130,12 +130,20 @@
                 <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
                     <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="{{ asset('image/coroseul/flash1.png') }}" alt="Aplikasi Mobile Desa Rambipuji Slide 1">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('image/coroseul/flash2.png') }}" alt="Aplikasi Mobile Desa Rambipuji Slide 2">
-                            </div>
+                            @if(!empty($data->gambar1) && is_array(json_decode($data->gambar1, true)) && count(json_decode($data->gambar1, true)) > 0)
+                                @foreach(json_decode($data->gambar1, true) as $index => $img)
+                                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                        <img src="{{ asset('storage/' . $img) }}" alt="Banner Slide {{ $index + 1 }}" style="max-height: 450px; object-fit: contain;">
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="carousel-item active">
+                                    <img src="{{ asset('image/coroseul/flash1.png') }}" alt="Aplikasi Mobile Desa Rambipuji Slide 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{{ asset('image/coroseul/flash2.png') }}" alt="Aplikasi Mobile Desa Rambipuji Slide 2">
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -324,11 +332,13 @@
                     </div>
                 </div>
                 <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
-                    <?php if (!empty($data['image_description1'])): ?>
-                        <div class="img-wrapper-modern">
+                    <div class="img-wrapper-modern">
+                        @if(!empty($data->image_description1))
                             <img src="{{ asset('storage/' . $data->image_description1) }}" class="image-description1" alt="Visual Profil Desa Rambipuji 1">
-                        </div>
-                    <?php endif; ?>
+                        @else
+                            <img src="{{ asset('image/service/1.png') }}" class="image-description1" alt="Visual Profil Desa Rambipuji 1">
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -339,11 +349,13 @@
         <div class="container">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6" data-aos="fade-right">
-                    <?php if (!empty($data['image_description2'])): ?>
-                        <div class="img-wrapper-modern">
+                    <div class="img-wrapper-modern">
+                        @if(!empty($data->image_description2))
                             <img src="{{ asset('storage/' . $data->image_description2) }}" class="image-description2" alt="Visual Profil Desa Rambipuji 2">
-                        </div>
-                    <?php endif; ?>
+                        @else
+                            <img src="{{ asset('image/service/2.png') }}" class="image-description2" alt="Visual Profil Desa Rambipuji 2">
+                        @endif
+                    </div>
                 </div>
                 <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
                     <div class="content-box">

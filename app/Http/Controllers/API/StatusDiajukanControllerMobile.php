@@ -32,9 +32,8 @@ class StatusDiajukanControllerMobile extends Controller
             ->where('master_pengajuan.nik', $nik)
             ->whereIn('master_pengajuan.status', [
                 'Diajukan',
-                'Disetujui Kepala Dusun',
-                'Disetujui Admin',
-                'Disetujui Sekretaris Desa',
+                'Disetujui RW',
+                'Disetujui Sekdes',
             ])
             ->orderBy('master_pengajuan.created_at', 'desc')
             ->get();

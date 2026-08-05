@@ -36,77 +36,79 @@ class LandingpageController extends Controller
     }
 
     public function update(Request $request)
-{
-    $request->validate([
-        'title' => 'required|string',
-        'description' => 'nullable|string',
-        'subtittle' => 'nullable|string',
-        'section_text' => 'nullable|string',
-        'subtitle_2' => 'nullable|string',
-        'section_second' => 'nullable|string',
-        'about_content' => 'nullable|string',
-        'hero_image.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        'image_description1' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        'image_description2' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        'visi' => 'nullable|string',
-        'misi' => 'nullable|string',
-    ]);
+    {
+        $request->validate([
+            'title' => 'required|string',
+            'description' => 'nullable|string',
+            'subtittle' => 'nullable|string',
+            'section_text' => 'nullable|string',
+            'subtitle_2' => 'nullable|string',
+            'section_second' => 'nullable|string',
+            'about_content' => 'nullable|string',
+            'hero_image' => 'nullable|array',
+            'hero_image.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif,svg|max:10240',
+            'image_description1' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif,svg|max:10240',
+            'image_description2' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif,svg|max:10240',
+            'visi' => 'nullable|string',
+            'misi' => 'nullable|string',
+        ]);
 
-    // Cari data pertama atau buat baru jika tidak ada
-    $content = landing_page::first();
+        // Cari data pertama atau buat baru jika tidak ada
+        $content = landing_page::first();
 
-    if (!$content) {
-        // Jika tidak ada data, buat data baru dengan id = 1
-        $content = new landing_page();
-    }
-
-    // Update teks
-    $content->judul = $request->title;
-    $content->deskripsi1 = $request->description;
-    $content->subtittle = $request->subtittle;
-    $content->section_text = $request->section_text;
-    $content->subtitle_2 = $request->subtitle_2;
-    $content->section_second = $request->section_second;
-    $content->about_us = $request->about_content;
-    $content->visi = $request->visi;
-    $content->misi = $request->misi;
-
-    // Upload hero image jika ada
-    if ($request->hasFile('hero_image')) {
-        // Hapus gambar lama jika ada
-        if ($content->gambar1) {
-            Storage::delete('public/' . $content->gambar1);
+        if (!$content) {
+            $content = new landing_page();
         }
-        $paths = [];
-        foreach ($request->file('hero_image') as $file) {
-            $paths[] = $file->store('landingpage/hero_images', 'public');
-        }
-        $content->gambar1 = json_encode($paths);
-    }
 
-    // Upload image_description1 jika ada
-    if ($request->hasFile('image_description1')) {
-        // Hapus gambar lama jika ada
-        if ($content->image_description1) {
-            Storage::delete('public/' . $content->image_description1);
-        }
-        $content->image_description1 = $request->file('image_description1')->store('landingpage/description_images', 'public');
-    }
+        // Update teks
+        $content->judul = $request->title;
+        $content->deskripsi1 = $request->description;
+        $content->subtittle = $request->subtittle;
+        $content->section_text = $request->section_text;
+        $content->subtitle_2 = $request->subtitle_2;
+        $content->section_second = $request->section_second;
+        $content->about_us = $request->about_content;
+        $content->visi = $request->visi;
+        $content->misi = $request->misi;
 
-    // Upload image_description2 jika ada
-    if ($request->hasFile('image_description2')) {
-        // Hapus gambar lama jika ada
-        if ($content->image_description2) {
-            Storage::delete('public/' . $content->image_description2);
+        // Upload hero image jika ada
+        if ($request->hasFile('hero_image')) {
+            if (!empty($content->gambar1)) {
+                $oldImages = json_decode($content->gambar1, true);
+                if (is_array($oldImages)) {
+                    foreach ($oldImages as $oldImg) {
+                        Storage::disk('public')->delete($oldImg);
+                    }
+                } else {
+                    Storage::disk('public')->delete($content->gambar1);
+                }
+            }
+            $paths = [];
+            foreach ($request->file('hero_image') as $file) {
+                $paths[] = $file->store('landingpage/hero_images', 'public');
+            }
+            $content->gambar1 = json_encode($paths);
         }
-        $content->image_description2 = $request->file('image_description2')->store('landingpage/description_images', 'public');
-    }
+
+        // Upload image_description1 jika ada
+        if ($request->hasFile('image_description1')) {
+            if (!empty($content->image_description1)) {
+                Storage::disk('public')->delete($content->image_description1);
+            }
+            $content->image_description1 = $request->file('image_description1')->store('landingpage/description_images', 'public');
+        }
+
+        // Upload image_description2 jika ada
+        if ($request->hasFile('image_description2')) {
+            if (!empty($content->image_description2)) {
+                Storage::disk('public')->delete($content->image_description2);
+            }
+            $content->image_description2 = $request->file('image_description2')->store('landingpage/description_images', 'public');
+        }
 
         // Simpan perubahan
         $content->save();
 
-    return redirect()->back()->with('success', 'Konten berhasil diperbarui!');
-}
-
-
+        return redirect()->back()->with('success', 'Konten dan foto landing page berhasil diperbarui!');
+    }
 }

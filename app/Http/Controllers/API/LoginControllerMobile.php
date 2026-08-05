@@ -127,7 +127,7 @@ class LoginControllerMobile extends Controller
         if (!$user) {
             return response()->json([
                 'status'  => 'error',
-                'message' => 'Akun tidak terdaftar, silakan melakukan aktivasi terlebih dahulu.',
+                'message' => 'Akun tidak terdaftar, silakan hubungi pihak desa.',
             ], 404);
         }
 
