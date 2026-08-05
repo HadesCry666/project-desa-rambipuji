@@ -16,18 +16,6 @@ use App\Http\Controllers\Admin\SuratDitolakController;
 use App\Http\Controllers\Admin\SuratMasukController;
 use App\Http\Controllers\Admin\SuratSelesaiController;
 use App\Http\Controllers\Admin\TambahPengajuanController;
-
-// RW
-use App\Http\Controllers\RW\DashboardRWController;
-use App\Http\Controllers\RW\SuratMasukRWController;
-use App\Http\Controllers\RW\SuratSelesaiRWController;
-
-// RT
-use App\Http\Controllers\RT\DashboardRTController;
-use App\Http\Controllers\RT\SuratMasukRTController;
-use App\Http\Controllers\RT\SuratDitolakRTController;
-use App\Http\Controllers\RT\SuratSelesaiRTController;
-
 // SEKDES, KADES, KADUS
 use App\Http\Controllers\SekretarisDesa\SekdesDashboardController;
 use App\Http\Controllers\SekretarisDesa\SekdesKartuKeluargaController;
@@ -61,48 +49,6 @@ Route::get('/check-nama-nik', function () {
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'login'])->name('login.proses')->middleware('guest');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
-
-// RT
-Route::middleware(['auth', 'role:3'])->prefix('rt')->group(function () {
-
-    Route::get('/dashboard-rt', [DashboardRTController::class, 'index'])->name('dashboard.rt');
-
-    // SURAT MASUK
-    Route::get('/suratmasuk-rt', [SuratMasukRTController::class, 'index'])->name('rt.suratmasuk.index');
-    Route::post('/suratmasuk-rt/setujui/{id_pengajuan}', [SuratMasukRTController::class, 'setujui'])->name('rt.suratmasuk.setuju');
-    Route::post('/suratmasuk-rt/tolak/{id_pengajuan}', [SuratMasukRTController::class, 'tolak'])->name('rt.suratmasuk.tolak');
-
-    // SURAT SELESAI
-    Route::get('/suratselesai-rt', [SuratSelesaiRTController::class, 'index'])->name('rt.suratselesai.index');
-    Route::get('/suratselesai-rt/{id}', [SuratSelesaiRTController::class, 'show'])->name('rt.suratselesai.show');
-    Route::delete('/suratselesai-rt/{id}', [SuratSelesaiRTController::class, 'destroy'])->name('rt.suratselesai.destroy');
-
-    // SURAT DITOLAK
-    Route::get('/suratditolak-rt', [SuratDitolakRTController::class, 'index'])->name('rt.suratditolak.index');
-    Route::get('/suratditolak-rt/{id}', [SuratDitolakRTController::class, 'show'])->name('rt.suratditolak.show');
-    Route::post('/suratditolak-rt/alasan', [SuratDitolakRTController::class, 'alasanPenolakan'])->name('rt.suratditolak.alasan');
-    Route::delete('/suratditolak-rt/{id}', [SuratDitolakRTController::class, 'destroy'])->name('rt.suratditolak.destroy');
-
-});
-
-
-// RW
-Route::middleware(['auth', 'role:2'])->prefix('rw')->group(function () {
-
-    Route::get('/dashboard-rw', [DashboardRWController::class, 'index'])->name('rw.dashboard');
-
-    // SURAT MASUK
-    Route::get('/suratmasuk-rw', [SuratMasukRWController::class, 'index'])->name('rw.suratmasuk.index');
-    Route::get('/suratmasuk-rw/{id_pengajuan}', [SuratMasukRWController::class, 'show'])->name('rw.suratmasuk.show');
-    Route::post('/suratmasuk-rw/setujui/{id_pengajuan}', [SuratMasukRWController::class, 'setujui'])->name('rw.suratmasuk.setujui');
-    Route::delete('/suratmasuk-rw/{id_pengajuan}', [SuratMasukRWController::class, 'destroy'])->name('rw.suratmasuk.destroy');
-
-    // SURAT SELESAI
-    Route::get('/suratselesai-rw', [SuratSelesaiRWController::class, 'index'])->name('rw.suratselesai.index');
-    Route::get('/suratselesai-rw/{id_pengajuan}', [SuratSelesaiRWController::class, 'show'])->name('rw.suratselesai.show');
-    Route::delete('/suratselesai-rw/{id}', [SuratSelesaiRWController::class, 'destroy'])->name('rw.suratselesai.destroy');
-});
 
 
 // ADMIN
