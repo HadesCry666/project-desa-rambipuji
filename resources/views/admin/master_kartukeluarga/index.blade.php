@@ -27,13 +27,11 @@
             <p class="text-muted small mb-0">Kelola data Kartu Keluarga seluruh warga Desa Rambipuji.</p>
         </div>
     </div>
-    @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show">
+@if(session('success'))
+    <div id="alertPopup" class="alert alert-success alert-floating">
         {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
-    @endif
-
+@endif
     <div class="section-body">
         <div class="row">
             <div class="col-12">
@@ -42,7 +40,7 @@
 
                     <!-- CARD HEADER -->
                     <div class="card-header bg-white py-3 border-bottom-0">
-                      <div class="d-flex justify-content-between w-100 align-items-center gap-2">
+                      <div class="d-flex justify-content-between w-100 align-items-center">
 
                           <!-- KIRI : PENCARIAN -->
                           <form class="d-flex" action="{{ route('kartukeluarga.view') }}" method="get">
@@ -52,10 +50,36 @@
                               <button class="btn btn-primary btn-rounded px-4"><i class="bi bi-search me-1"></i> Cari</button>
                           </form>
 
-                          <!-- KANAN : TOMBOL TAMBAH -->
-                          <button id="btnTambah" type="button" class="btn btn-primary btn-rounded px-4">
-                            <i class="bi bi-plus-circle-fill me-1"></i> Tambah Data
-                          </button>
+                         <div class="d-flex align-items-center gap-3">
+                                <form id="importForm"
+                                    action="{{ route('kartukeluarga.import') }}"
+                                    method="POST"
+                                    class="me-2"
+                                    enctype="multipart/form-data">
+                                    @csrf
+
+                                    <input type="file"
+                                        id="file"
+                                        name="file"
+                                        accept=".xlsx,.xls"
+                                        hidden>
+
+                                    <button type="button"
+                                            id="btnImport"
+                                            class="btn btn-success">
+                                        <i class="bi bi-file-earmark-excel-fill me-1"></i>
+                                        Import Excel
+                                    </button>
+                                </form>
+
+                                <button id="btnTambah"
+                                        type="button"
+                                        class="btn btn-primary btn-rounded px-4 ms-4">
+                                    <i class="bi bi-plus-circle-fill me-1"></i>
+                                    Tambah Data
+                                </button>
+
+                            </div>
 
                       </div>
                   </div>
@@ -101,8 +125,7 @@
                                                     data-desa="{{ $a->desa }}"
                                                     data-kecamatan="{{ $a->kecamatan }}"
                                                     data-kabupaten="{{ $a->kabupaten }}"
-                                                    data-provinsi="{{ $a->provinsi }}"
-                                                    data-tanggal_dibuat="{{ $a->tanggal_dibuat }}">
+                                                    data-provinsi="{{ $a->provinsi }}">
                                                     <i class="fas fa-pencil-alt"></i>
                                                 </button>
 
@@ -309,18 +332,6 @@
 
     </div>
 
-    {{-- TANGGAL --}}
-    <div class="mb-3">
-        <label class="form-label">Tanggal Dibuat</label>
-
-        <input type="date"
-               class="form-control"
-               id="tanggal_dibuat"
-               name="tanggal_dibuat"
-               value="{{ old('tanggal_dibuat') }}"
-               required>
-    </div>
-
 </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -333,38 +344,13 @@
 
 {{-- SCRIPTS --}}
 @push('scripts')
+<script>
+    window.importSuccess = @json(session('success'));
+    window.importWarning = @json(session('warning'));
+    window.importErrors = @json(session('import_errors'));
+</script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/kartukeluarga.js') }}"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Init Bootstrap Tooltips
-    const tooltipEls = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    tooltipEls.forEach(el => new bootstrap.Tooltip(el));
-
-    // SweetAlert confirm delete
-    document.querySelectorAll('.btnDeleteKeluarga').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            const id = this.dataset.id;
-            const nama = this.dataset.nama_lengkap || 'Kepala Keluarga';
-            Swal.fire({
-                title: 'Hapus Kartu Keluarga?',
-                text: 'KK No. ' + id + ' (' + nama + ') beserta seluruh anggotanya akan dihapus!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc3545',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Ya, Hapus!',
-                cancelButtonText: 'Batal',
-                customClass: { popup: 'rounded-4' }
-            }).then(result => {
-                if (result.isConfirmed) {
-                    document.getElementById('formHapus' + id).submit();
-                }
-            });
-        });
-    });
-});
-</script>
 @if ($errors->any())
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -374,5 +360,4 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 @endif
 @endpush
-
 @endsection

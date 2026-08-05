@@ -10,17 +10,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('master_kartukeluargas', function (Blueprint $table) {
-            $table->primary('no_kk', 16);
-            $table->String('no_kk');
-            $table->String('alamat', 50);
+            $table->string('no_kk', 16)->primary();
+            $table->String('alamat', 255);
             $table->String('rt', 3);
             $table->String('rw', 3);
-            $table->String('desa', 30);
-            $table->String('kecamatan', 50);
-            $table->integer('kode_pos');
-            $table->String('kabupaten', 30);
-            $table->String('provinsi', 30);
-            $table->date('tanggal_dibuat');
+            $table->string('desa', 30)->default('Rambipuji');
+            $table->string('kecamatan', 50)->default('Rambipuji');
+            $table->integer('kode_pos')->default(68152);
+            $table->string('kabupaten', 30)->default('Jember');
+            $table->string('provinsi', 30)->default('Jawa Timur');
             $table->timestamps();
 
         });

@@ -32,6 +32,16 @@ $(document).ready(function () {
         });
     });
 
+    $("#btnImport").on("click", function () {
+        $("#file").click();
+    });
+
+    $("#file").on("change", function () {
+        if (this.files.length > 0) {
+            $("#importForm").submit();
+        }
+    });
+
     // ================= TAMBAH DATA =================
     $(document).on("click", "#btnTambah", function (e) {
         e.preventDefault();
@@ -82,7 +92,6 @@ $(document).ready(function () {
         $("#kecamatan").val($btn.attr("data-kecamatan") || $btn.data("kecamatan") || "Rambipuji");
         $("#kabupaten").val($btn.attr("data-kabupaten") || $btn.data("kabupaten") || "Jember");
         $("#provinsi").val($btn.attr("data-provinsi") || $btn.data("provinsi") || "Jawa Timur");
-        $("#tanggal_dibuat").val($btn.attr("data-tanggal_dibuat") || $btn.data("tanggal_dibuat") || "");
 
         $("#modalKeluarga").modal("show");
     });
@@ -104,6 +113,33 @@ $(document).ready(function () {
                 const formCari = document.getElementById("form-cari");
                 if (formCari) formCari.submit();
             }, 500);
+        });
+    }
+
+    if (window.importWarning) {
+        let html = `
+        <div style="text-align:left;max-height:350px;overflow-y:auto">
+            <p><b>${window.importWarning}</b></p>
+            <ul style="padding-left:20px;">
+    `;
+
+        if (window.importErrors && window.importErrors.length > 0) {
+            window.importErrors.forEach(function (error) {
+                html += `<li>${error}</li>`;
+            });
+        }
+
+        html += `
+            </ul>
+        </div>
+    `;
+
+        Swal.fire({
+            icon: "warning",
+            title: "Import Selesai",
+            width: 750,
+            html: html,
+            confirmButtonText: "OK",
         });
     }
 });

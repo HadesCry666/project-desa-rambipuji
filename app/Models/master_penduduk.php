@@ -24,13 +24,8 @@ class master_penduduk extends Model
         'pekerjaan',
         'golongan_darah',
         'status_perkawinan',
-        'tanggal_perkawinan',
         'status_keluarga',
         'kewarganegaraan',
-        'no_paspor',
-        'no_kitap',
-        'nama_ayah',
-        'nama_ibu',
         'no_kk',
 
     ];
