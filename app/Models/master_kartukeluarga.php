@@ -26,7 +26,6 @@ class master_kartukeluarga extends Model
         'kode_pos',
         'kabupaten',
         'provinsi',
-        'tanggal_dibuat',
     ];
 
     public function penduduk() {

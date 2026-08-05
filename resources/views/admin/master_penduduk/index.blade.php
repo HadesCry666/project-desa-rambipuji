@@ -31,10 +31,9 @@
             <p class="text-muted small mb-0">Kelola biodata seluruh warga & anggota keluarga Desa Rambipuji.</p>
         </div>
     </div>
-    @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show">
+   @if(session('success'))
+    <div id="alertPopup" class="alert alert-success alert-floating">
         {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
     @endif
 
@@ -116,13 +115,8 @@
                                                     data-pekerjaan="{{ $a->pekerjaan }}"
                                                     data-golongan_darah="{{ $a->golongan_darah }}"
                                                     data-status_perkawinan="{{ $a->status_perkawinan }}"
-                                                    data-tanggal_perkawinan="{{ $a->tanggal_perkawinan }}"
                                                     data-status_keluarga="{{ $a->status_keluarga }}"
-                                                    data-kewarganegaraan="{{ $a->kewarganegaraan }}"
-                                                    data-no_paspor="{{ $a->no_paspor }}"
-                                                    data-no_kitap="{{ $a->no_kitap }}"
-                                                    data-nama_ayah="{{ $a->nama_ayah }}"
-                                                    data-nama_ibu="{{ $a->nama_ibu }}">
+                                                    data-kewarganegaraan="{{ $a->kewarganegaraan }}">
                                                    <i class="fas fa-pencil-alt me-1"></i> Edit
                                                 </a>
 
@@ -197,7 +191,7 @@
                     <div class="mb-3">
                         <label class="form-label">Jenis Kelamin</label>
                         <select id="jenis_kelamin" class="form-control selectric" name="jenis_kelamin" required>
-                            <option> -- Pilih Kelamin -- </option>
+                            <option value="" selected disabled> -- Pilih Kelamin -- </option>
                             <option>Laki - Laki</option>
                             <option>Perempuan</option>
                         </select>
@@ -218,7 +212,7 @@
                         <div class="col">
                             <label class="form-label">Agama</label>
                             <select class="form-control selectric" name="agama" required>
-                                <option> -- Pilih Agama -- </option>
+                                <option value="" selected disabled> -- Pilih Agama -- </option>
                                 <option>ISLAM</option>
                                 <option>HINDU</option>
                                 <option>KRISTEN</option>
@@ -229,7 +223,7 @@
                         <div class="col">
                             <label class="form-label">Pendidikan</label>
                             <select class="form-control selectric" name="pendidikan" required>
-                                <option> -- Pilih Pendidikan -- </option>
+                                <option value="" selected disabled> -- Pilih Pendidikan -- </option>
                                 <option>TIDAK / BELUM SEKOLAH</option>
                                 <option>BELUM TAMAT SD / SEDERAJAT</option>
                                 <option>TAMAT SD / SEDERAJAT</option>
@@ -252,8 +246,8 @@
                 <div class="mb-3 row">
                     <div class="col">
                         <label class="form-label">Golongan Darah</label>
-                        <select id="golongan_darah" class="form-control selectric" name="golongan_darah"  required>
-                            <option> -- Pilih Golongan Darah -- </option>
+                        <select id="golongan_darah" class="form-control selectric" name="golongan_darah">
+                            <option value="" selected> -- Pilih Golongan Darah -- </option>
                             <option>A</option>
                             <option>B</option>
                             <option>AB</option>
@@ -263,7 +257,7 @@
                     <div class="col">
                         <label class="form-label">Status Perkawinan</label>
                         <select id="status_perkawinan" class="form-control selectric" name="status_perkawinan"  required>
-                            <option> -- Pilih Status -- </option>
+                            <option value="" selected disabled> -- Pilih Status -- </option>
                             <option value="BELUM KAWIN">BELUM KAWIN</option>
                             <option value="KAWIN">KAWIN</option>
                             <option value="CERAI HIDP">CERAI HIDUP</option>
@@ -271,16 +265,12 @@
                           </select>
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Tanggal Perkawinan</label>
-                    <input type="date" class="form-control" name="tanggal_perkawinan">
-                </div>
 
                 <div class="mb-3 row">
                     <div class="col">
                         <label class="form-label">Status Keluarga</label>
                         <select id="status_keluarga" class="form-control selectric" name="status_keluarga"  required>
-                            <option> -- Pilih Status -- </option>
+                            <option value="" selected disabled> -- Pilih Status -- </option>
                             <option value="KEPALA KELUARGA">KEPALA KELUARGA</option>
                             <option>SUAMI</option>
                             <option>ISTRI</option>
@@ -295,33 +285,11 @@
                     <div class="col">
                         <label class="form-label">Kewarganegaraan</label>
                         <select id="kewarganegaraan" class="form-control selectric" name="kewarganegaraan"  required>
-                            <option> -- Pilih Kewarganegaraan -- </option>
+                            <option value="" selected disabled> -- Pilih Kewarganegaraan -- </option>
                             <option value="WNI" >WNI</option>
                             <option value="WNA" >WNA</option>
                           </select>
                     </div>
-                </div>
-                <div class="mb-3 row">
-                    <div class="col">
-                        <label class="form-label">Nomor Paspor</label>
-                      <input type="text" class="form-control" name="no_paspor">
-                    </div>
-                    <div class="col">
-                        <label class="form-label">Nomor KITAP</label>
-                      <input type="text" class="form-control" name="no_kitap">
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                <div class="col">
-                    <label class="form-label">Nama Ayah</label>
-                    <input type="text" class="form-control" name="nama_ayah" required>
-                </div>
-                <div class="col">
-                    <label class="form-label">Nama Ibu</label>
-                    <input type="text" class="form-control" name="nama_ibu" required>
-                </div>
-                    
-
                 </div>
 
                 <div class="modal-footer">

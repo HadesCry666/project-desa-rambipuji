@@ -45,15 +45,10 @@ class PendudukController extends Controller
         'agama' => 'required',
         'pendidikan' => 'required',
         'pekerjaan' => 'required',
-        'golongan_darah' => 'required',
+        'golongan_darah' => 'nullable',
         'status_perkawinan' => 'required',
-        'tanggal_perkawinan' => 'nullable|date',
         'status_keluarga' => 'required',
         'kewarganegaraan' => 'required',
-        'no_paspor' => 'nullable',
-        'no_kitap' => 'nullable',
-        'nama_ayah' => 'required',
-        'nama_ibu' => 'required',
         'no_kk' => 'required|exists:master_kartukeluargas,no_kk',
     ], [
 
@@ -93,13 +88,8 @@ class PendudukController extends Controller
         'pekerjaan' => 'nullable|string|max:50',
         'golongan_darah' => 'nullable|string|max:3',
         'status_perkawinan' => 'nullable|string|max:20',
-        'tanggal_perkawinan' => 'nullable|date',
         'status_keluarga' => 'nullable|string|max:20',
         'kewarganegaraan' => 'nullable|string|max:5',
-        'no_paspor' => 'nullable|string|max:12',
-        'no_kitap' => 'nullable|string|max:12',
-        'nama_ayah' => 'nullable|string|max:50',
-        'nama_ibu' => 'nullable|string|max:50',
         
     ]);
     $no_kk = $pendudukLama->no_kk;
@@ -116,13 +106,8 @@ class PendudukController extends Controller
         'pekerjaan' => $request->pekerjaan,
         'golongan_darah' => $request->golongan_darah,
         'status_perkawinan' => $request->status_perkawinan,
-        'tanggal_perkawinan' => $request->tanggal_perkawinan,
         'status_keluarga' => $request->status_keluarga,
         'kewarganegaraan' => $request->kewarganegaraan,
-        'no_paspor' => $request->no_paspor,
-        'no_kitap' => $request->no_kitap,
-        'nama_ayah' => $request->nama_ayah,
-        'nama_ibu' => $request->nama_ibu,
        
     ]);
 

@@ -115,6 +115,7 @@ Route::middleware(['auth', 'role:1'])->prefix('admin')->group(function () {
     Route::post('master_kartukeluarga/masuk', [KartuKeluargaController::class, 'masuk'])->name('kartukeluarga.masuk');
     Route::put('master_kartukeluarga/{no_kk}', [KartuKeluargaController::class, 'update'])->name('kartukeluarga.update');
     Route::delete('master_kartukeluarga/{no_kk}', [KartuKeluargaController::class, 'delete'])->name('kartukeluarga.delete');
+    Route::post('master_kartukeluarga/import', [KartuKeluargaController::class, 'import'])->name('kartukeluarga.import');
     Route::get('get-data-kk/{no_kk}', [KartuKeluargaController::class, 'getDataKK']);
 
     // MASTER PENDUDUK

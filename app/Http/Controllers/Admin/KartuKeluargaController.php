@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\master_penduduk;
 use App\Models\master_kartukeluarga;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\PendudukImport;
 
 class KartuKeluargaController extends Controller
 {
@@ -33,7 +35,6 @@ class KartuKeluargaController extends Controller
             'master_kartukeluargas.kecamatan',
             'master_kartukeluargas.kabupaten',
             'master_kartukeluargas.provinsi',
-            'master_kartukeluargas.tanggal_dibuat',
             'master_penduduks.nama_lengkap',
             'master_penduduks.nik'
         );
@@ -63,7 +64,6 @@ class KartuKeluargaController extends Controller
             'kode_pos' => 'required|numeric',
             'kabupaten' => 'required',
             'provinsi' => 'required',
-            'tanggal_dibuat' => 'required|date',
             'nik' => 'required|numeric|digits:16|unique:master_penduduks,nik',
             'nama_lengkap' => 'required'
                 ], [
@@ -89,7 +89,6 @@ class KartuKeluargaController extends Controller
             'kode_pos' => $request->kode_pos,
             'kabupaten' => $request->kabupaten,
             'provinsi' => $request->provinsi,
-            'tanggal_dibuat' => $request->tanggal_dibuat
         ]);
 
         // Simpan kepala keluarga
@@ -135,8 +134,7 @@ class KartuKeluargaController extends Controller
             'kabupaten' => 'required',
             'provinsi' => 'required',
             'nik' => 'required|digits:16',
-            'nama_lengkap' => 'required',
-            'tanggal_dibuat' => 'required|date'
+            'nama_lengkap' => 'required'
         ], [
             'no_kk.required' => 'Nomor KK wajib diisi',
             'nik.required' => 'NIK wajib diisi',
@@ -177,8 +175,7 @@ class KartuKeluargaController extends Controller
             'kecamatan' => $request->kecamatan,
             'kode_pos' => $request->kode_pos,
             'kabupaten' => $request->kabupaten,
-            'provinsi' => $request->provinsi,
-            'tanggal_dibuat' => $request->tanggal_dibuat
+            'provinsi' => $request->provinsi
         ]);
 
         // Update semua penduduk
@@ -206,4 +203,22 @@ class KartuKeluargaController extends Controller
         return redirect(url('admin/master_kartukeluarga'))
             ->with('success', 'Data kartu keluarga berhasil dihapus');
     }
+    public function import(Request $request)
+{
+    $import = new PendudukImport();
+
+    Excel::import($import, $request->file('file'));
+
+    $errors = $import->getErrors();
+
+    if (count($errors) > 0) {
+        return back()->with([
+            'warning' => 'Import selesai, tetapi ada beberapa data yang gagal.',
+            'import_errors' => $errors
+        ]);
+    }
+
+    return back()->with('success', 'Semua data berhasil diimport.');
+}
+
 }
