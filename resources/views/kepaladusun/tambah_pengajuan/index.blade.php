@@ -54,7 +54,7 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                             <label class="form-label">Nomor KK <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="inputNoKK" placeholder="Masukkan atau cari Nomor KK..." maxlength="16">
-                                <button class="btn btn-primary" type="button" id="btnCariKK" style="border-radius:0 10px 10px 0!important">
+                                 <button class="btn btn-primary" type="button" id="btnCariKK" style="border-radius:0 10px 10px 0!important">
                                     <i class="bi bi-search me-1"></i>Cari Anggota
                                 </button>
                             </div>

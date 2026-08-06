@@ -1,6 +1,19 @@
 @extends('admin.layout.main')
 @section('title', 'Tambah Pengajuan Surat')
-
+@push('css-lib')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!important}
+.card-modern{border:1px solid #e2e8f0;border-radius:15px;box-shadow:0 4px 16px rgba(0,0,0,.03);background:#fff}
+.btn-rounded{border-radius:30px!important}
+.form-control,.form-select{border-radius:10px!important;border-color:#e2e8f0!important;font-size:.9rem!important}
+.form-control:focus,.form-select:focus{border-color:#0057A6!important;box-shadow:0 0 0 3px rgba(0,87,166,.12)!important}
+.form-label{font-weight:600;font-size:.85rem;color:#374151}
+.step-badge{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:#0057A6;color:#fff;border-radius:50%;font-size:.8rem;font-weight:700;flex-shrink:0}
+.info-readonly{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:10px 14px;font-size:.88rem;color:#374151;min-height:38px}
+</style>
+@endpush
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -8,24 +21,14 @@
     <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <div>
             <h1 class="mb-0 text-primary fw-bold">{{-- <i class="fas fa-paper-plane me-2"></i> --}}Tambah Pengajuan Surat</h1>
-            <p class="text-muted mb-0 mt-1" style="font-size: 13.5px;">Buat pengajuan surat baru secara langsung atas nama warga/penduduk desa.</p>
+            <p class="text-muted small mb-0 mt-1">Buat pengajuan surat baru secara langsung atas nama warga/penduduk desa.</p>
         </div>
-        <div>
-            <a href="{{ url('admin/suratmasuk') }}" class="btn btn-outline-secondary btn-sm px-3 shadow-sm rounded-pill">
-                <i class="fas fa-arrow-left me-1"></i> Kembali ke Surat Masuk
-            </a>
-        </div>
+        
     </div>
 
     @if(session('success'))
-    <div id="alertPopup" class="alert alert-success alert-floating shadow-lg border-0 rounded-4">
-        <div class="d-flex align-items-center">
-            <i class="fas fa-check-circle fa-2x me-3 text-success"></i>
-            <div>
-                <h6 class="mb-0 fw-bold">Berhasil!</h6>
-                <small>{{ session('success') }}</small>
-            </div>
-        </div>
+    <div id="alertPopup" class="alert alert-success alert-floating">
+        {{ session('success') }}
     </div>
     @endif
 
@@ -50,35 +53,27 @@
                     @csrf
 
                     <!-- STEP 1: Data Penduduk & Jenis Surat -->
-                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
-                        <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
-                            <span class="fw-bold text-dark fs-6 d-flex align-items-center">
-                                <span class="badge bg-primary rounded-circle me-2 p-2" style="width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center;">1</span>
-                                Data Penduduk & Jenis Surat
-                            </span>
-                            <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill">Langkah 1 dari 2</span>
-                        </div>
-
-                        <div class="card-body p-4">
-                            <div class="row g-4">
+                     <div class="card card-modern p-4 mb-4">
+                                 <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-4" style="margin-right: 5px">1</span>Data Penduduk & Jenis Surat</h5>
+                            <div class="row g-3">
                                 {{-- NIK / NAMA PENDUDUK --}}
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label fw-bold text-dark mb-2">
+                                <div class="col-md-8">
+                                    <label class="form-label">
                                         <i class="fas fa-id-card text-primary me-1"></i> NIK & Nama Penduduk <span class="text-danger">*</span>
                                     </label>
                                     <select class="form-control select2 w-100" name="nik" id="selectNik" required style="width: 100% !important;">
                                         <option value="">-- Pilih NIK / Nama Penduduk --</option>
                                         @foreach($datapenduduk as $p)
                                             <option value="{{ $p->nik }}" {{ old('nik') == $p->nik ? 'selected' : '' }}>
-                                                {{ $p->nik }} - {{ $p->nama_lengkap }} (RW {{ $p->rw ?? '-' }})
+                                                {{ $p->nik }} - {{ $p->nama_lengkap }}
                                             </option>
                                         @endforeach
                                     </select>
-                                    <small class="text-muted mt-1 d-block"><i class="fas fa-info-circle me-1"></i>Ketik NIK atau Nama warga untuk memfilter secara otomatis.</small>
+                                    <small class="text-muted mt-1 d-block"><i class="fas fa-info-circle me-1"></i> Ketik NIK atau Nama warga untuk memfilter secara otomatis.</small>
                                 </div>
 
                                 {{-- JENIS SURAT --}}
-                                <div class="col-12 col-md-6">
+                                <div class="col-md-4">
                                     <label class="form-label fw-bold text-dark mb-2">
                                         <i class="fas fa-file-alt text-primary me-1"></i> Jenis Surat <span class="text-danger">*</span>
                                     </label>
@@ -90,24 +85,15 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    <small class="text-muted mt-1 d-block"><i class="fas fa-info-circle me-1"></i>Pilih jenis surat permohonan yang diajukan.</small>
+                                    <small class="text-muted mt-1 d-block"><i class="fas fa-info-circle me-1"></i> Pilih jenis surat permohonan yang diajukan.</small>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
                     <!-- STEP 2: Detail Pengajuan & Lampiran -->
-                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
-                        <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
-                            <span class="fw-bold text-dark fs-6 d-flex align-items-center">
-                                <span class="badge bg-primary rounded-circle me-2 p-2" style="width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center;">2</span>
-                                Detail Pengajuan & Lampiran
-                            </span>
-                            <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill">Langkah 2 dari 2</span>
-                        </div>
-
-                        <div class="card-body p-4">
-                            <div class="row g-4">
+                    <div class="card card-modern p-4 mb-4" id="wrapperDataPemohon">
+                         <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-2" style="margin-right: 5px">2</span>Detail Pengajuan & Lampiran</h5>
+                            <div class="row g-3">
                                 {{-- KEPERLUAN --}}
                                 <div class="col-12">
                                     <label class="form-label fw-bold text-dark mb-1">Keperluan Pengajuan</label>
@@ -116,7 +102,7 @@
                                 </div>
 
                                 {{-- STATUS AWAL (RADIO CARD SELECTION) --}}
-                                <div class="col-12">
+                                <div class="col-12 mt-3">
                                     <label class="form-label fw-bold text-dark mb-2">Status Awal Pengajuan <span class="text-danger">*</span></label>
                                     
                                     <div class="row g-3">
@@ -151,7 +137,7 @@
                                 </div>
 
                                 {{-- UPLOAD FOTO BUKTI / LAMPIRAN (DRAG & DROP STYLE BOX) --}}
-                                <div class="col-12">
+                                <div class="col-12 mt-3">
                                     <label class="form-label fw-bold text-dark mb-1">
                                         Lampiran / Dokumen Pendukung <span class="text-muted fw-normal">(Opsional, Maks. 8 Gambar)</span>
                                     </label>
@@ -190,42 +176,27 @@
 </section>
 
 <style>
-/* Floating Alert */
-.alert-floating {
-    position: fixed;
-    top: 25px;
-    right: -450px;
-    z-index: 9999;
-    min-width: 350px;
-    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-.alert-floating.show {
-    right: 25px;
-}
-
-/* Select2 Custom Fixes */
 .select2-container {
     width: 100% !important;
-    display: block !important;
 }
+
 .select2-container--default .select2-selection--single {
-    height: 44px !important;
-    border-radius: 10px !important;
-    border: 1px solid #cbd5e1 !important;
-    padding: 6px 12px !important;
-    background-color: #ffffff !important;
-    display: flex !important;
-    align-items: center !important;
+    height: 52px !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 12px !important;
+    background: #fff !important;
 }
+
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 28px !important;
-    color: #0f172a !important;
-    font-weight: 500 !important;
-    padding-left: 0 !important;
+    line-height: 50px !important;
+    padding-left: 16px !important;
+    color: #6b7280 !important;
+    font-size: 15px;
 }
+
 .select2-container--default .select2-selection--single .select2-selection__arrow {
-    height: 42px !important;
-    right: 10px !important;
+    height: 50px !important;
+    right: 12px !important;
 }
 
 /* Card Option Styling */
