@@ -108,6 +108,7 @@ Route::middleware(['auth', 'role:1'])->prefix('admin')->group(function () {
 
     // SURAT SELESAI
     Route::get('/suratselesai', [SuratSelesaiController::class, 'index'])->name('suratselesai.index');
+    Route::get('/suratselesai/{id_pengajuan}/cetak', [SuratSelesaiController::class, 'cetakPdf'])->name('suratselesai.cetak');
 
     // MASTER SURAT
     Route::get('/mastersurat', [SuratController::class, 'index'])->name('mastersurat.index');

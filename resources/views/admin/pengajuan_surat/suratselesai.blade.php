@@ -51,12 +51,21 @@
                                         <td>{{ $a->tanggal_diajukan }}</td>
                                         <td>{{ $a->rw }}</td>
                                         <td>
-                                            <button type="button"
-                                                class="btn btn-success btn-sm"
-                                                data-toggle="modal"
-                                                data-target="#modalDetail-{{ $a->id_pengajuan }}">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
+                                            <div class="btn-group" role="group">
+                                                <button type="button"
+                                                    class="btn btn-success btn-sm me-1"
+                                                    data-toggle="modal"
+                                                    data-target="#modalDetail-{{ $a->id_pengajuan }}"
+                                                    title="Lihat Detail">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <a href="{{ route('suratselesai.cetak', $a->id_pengajuan) }}"
+                                                   target="_blank"
+                                                   class="btn btn-danger btn-sm"
+                                                   title="Cetak Surat PDF">
+                                                    <i class="fas fa-file-pdf"></i> Cetak PDF
+                                                </a>
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
@@ -159,6 +168,13 @@
                     @endfor
                 </div>
 
+            </div>
+
+            <div class="modal-footer">
+                <a href="{{ route('suratselesai.cetak', $a->id_pengajuan) }}" target="_blank" class="btn btn-danger">
+                    <i class="fas fa-file-pdf"></i> Cetak PDF Surat
+                </a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
             </div>
 
         </div>
