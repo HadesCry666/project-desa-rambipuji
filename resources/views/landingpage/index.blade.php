@@ -16,6 +16,7 @@
     
     <!-- Custom Landing Page CSS -->
     <link rel="stylesheet" href="{{ asset('css/landingpage.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/theme-switcher.css') }}">
     
     <!-- AOS Scroll Animation CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -43,6 +44,11 @@
                         <li><a href="#hero-section" class="active">Beranda</a></li>
                         <li><a href="#section-1-first">Layanan</a></li>
                         <li><a href="#footer-section">Tentang Kami</a></li>
+                        <li>
+                            <button type="button" class="theme-switcher-toggle" title="Pilih Warna Tema (RGB)">
+                                🎨
+                            </button>
+                        </li>
                         <li><a href="{{ route('login') }}" class="nav-login">Login</a></li>
                     </ul>
                 </nav>
@@ -516,6 +522,9 @@
     <!-- Custom Landing Page JS -->
     <script type="text/javascript" src="{{ asset('js/landingpage.js') }}"></script>
     
+    @include('admin.layout.theme_switcher')
+    <script src="{{ asset('js/theme-switcher.js') }}"></script>
+
     <!-- AOS Animation JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>

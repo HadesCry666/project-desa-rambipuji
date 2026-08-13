@@ -26,6 +26,7 @@
   {{-- Template CSS --}}
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/theme-switcher.css') }}">
 
   <!-- Custom Modern White Admin Theme Stylesheet -->
   <style>
@@ -132,9 +133,9 @@
       }
 
       body:not(.sidebar-mini) .main-sidebar .sidebar-menu > li.active > a {
-        background: linear-gradient(135deg, #0057A6 0%, #004080 100%) !important;
+        background: var(--grad-primary, linear-gradient(135deg, #0057A6 0%, #004080 100%)) !important;
         color: #ffffff !important;
-        box-shadow: 0 4px 14px rgba(0, 87, 166, 0.22) !important;
+        box-shadow: var(--shadow-glow-theme, 0 4px 14px rgba(0, 87, 166, 0.22)) !important;
       }
 
       body:not(.sidebar-mini) .main-sidebar .sidebar-menu > li.active > a i {
@@ -250,9 +251,9 @@
       }
 
       body.sidebar-mini .main-sidebar .sidebar-menu > li.active > a {
-        background: linear-gradient(135deg, #0057A6 0%, #004080 100%) !important;
+        background: var(--grad-primary, linear-gradient(135deg, #0057A6 0%, #004080 100%)) !important;
         color: #ffffff !important;
-        box-shadow: 0 4px 12px rgba(0, 87, 166, 0.25) !important;
+        box-shadow: var(--shadow-glow-theme, 0 4px 12px rgba(0, 87, 166, 0.25)) !important;
       }
 
       body.sidebar-mini .main-sidebar .sidebar-menu > li.active > a i {
@@ -641,6 +642,9 @@
   <script src="{{ asset('assets/js/scripts.js') }}"></script>
   <script src="{{ asset('assets/js/custom.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  @include('admin.layout.theme_switcher')
+  <script src="{{ asset('js/theme-switcher.js') }}"></script>
 
   @stack('scripts')
 </body>

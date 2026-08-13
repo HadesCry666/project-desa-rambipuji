@@ -6,12 +6,15 @@
 
 :root {
   /* Color Palette - Smart Village 2026 */
-  --primary-green: #16A34A;
-  --primary-green-hover: #15803D;
-  --primary-green-light: #DCFCE7;
-  --primary-blue: #0EA5E9;
-  --primary-blue-hover: #0284C7;
-  --primary-blue-light: #E0F2FE;
+  --primary: #16A34A;
+  --primary-hover: #15803D;
+  --primary-light: #DCFCE7;
+  --primary-green: var(--primary, #16A34A);
+  --primary-green-hover: var(--primary-hover, #15803D);
+  --primary-green-light: var(--primary-light, #DCFCE7);
+  --primary-blue: var(--primary, #0EA5E9);
+  --primary-blue-hover: var(--primary-hover, #0284C7);
+  --primary-blue-light: var(--primary-light, #E0F2FE);
   --accent-navy: #0F172A;
   --accent-slate: #1E293B;
   --accent-cyan: #06B6D4;
@@ -23,12 +26,12 @@
   --border-color: #E2E8F0;
   
   /* Gradients */
-  --grad-hero: linear-gradient(135deg, #065F46 0%, #0284C7 50%, #0F172A 100%);
-  --grad-primary: linear-gradient(135deg, #16A34A 0%, #0EA5E9 100%);
-  --grad-green: linear-gradient(135deg, #16A34A 0%, #059669 100%);
-  --grad-blue: linear-gradient(135deg, #0EA5E9 0%, #2563EB 100%);
+  --grad-hero: linear-gradient(135deg, var(--primary-hover, #065F46) 0%, var(--primary, #0284C7) 50%, #0F172A 100%);
+  --grad-primary: linear-gradient(135deg, var(--primary, #16A34A) 0%, var(--primary-hover, #0EA5E9) 100%);
+  --grad-green: linear-gradient(135deg, var(--primary, #16A34A) 0%, var(--primary-hover, #059669) 100%);
+  --grad-blue: linear-gradient(135deg, var(--primary, #0EA5E9) 0%, var(--primary-hover, #2563EB) 100%);
   --grad-card: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
-  --grad-accent: linear-gradient(135deg, #F0FDF4 0%, #E0F2FE 100%);
+  --grad-accent: linear-gradient(135deg, var(--primary-light, #F0FDF4) 0%, #E0F2FE 100%);
 
   /* Shadows */
   --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);

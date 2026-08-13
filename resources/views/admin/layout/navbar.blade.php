@@ -10,7 +10,12 @@
     </ul>
   </form>
 
-  <ul class="navbar-nav navbar-right">
+  <ul class="navbar-nav navbar-right d-flex align-items-center">
+    <li class="nav-item mr-3">
+      <button type="button" class="theme-switcher-toggle" title="Pilih Warna Tema (RGB)">
+        <i class="fas fa-palette"></i>
+      </button>
+    </li>
     <li class="dropdown">
       <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
         <div class="user-avatar-badge">
@@ -46,7 +51,7 @@
     height: 36px;
     border-radius: 50%;
     background: #ffffff;
-    color: #0057A6;
+    color: var(--primary, #0057A6);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -57,6 +62,6 @@
     transition: color 0.2s;
   }
   .sidebar-toggle-btn:hover {
-    color: #0057A6 !important;
+    color: var(--primary, #0057A6) !important;
   }
 </style>

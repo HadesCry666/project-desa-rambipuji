@@ -1,0 +1,275 @@
+/* ==========================================================================
+   DESA RAMBIPUJI - THEME SWITCHER MODAL & RGB SLIDER CSS (2026)
+   ========================================================================== */
+
+/* Theme Switcher Toggle Button in Navbar */
+.theme-switcher-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--primary-light, #f0f7ff);
+    color: var(--primary, #0057A6);
+    border: 1px solid var(--primary-border-rgba, rgba(0, 87, 166, 0.2));
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.theme-switcher-toggle:hover {
+    transform: rotate(30deg) scale(1.08);
+    background: var(--primary, #0057A6);
+    color: #ffffff;
+    box-shadow: var(--shadow-glow-theme, 0 6px 16px rgba(0, 87, 166, 0.3));
+}
+
+.theme-switcher-toggle i,
+.theme-switcher-toggle svg {
+    font-size: 16px;
+}
+
+/* Theme Switcher Popover Modal */
+.theme-switcher-modal {
+    position: fixed;
+    top: 75px;
+    right: 25px;
+    width: 320px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(226, 232, 240, 0.8);
+    z-index: 9999;
+    padding: 22px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px) scale(0.96);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-switcher-modal.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+/* Modal Header */
+.theme-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.theme-modal-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-modal-close {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: #64748b;
+    transition: all 0.2s ease;
+}
+
+.theme-modal-close:hover {
+    background: #fee2e2;
+    color: #ef4444;
+    border-color: #fca5a5;
+}
+
+/* Color Preview & Input Section */
+.theme-preview-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.theme-color-preview-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 2px solid #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba(0,0,0,0.1);
+    background-color: var(--primary, #0057A6);
+    flex-shrink: 0;
+    transition: background-color 0.2s ease;
+}
+
+.theme-hex-input-group {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 4px 8px;
+}
+
+.theme-hex-input-group span {
+    font-weight: 700;
+    color: #64748b;
+    font-size: 0.85rem;
+    padding-right: 4px;
+}
+
+.theme-hex-text-input {
+    border: none;
+    background: transparent;
+    width: 100%;
+    font-family: monospace;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #0f172a;
+    outline: none;
+    text-transform: uppercase;
+}
+
+.theme-color-native-input {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: transparent;
+    padding: 0;
+}
+
+.theme-color-native-input::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.theme-color-native-input::-webkit-color-swatch {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+/* RGB Rainbow Hue Slider - Match exact user upload design */
+.theme-slider-container {
+    margin-bottom: 20px;
+}
+
+.theme-slider-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.theme-hue-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 12px;
+    border-radius: 10px;
+    background: linear-gradient(
+        to right,
+        #ff0000 0%,
+        #ffff00 17%,
+        #00ff00 33%,
+        #00ffff 50%,
+        #0000ff 67%,
+        #ff00ff 83%,
+        #ff0000 100%
+    );
+    outline: none;
+    cursor: pointer;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Slider Thumb Styling */
+.theme-hue-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 3px solid var(--primary, #0057A6);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.theme-hue-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+}
+
+.theme-hue-slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 3px solid var(--primary, #0057A6);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+/* Preset Swatches Grid */
+.theme-swatches-section {
+    margin-bottom: 16px;
+}
+
+.theme-swatches-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+}
+
+.theme-swatch-btn {
+    height: 32px;
+    border-radius: 10px;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+}
+
+.theme-swatch-btn:hover {
+    transform: scale(1.18);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 2;
+}
+
+/* Modal Footer / Reset Button */
+.theme-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.theme-reset-btn {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #64748b;
+    background: #f1f5f9;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.theme-reset-btn:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}

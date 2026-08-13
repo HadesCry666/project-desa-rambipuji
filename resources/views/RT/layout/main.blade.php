@@ -23,6 +23,7 @@
   {{-- Template CSS --}}
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/theme-switcher.css') }}">
 
   {{-- Slot tambahan di <head> jika perlu --}}
   @stack('head')
@@ -142,6 +143,10 @@
   <script src="{{ asset('assets/js/scripts.js') }}"></script>
   <script src="{{ asset('assets/js/custom.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  @include('admin.layout.theme_switcher')
+  <script src="{{ asset('js/theme-switcher.js') }}"></script>
+
   <style>
 @keyframes slideInRight {
   from {
