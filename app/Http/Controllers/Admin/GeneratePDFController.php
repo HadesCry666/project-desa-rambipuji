@@ -26,7 +26,29 @@ public function generateAndStorePdf($id_pengajuan)
         return response()->json(['success' => false, 'message' => "Data surat tidak ditemukan."], 404);
     }
 
-    $viewName = "generate." . strtolower(str_replace(' ', '', $surat->nama_surat));
+    $cleanName = strtolower(str_replace(' ', '', $surat->nama_surat));
+    $viewName = "generate." . $cleanName;
+
+    if (!view()->exists($viewName)) {
+        if (str_contains($cleanName, 'sktm') || str_contains($cleanName, 'tidakmampu') || str_contains($cleanName, 'usaha') || str_contains($cleanName, 'sku')) {
+            $viewName = 'generate.sktm';
+        } elseif (str_contains($cleanName, 'kelahiran')) {
+            $viewName = 'generate.aktakelahiran';
+        } elseif (str_contains($cleanName, 'kematian')) {
+            $viewName = 'generate.aktakematian';
+        } elseif (str_contains($cleanName, 'perkawinan') || str_contains($cleanName, 'nikah')) {
+            $viewName = 'generate.aktaperkawinan';
+        } elseif (str_contains($cleanName, 'kartukeluarga') || str_contains($cleanName, 'kk')) {
+            $viewName = 'generate.kartukeluarga';
+        } elseif (str_contains($cleanName, 'ktp') || str_contains($cleanName, 'skck') || str_contains($cleanName, 'domisili')) {
+            $viewName = 'generate.ktp';
+        } elseif (str_contains($cleanName, 'miskin')) {
+            $viewName = 'generate.pernyataanmiskin';
+        } elseif (str_contains($cleanName, 'pindah')) {
+            $viewName = 'generate.pindahpenduduk';
+        }
+    }
+
     if (!view()->exists($viewName)) {
         return response()->json(['success' => false, 'message' => "Template surat untuk '{$surat->nama_surat}' tidak ditemukan."], 404);
     }

@@ -34,7 +34,7 @@
                     <img src="{{ asset('image/logo/logo.png') }}" alt="Logo Desa Rambipuji" class="logo-img">
                     <div class="logo-text">
                         <span class="logo-name">Desa Rambipuji</span>
-                        <span class="logo-sub">Kabupaten Jember</span>
+                        <span class="logo-sub">Kabupaten~ Jember</span>
                     </div>
                 </a>
 
