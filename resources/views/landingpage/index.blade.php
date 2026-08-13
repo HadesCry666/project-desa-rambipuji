@@ -34,7 +34,7 @@
                     <img src="{{ asset('image/logo/logo.png') }}" alt="Logo Desa Rambipuji" class="logo-img">
                     <div class="logo-text">
                         <span class="logo-name">Desa Rambipuji</span>
-                        <span class="logo-sub">Smart Village Jember</span>
+                        <span class="logo-sub">Kabupaten Jember</span>
                     </div>
                 </a>
 
@@ -44,11 +44,6 @@
                         <li><a href="#hero-section" class="active">Beranda</a></li>
                         <li><a href="#section-1-first">Layanan</a></li>
                         <li><a href="#footer-section">Tentang Kami</a></li>
-                        <li>
-                            <button type="button" class="theme-switcher-toggle" title="Pilih Warna Tema (RGB)">
-                                🎨
-                            </button>
-                        </li>
                         <li><a href="{{ route('login') }}" class="nav-login">Login</a></li>
                     </ul>
                 </nav>

@@ -11,11 +11,6 @@
   </form>
 
   <ul class="navbar-nav navbar-right d-flex align-items-center">
-    <li class="nav-item mr-3">
-      <button type="button" class="theme-switcher-toggle" title="Pilih Warna Tema (RGB)">
-        <i class="fas fa-palette"></i>
-      </button>
-    </li>
     <li class="dropdown">
       <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
         <div class="user-avatar-badge">

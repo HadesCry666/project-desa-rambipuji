@@ -8,11 +8,6 @@
       
         </form>
         <ul class="navbar-nav navbar-right d-flex align-items-center">
-          <li class="nav-item mr-3">
-            <button type="button" class="theme-switcher-toggle" title="Pilih Warna Tema (RGB)">
-              <i class="fas fa-palette"></i>
-            </button>
-          </li>
           <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
             {{-- <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle mr-1"> --}}
             <div class="d-sm-none d-lg-inline-block">

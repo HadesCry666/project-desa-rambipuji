@@ -1,56 +1,64 @@
 /* ==========================================================================
-   DESA RAMBIPUJI - THEME SWITCHER MODAL & RGB SLIDER CSS (2026)
+   DESA RAMBIPUJI - THEME SWITCHER FLOATING FAB & RGB SLIDER CSS (2026)
    ========================================================================== */
 
-/* Theme Switcher Toggle Button in Navbar */
-.theme-switcher-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: var(--primary-light, #f0f7ff);
-    color: var(--primary, #0057A6);
-    border: 1px solid var(--primary-border-rgba, rgba(0, 87, 166, 0.2));
-    cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+/* Floating Theme Switcher Button (Fixed Bottom-Right Position) */
+.theme-floating-fab {
+    position: fixed !important;
+    bottom: 25px !important;
+    right: 25px !important;
+    top: auto !important;
+    left: auto !important;
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    background: var(--primary, #0057A6) !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: var(--shadow-glow-theme, 0 8px 24px rgba(0, 87, 166, 0.4)), 0 6px 16px rgba(15, 23, 42, 0.18) !important;
+    cursor: pointer !important;
+    z-index: 9998 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }
 
-.theme-switcher-toggle:hover {
-    transform: rotate(30deg) scale(1.08);
-    background: var(--primary, #0057A6);
-    color: #ffffff;
-    box-shadow: var(--shadow-glow-theme, 0 6px 16px rgba(0, 87, 166, 0.3));
+.theme-floating-fab:hover {
+    transform: scale(1.12) rotate(15deg) !important;
+    box-shadow: var(--shadow-glow-theme, 0 12px 30px rgba(0, 87, 166, 0.55)), 0 8px 20px rgba(15, 23, 42, 0.25) !important;
+    background: var(--primary-hover, #004080) !important;
+    color: #ffffff !important;
 }
 
-.theme-switcher-toggle i,
-.theme-switcher-toggle svg {
-    font-size: 16px;
+.theme-floating-fab svg {
+    color: #ffffff !important;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
 }
 
-/* Theme Switcher Popover Modal */
+/* Theme Switcher Popover Modal (Positioned above Floating FAB) */
 .theme-switcher-modal {
-    position: fixed;
-    top: 75px;
-    right: 25px;
-    width: 320px;
-    background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(226, 232, 240, 0.8);
-    z-index: 9999;
-    padding: 22px;
+    position: fixed !important;
+    bottom: 85px !important;
+    right: 25px !important;
+    top: auto !important;
+    left: auto !important;
+    width: 320px !important;
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    box-shadow: 0 15px 45px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(226, 232, 240, 0.8) !important;
+    z-index: 9999 !important;
+    padding: 22px !important;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-12px) scale(0.96);
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: translateY(14px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }
 
 .theme-switcher-modal.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) scale(1);
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) scale(1) !important;
 }
 
 /* Modal Header */
@@ -161,7 +169,7 @@
     border-radius: 8px;
 }
 
-/* RGB Rainbow Hue Slider - Match exact user upload design */
+/* RGB Rainbow Hue Slider */
 .theme-slider-container {
     margin-bottom: 20px;
 }

@@ -1,3 +1,14 @@
+<!-- Floating Theme Switcher Button (Bottom Right) -->
+<button type="button" class="theme-switcher-toggle theme-floating-fab" title="Pilih Warna Tema (RGB)" aria-label="Pilih Warna Tema">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+        <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+        <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+        <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.92 0 1.7-.71 1.7-1.63 0-.44-.18-.85-.46-1.16-.27-.31-.44-.72-.44-1.21 0-.92.78-1.7 1.7-1.7h2.2c3.04 0 5.5-2.46 5.5-5.5 0-4.97-4.48-8.8-9.7-8.8Z"/>
+    </svg>
+</button>
+
 <!-- Theme Switcher Popover Modal Component -->
 <div class="theme-switcher-modal" id="themeSwitcherModal">
     <div class="theme-modal-header">
