@@ -9,49 +9,13 @@
             margin: 40px;
         }
     
-        .header-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-            position: relative;
-        }
-    
-        .logo-kiri {
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-    
-        .logo {
-         width: 250px; 
-         height: auto;
-         margin-top: -40px;
-        }
-
-        .header-text {
-            text-align: center;
-            width: 100%;
-        }
-    
-        .header-text h2, .header-text h3, .header-text p {
-            margin: 2px;
-        }
-
-       .header-text h2 {
-            font-size: 20px;
-        }
-        .header-text h3 {
-            font-size: 18px;
-        }
-    
         .judul {
-        text-align: center;
-        margin-top: 20px;
-        margin-bottom: 10px;
-        font-weight: bold;
-        text-decoration: underline;
-        font-size: 15px;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-decoration: underline;
+            font-size: 15px;
         }
     
         .nomor {
@@ -81,43 +45,16 @@
         .clear {
             clear: both;
         }
-    
-        .stempel {
-            margin-top: 80px;
-            text-align: center;
-        }
-    
-        .kip {
-            margin-top: 50px;
-            text-align: left;
-        }
-    
-        img.kip-img {
-            width: 300px;
-            margin-top: 10px;
-        }
     </style>
-    
 </head>
 <body>
-    <div class="header-wrapper">
-        <div class="logo-kiri">
-            <img src="{{ public_path('storage/logo/logo.png') }}" alt="Logo Desa" class="logo">
-        </div>
-        <div class="header-text">
-            <h3>PEMERINTAH KABUPATEN LUMAJANG</h3>
-            <h2>KECAMATAN KEDUNGJAJANG</h2>
-            <h2>DESA WONOREJO</h2>
-            <p> Jl. Raya Lumajang-Jember - Lumajang  67358 </p>
-        </div>
-    </div>
-    <hr> 
+    @include('generate.partials.kop') 
 
     <div class="judul">SURAT KETERANGAN TIDAK MAMPU</div>
     <div class="nomor">Nomor: 470/ ____ /2025</div>
 
     <div class="isi">
-        Yang bertanda tangan di bawah ini Kepala Desa Wonorejo Kecamatan Kedungjajang Kabupaten LUMAJANG menerangkan dengan sebenarnya bahwa:
+        Yang bertanda tangan di bawah ini Kepala Desa Rambipuji Kecamatan Rambipuji Kabupaten JEMBER menerangkan dengan sebenarnya bahwa:
         <br><br>
         <table style="margin-left: 30px;">
             <tr>
@@ -162,9 +99,9 @@
 
     <div class="ttd">
         <div class="kanan">
-            Wonorejo, {{ $data->updated_at }}<br>
-            Kepala Desa Wonorejo<br><br><br><br>
-            <b><u>Bahrul Rozi</u></b>
+            Rambipuji, {{ \Carbon\Carbon::parse($data->updated_at)->translatedFormat('d F Y') }}<br>
+            Kepala Desa Rambipuji<br><br><br><br>
+            <b><u>Dwi Diyah Setyorini, S.I.Kom</u></b>
         </div>
         <div class="clear"></div>
     </div>

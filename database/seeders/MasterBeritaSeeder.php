@@ -27,7 +27,7 @@ class MasterBeritaSeeder extends Seeder
             ],
             [
                 'id_berita' => 2,
-                'judul' => 'Peringatan Dini Cuaca Ekstrem Wilayah Lumajang',
+                'judul' => 'Peringatan Dini Cuaca Ekstrem Wilayah Jember',
                 'deskripsi' => 'Dihimbau kepada seluruh warga untuk waspada terhadap potensi hujan lebat disertai angin kencang dalam tiga hari ke depan.',
                 'nik' => '3508164711850002',
                 'created_at' => now(),

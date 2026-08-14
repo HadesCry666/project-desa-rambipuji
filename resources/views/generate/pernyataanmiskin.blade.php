@@ -9,43 +9,6 @@
             margin: 40px;
         }
     
-        .header-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-            position: relative;
-        }
-    
-        .logo-kiri {
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-    
-        .logo {
-         width: 250px; 
-         height: auto;
-         margin-top: -40px;
-        }
-
-        .header-text {
-            text-align: center;
-            width: 100%;
-        }
-    
-        .header-text h2, .header-text h3, .header-text p {
-            margin: 2px;
-        }
-
-        .header-text h2 {
-          font-size: 18px;
-        }
-
-        .header-text h3 {
-        font-size: 16px;
-        }
-    
     .institution {
       text-align: center;
       font-weight: bold;
@@ -91,24 +54,13 @@
   </style>
 </head>
 <body>
-  <div class="header-wrapper">
-    <div class="logo-kiri">
-        <img src="{{ public_path('storage/logo/logo.png') }}" alt="Logo Desa" class="logo">
-    </div>
-    <div class="header-text">
-        <h3>PEMERINTAH KABUPATEN LUMAJANG</h3>
-        <h2>KECAMATAN KEDUNGJAJANG</h2>
-        <h2>DESA WONOREJO</h2>
-        <p> Jl. Raya Lumajang-Jember - Lumajang  67358 </p>
-    </div>
-</div>
-<hr>    
+  @include('generate.partials.kop')
     
     <div class="title">SURAT KETERANGAN MISKIN</div>
     <div class="number">Nomor: ___ / ___ / 2020</div>
 
     <div class="content">
-      Desa Wonorejo Kecamatan Kedungjajang Kabupaten LUMAJANG dengan ini menerangkan bahwa:
+      Desa Rambipuji Kecamatan Rambipuji Kabupaten JEMBER dengan ini menerangkan bahwa:
       <table class="table">
         <tr><td>Nama</td><td>: {{ $data->nama_lengkap }}</td></tr>
         <tr><td>Tempat/Tanggal Lahir</td><td>: {{ $data->tempat_tanggal_lahir }}</td></tr>
@@ -118,16 +70,16 @@
         <tr><td>Alamat</td><td>: {{ $data->alamat }}</td></tr>
       </table>
       <p style="text-align: justify;">
-        Benar yang namanya tersebut diatas adalah Penduduk Desa Wonorejo Kecamatan Kedungjajang Kabupaten LUMAJANG, dan menurut amatan kami benar yang bersangkutan berasal dari keluarga miskin.
+        Benar yang namanya tersebut diatas adalah Penduduk Desa Rambipuji Kecamatan Rambipuji Kabupaten JEMBER, dan menurut amatan kami benar yang bersangkutan berasal dari keluarga miskin.
         <br><br>
         Demikian Surat Keterangan ini kami perbuat, untuk dapat dipergunakan seperlunya.
       </p>
     </div>
 
     <div class="ttd">
-      Wonorejo, {{ $data->updated_at }}<br>
-      Kepala Desa Wonorejo<br><br><br><br>
-      <b><u>Bahrul Rozi</u></b>
+      Rambipuji, {{ \Carbon\Carbon::parse($data->updated_at)->translatedFormat('d F Y') }}<br>
+      Kepala Desa Rambipuji<br><br><br><br>
+      <b><u>Dwi Diyah Setyorini, S.I.Kom</u></b>
     </div>
   </div>
 </body>

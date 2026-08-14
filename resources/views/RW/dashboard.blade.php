@@ -11,7 +11,7 @@
     {{-- TEKS TAMBAHAN (DI BAWAH HEADER / CARD PUTIH) --}}
   <div class="mb-4">
     <p style="font-size: 14px; color: #444; line-height: 1.6;">
-      Sistem Informasi Desa Wonorejo — Kelola data penduduk, kartu keluarga, 
+      Sistem Informasi Desa Rambipuji — Kelola data penduduk, kartu keluarga, 
       dan layanan administrasi desa secara terintegrasi dan efisien.
     </p>
 

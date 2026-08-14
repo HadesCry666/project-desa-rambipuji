@@ -9,43 +9,6 @@
             margin: 40px;
         }
     
-        .header-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-            position: relative;
-        }
-    
-        .logo-kiri {
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-    
-        .logo {
-         width: 250px; 
-         height: auto;
-         margin-top: -40px;
-        }
-
-        .header-text {
-            text-align: center;
-            width: 100%;
-        }
-    
-        .header-text h2, .header-text h3, .header-text p {
-            margin: 2px;
-        }
-
-        .header-text h2 {
-          font-size: 18px;
-        }
-
-        .header-text h3 {
-        font-size: 16px;
-        }
-
         .title {
       text-align: center;
       margin-top: 20px;
@@ -104,19 +67,7 @@
 <body>
 
   
-    <div class="header-wrapper">
-        <div class="logo-kiri">
-           <img src="{{ public_path('storage/logo/logo.png') }}" alt="Logo Desa" class="logo">
-
-        </div>
-        <div class="header-text">
-            <h3>PEMERINTAH KABUPATEN LUMAJANG</h3>
-            <h2>KECAMATAN KEDUNGJAJANG</h2>
-            <h2>DESA WONOREJO</h2>
-            <p> Jl. Raya Lumajang-Jember - Lumajang  67358 </p>
-        </div>
-    </div>
-    <hr>    
+    @include('generate.partials.kop')
         
         <div class="title">SURAT PENGAJUAN PEMBUATAN KARTU KELUARGA</div>
         <div class="number">Nomor: ___ / ___ / 2025</div>
@@ -124,9 +75,9 @@
   <div class="info">
     Yang bertanda tangan di bawah ini:
     <table class="table-info">
-      <tr><td>Nama</td><td>: Bahrul Rozi</td></tr>
-      <tr><td>Jabatan</td><td>: Kepala Desa Wonorejo</td></tr>
-      <tr><td>Alamat</td><td>: Jl. Raya Lumajang-Jember</td></tr>
+      <tr><td>Nama</td><td>: Dwi Diyah Setyorini, S.I.Kom</td></tr>
+      <tr><td>Jabatan</td><td>: Kepala Desa Rambipuji</td></tr>
+      <tr><td>Alamat</td><td>: Jl. Gajah Mada No. 193</td></tr>
     </table>
 
     <p>Dengan ini menerangkan bahwa:</p>
@@ -148,9 +99,9 @@
   </div>
 
   <div class="ttd">
-    Wonorejo,{{ $data->updated_at }}<br>
-    Kepala Desa Wonorejo<br><br><br><br>
-    <b><u>Bahrul Rozi</u></b>
+    Rambipuji,{{ \Carbon\Carbon::parse($data->updated_at)->translatedFormat('d F Y') }}<br>
+    Kepala Desa Rambipuji<br><br><br><br>
+    <b><u>Dwi Diyah Setyorini, S.I.Kom</u></b>
   </div>
   </div>
 
