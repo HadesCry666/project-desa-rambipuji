@@ -44,6 +44,12 @@
                         <li><a href="#hero-section" class="active">Beranda</a></li>
                         <li><a href="#section-1-first">Layanan</a></li>
                         <li><a href="#footer-section">Tentang Kami</a></li>
+                        <li>
+                            <a href="{{ url('/') }}" class="nav-portal" title="Kembali ke Portal Utama">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                                <span>Portal Utama</span>
+                            </a>
+                        </li>
                         <li><a href="{{ route('login') }}" class="nav-login">Login</a></li>
                     </ul>
                 </nav>
@@ -77,10 +83,16 @@
         <nav class="drawer-nav">
             <ul>
                 <li>
+                    <a href="{{ url('/') }}">
+                        <span class="drawer-icon">🌐</span> Portal Utama
+                    </a>
+                </li>
+                <li>
                     <a href="#hero-section" onclick="closeMobileMenu()">
                         <span class="drawer-icon">🏠</span> Beranda
                     </a>
                 </li>
+
                 <li>
                     <a href="#section-1-first" onclick="closeMobileMenu()">
                         <span class="drawer-icon">⚙️</span> Layanan

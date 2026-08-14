@@ -39,8 +39,12 @@ use App\Http\Controllers\KepalaDusun\KadusTambahPengajuanController;
 // USER
 use App\Http\Controllers\LoginController;
 
-// DASHBOARD
-Route::get('/', [LandingpageController::class, 'tampil'])->name('website');
+// DASHBOARD & PORTAL
+Route::get('/', function () {
+    return view('portal');
+})->name('portal');
+
+Route::get('/digital-village', [LandingpageController::class, 'tampil'])->name('website');
 
 Route::get('/check-nama-nik', function () {
     return view('cekk');
