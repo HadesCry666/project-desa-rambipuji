@@ -9,42 +9,6 @@
             margin: 40px;
         }
     
-        .header-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-            position: relative;
-        }
-    
-        .logo-kiri {
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-    
-        .logo {
-         width: 250px; 
-         height: auto;
-         margin-top: -40px;
-        }
-
-        .header-text {
-            text-align: center;
-            width: 100%;
-        }
-    
-        .header-text h2, .header-text h3, .header-text p {
-            margin: 2px;
-        }
-
-        .header-text h2 {
-          font-size: 18px;
-        }
-
-        .header-text h3 {
-        font-size: 16px;
-        }
     .clear {
       clear: both;
     }
@@ -103,18 +67,7 @@
   </style>
 </head>
 <body>
-  <div class="header-wrapper">
-    <div class="logo-kiri">
-        <img src="{{ public_path('storage/logo/logo.png') }}" alt="Logo Desa" class="logo">
-    </div>
-    <div class="header-text">
-        <h3>PEMERINTAH KABUPATEN LUMAJANG</h3>
-        <h2>KECAMATAN KEDUNGJAJANG</h2>
-        <h2>DESA WONOREJO</h2>
-        <p> Jl. Raya Lumajang-Jember - Lumajang  67358 </p>
-    </div>
-</div>
-<hr>
+  @include('generate.partials.kop')
     <div class="title">SURAT PENGANTAR PEMBUATAN KTP  </div>
     <div class="nomor">Nomor: 002/SP/RTR 001.008/VI/2022</div>
 
@@ -139,9 +92,9 @@
     </div>
     <div class="footer">
       <div class="ttd">
-        Wonorejo,  {{ $data->updated_at }}<br>
-        Kepala Desa Wonorejo<br><br><br><br>
-        <b><u>Bahrul Rozi</u></b>
+        Rambipuji,  {{ \Carbon\Carbon::parse($data->updated_at)->translatedFormat('d F Y') }}<br>
+        Kepala Desa Rambipuji<br><br><br><br>
+        <b><u>Dwi Diyah Setyorini, S.I.Kom</u></b>
       </div>
       <div class="clear"></div>
     </div>

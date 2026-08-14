@@ -17,7 +17,7 @@
           <i class="fas fa-user-shield"></i>
         </div>
         <div class="d-none d-md-inline-block fw-bold text-dark ms-2">
-          Hi, {{ auth()->user()->name ?? session('nama') ?? 'Admin Desa' }}
+          Halo, {{ auth()->user()->name ?? session('nama') ?? 'Admin Desa' }}
         </div>
       </a>
       
