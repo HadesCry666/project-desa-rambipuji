@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Digital Desa Rambipuji - Gerbang Layanan Desa & UMKM</title>
-    <meta name="description" content="Portal Terintegrasi Desa Rambipuji. Akses cepat dan mudah untuk layanan administrasi desa dan platform UMKM Digital Desa Rambipuji.">
+    <meta name="description" content="Portal Terintegrasi Resmi Desa Rambipuji. Akses cepat, mudah, dan modern untuk layanan administrasi desa dan platform UMKM Digital.">
 
     <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -62,7 +62,7 @@
                         <span class="hero-badge-dot"></span>
                         <span>Portal Terintegrasi Desa Rambipuji</span>
                     </div>
-                    <h1 class="hero-title">Satu Portal Untuk Layanan Desa dan UMKM Digital</h1>
+                    <h1 class="hero-title">Satu Portal Untuk <span class="hero-title-highlight">Layanan Desa</span> dan <span class="hero-title-highlight">UMKM Digital</span></h1>
                     <p class="hero-desc">Portal Digital Desa Rambipuji menghadirkan layanan administrasi desa dan platform UMKM dalam satu akses yang mudah, cepat, dan modern.</p>
                     <div>
                         <a href="#layanan" class="btn-hero-primary">
@@ -71,8 +71,17 @@
                         </a>
                     </div>
                 </div>
+
                 <div class="col-lg-6 text-center" data-aos="fade-left" data-aos-duration="900" data-aos-delay="150">
                     <div class="hero-illustration-wrapper">
+                        <!-- Floating Interactive Badges -->
+                        <div class="floating-badge floating-badge-1">
+                            <span>⚡ Layanan Digital 24/7</span>
+                        </div>
+                        <div class="floating-badge floating-badge-2">
+                            <span>🏪 UMKM Desa Rambipuji</span>
+                        </div>
+
                         <!-- Premium Modern Vector Illustration: Smart Village & Digital Government -->
                         <svg class="hero-svg" viewBox="0 0 600 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- Outer Glow & Ambient Backdrop -->
@@ -128,12 +137,48 @@
     </section>
 
 
+    <!-- ================= FEATURE PILLARS ================= -->
+    <section class="pillar-section">
+        <div class="container">
+            <div class="row g-3 justify-content-center">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="pillar-card">
+                        <div class="pillar-icon">🏛️</div>
+                        <div>
+                            <h4 class="pillar-title">Layanan Terpadu</h4>
+                            <p class="pillar-desc">Pengurusan surat & informasi resmi desa dalam satu pintu.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="pillar-card">
+                        <div class="pillar-icon">🚀</div>
+                        <div>
+                            <h4 class="pillar-title">Pemberdayaan Ekonomi</h4>
+                            <p class="pillar-desc">Wadah digitalisasi & promosi produk lokal UMKM desa.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="pillar-card">
+                        <div class="pillar-icon">🔒</div>
+                        <div>
+                            <h4 class="pillar-title">Akses Mudah 24/7</h4>
+                            <p class="pillar-desc">Dapat diakses secara praktis dari mana saja dan kapan saja.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
     <!-- ================= SECTION 3: PILIH LAYANAN ================= -->
     <section class="layanan-section" id="layanan">
         <div class="container">
             <div class="section-header" data-aos="fade-up">
                 <h2 class="section-title">Pilih Layanan Digital</h2>
-                <p class="section-desc">Silakan pilih layanan yang ingin Anda akses.</p>
+                <p class="section-desc">Silakan pilih sistem layanan yang ingin Anda akses.</p>
             </div>
 
             <div class="row g-4 justify-content-center">
@@ -141,6 +186,9 @@
                 <!-- CARD 1: DIGITAL VILLAGE DESA RAMBIPUJI -->
                 <div class="col-lg-6 col-md-10" data-aos="fade-up" data-aos-delay="100">
                     <div class="portal-card">
+                        <div class="portal-card-badge">
+                            <span>🏛️ Pemerintahan & Administrasi</span>
+                        </div>
                         <div class="card-icon-box">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M3 21h18"/>
@@ -174,7 +222,8 @@
 
                         <div>
                             <a href="{{ url('/digital-village') }}" class="btn-card-primary">
-                                Masuk Digital Village
+                                <span>Masuk Digital Village</span>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                             </a>
                         </div>
                     </div>
@@ -183,6 +232,9 @@
                 <!-- CARD 2: UMKM DIGITAL DESA RAMBIPUJI -->
                 <div class="col-lg-6 col-md-10" data-aos="fade-up" data-aos-delay="200">
                     <div class="portal-card">
+                        <div class="portal-card-badge">
+                            <span>🏪 Ekonomi & UMKM Lokal</span>
+                        </div>
                         <div class="card-icon-box">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
@@ -214,7 +266,8 @@
 
                         <div>
                             <a href="https://your-vercel-url.vercel.app" class="btn-card-outline" target="_blank" rel="noopener">
-                                Masuk UMKM Digital
+                                <span>Masuk UMKM Digital</span>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                             </a>
                         </div>
                     </div>
