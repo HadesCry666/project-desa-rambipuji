@@ -180,13 +180,42 @@ p, h1, h2, h3, h4, h5, h6 {
   transition: var(--transition-fast);
 }
 
-.desktop-nav ul li a:hover {
+.desktop-nav ul li a:hover,
+.desktop-nav ul li a.active {
   color: var(--primary-green);
+  font-weight: 600;
 }
 
 .desktop-nav ul li a:hover::after,
 .desktop-nav ul li a.active::after {
   width: 100%;
+}
+
+
+/* Modern Portal Return Button */
+.desktop-nav ul li a.nav-portal {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-light);
+  border: 1px solid var(--border-color);
+  color: var(--text-dark) !important;
+  font-weight: 600;
+  padding: 9px 20px;
+  border-radius: 50px;
+  transition: var(--transition-bounce);
+}
+
+.desktop-nav ul li a.nav-portal::after {
+  display: none !important;
+}
+
+.desktop-nav ul li a.nav-portal:hover {
+  background: var(--primary-green-light);
+  border-color: var(--primary-green);
+  color: var(--primary-green) !important;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Modern Rounded Login Button */
@@ -209,6 +238,7 @@ p, h1, h2, h3, h4, h5, h6 {
   box-shadow: var(--shadow-glow-green);
   color: var(--bg-white) !important;
 }
+
 
 /* Hamburger Mobile Toggle */
 .hamburger {

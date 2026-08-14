@@ -38,6 +38,7 @@
     <div class="theme-swatches-section">
         <label class="theme-slider-label">Pilihan Warna Cepat</label>
         <div class="theme-swatches-grid">
+            <button type="button" class="theme-swatch-btn" data-color="#1B8F5A" style="background-color: #1B8F5A;" title="Hijau Desa (Rambipuji Default)"></button>
             <button type="button" class="theme-swatch-btn" data-color="#0057A6" style="background-color: #0057A6;" title="Ocean Blue (Admin Default)"></button>
             <button type="button" class="theme-swatch-btn" data-color="#16A34A" style="background-color: #16A34A;" title="Emerald Green (Smart Village)"></button>
             <button type="button" class="theme-swatch-btn" data-color="#7C3AED" style="background-color: #7C3AED;" title="Royal Purple"></button>
