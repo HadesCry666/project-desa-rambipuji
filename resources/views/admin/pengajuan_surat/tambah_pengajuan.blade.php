@@ -101,37 +101,23 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                                         placeholder="Contoh: Untuk persyaratan pembuatan SKCK di Polres Jember / Pengurusan Beasiswa">{{ old('keperluan') }}</textarea>
                                 </div>
 
-                                {{-- STATUS AWAL (RADIO CARD SELECTION) --}}
-                                <div class="col-12 mt-3">
-                                    <label class="form-label fw-bold text-dark mb-2">Status Awal Pengajuan <span class="text-danger">*</span></label>
-                                    
-                                    <div class="row g-3">
-                                        <div class="col-12 col-md-6">
-                                            <div class="status-option-card p-3 rounded-4 border position-relative active-card" id="cardStatusRw">
-                                                <div class="form-check d-flex align-items-start">
-                                                    <input class="form-check-input mt-1 me-3" type="radio" name="status" id="statusRw" value="Disetujui RW" {{ old('status', 'Disetujui RW') == 'Disetujui RW' ? 'checked' : '' }}>
-                                                    <div>
-                                                        <label class="form-check-label fw-bold text-dark cursor-pointer" for="statusRw">
-                                                            <i class="fas fa-check-double text-success me-1"></i> Disetujui RW (Langsung Siap Diproses)
-                                                        </label>
-                                                        <p class="text-muted mb-0 small mt-1">Pengajuan akan langsung masuk ke daftar <strong>Surat Masuk Admin</strong> untuk segera dicetak PDF-nya.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                {{-- NOMOR REGISTRASI KEPALA DUSUN --}}
+                                <div class="col-12 mt-2">
+                                    <label class="form-label fw-bold text-dark mb-1">
+                                        <i class="fas fa-bookmark text-primary me-1"></i> Nomor Registrasi Kepala Dusun <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control rounded-3" name="no_registrasi" value="{{ old('no_registrasi') }}"
+                                        placeholder="Contoh: REG/KADUS/001/2026" required>
+                                    <small class="text-muted mt-1 d-block"><i class="fas fa-info-circle me-1"></i> Masukkan nomor registrasi resmi yang diterbitkan oleh Kepala Dusun.</small>
+                                </div>
 
-                                        <div class="col-12 col-md-6">
-                                            <div class="status-option-card p-3 rounded-4 border position-relative" id="cardStatusRt">
-                                                <div class="form-check d-flex align-items-start">
-                                                    <input class="form-check-input mt-1 me-3" type="radio" name="status" id="statusRt" value="Menunggu RT" {{ old('status') == 'Menunggu RT' ? 'checked' : '' }}>
-                                                    <div>
-                                                        <label class="form-check-label fw-bold text-dark cursor-pointer" for="statusRt">
-                                                            <i class="fas fa-clock text-warning me-1"></i> Menunggu RT (Alur Bertahap)
-                                                        </label>
-                                                        <p class="text-muted mb-0 small mt-1">Pengajuan harus disetujui bertahap oleh Ketua RT dan Ketua RW terlebih dahulu.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                {{-- STATUS & INFO TTD BASAH --}}
+                                <div class="col-12 mt-3">
+                                    <div class="alert alert-info border-0 shadow-sm rounded-4 p-3 d-flex align-items-center mb-0">
+                                        <i class="fas fa-info-circle fa-2x text-primary me-3"></i>
+                                        <div>
+                                            <strong class="text-dark">Alur Tanda Tangan Fisik (Basah) RT/RW & Kepala Dusun:</strong>
+                                            <p class="mb-0 small text-muted">Ketua RT & Ketua RW telah menandatangani berkas secara fisik (basah). Pengajuan ini otomatis berstatus <strong>Disetujui Kepala Dusun</strong> dan langsung masuk antrian cetak Admin Desa.</p>
                                         </div>
                                     </div>
                                 </div>

@@ -6,12 +6,12 @@
 
 :root {
   /* Color Palette - Smart Village 2026 */
-  --primary: #16A34A;
-  --primary-hover: #15803D;
-  --primary-light: #DCFCE7;
-  --primary-green: var(--primary, #16A34A);
-  --primary-green-hover: var(--primary-hover, #15803D);
-  --primary-green-light: var(--primary-light, #DCFCE7);
+  --primary: #23131D;
+  --primary-hover: #150A11;
+  --primary-light: #F6F3F5;
+  --primary-green: var(--primary, #23131D);
+  --primary-green-hover: var(--primary-hover, #150A11);
+  --primary-green-light: var(--primary-light, #F6F3F5);
   --primary-blue: var(--primary, #0EA5E9);
   --primary-blue-hover: var(--primary-hover, #0284C7);
   --primary-blue-light: var(--primary-light, #E0F2FE);

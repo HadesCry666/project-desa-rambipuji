@@ -86,19 +86,22 @@ class KadusTambahPengajuanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nik'       => 'required|string|size:16|exists:master_penduduks,nik',
-            'id_surat'  => 'required|string|exists:master_surat,id_surat',
-            'keperluan' => 'required|string|max:500',
-            'foto'      => 'nullable|array|max:9',
-            'foto.*'    => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
+            'no_registrasi' => 'required|string|max:100',
+            'nik'           => 'required|string|size:16|exists:master_penduduks,nik',
+            'id_surat'      => 'required|string|exists:master_surat,id_surat',
+            'keperluan'     => 'required|string|max:500',
+            'foto'          => 'nullable|array|max:9',
+            'foto.*'        => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
         ], [
-            'nik.required'       => 'Warga wajib dipilih.',
-            'nik.exists'         => 'NIK warga tidak valid atau tidak terdaftar.',
-            'id_surat.required'  => 'Jenis surat wajib dipilih.',
-            'keperluan.required' => 'Keperluan surat wajib diisi.',
+            'no_registrasi.required' => 'Nomor Registrasi Kepala Dusun wajib diisi.',
+            'nik.required'           => 'Warga wajib dipilih.',
+            'nik.exists'             => 'NIK warga tidak valid atau tidak terdaftar.',
+            'id_surat.required'      => 'Jenis surat wajib dipilih.',
+            'keperluan.required'     => 'Keperluan surat wajib diisi.',
         ]);
 
         $data = [
+            'no_registrasi'    => $request->no_registrasi,
             'nik'              => $request->nik,
             'id_surat'         => $request->id_surat,
             'keperluan'        => $request->keperluan,

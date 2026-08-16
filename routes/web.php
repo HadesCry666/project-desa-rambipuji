@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 // ADMIN
+use App\Http\Controllers\Admin\AkunKadusController;
 use App\Http\Controllers\Admin\AkunRtController;
 use App\Http\Controllers\Admin\AkunRwController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -75,25 +76,17 @@ Route::middleware(['auth', 'role:1'])->prefix('admin')->group(function () {
     Route::delete('master_penduduk/{nik}', [PendudukController::class, 'delete'])->name('penduduk.delete');
 
 
-    // MASTER AKUN RW
-    Route::get('akunrw/create', [AkunRwController::class, 'create']);
-    Route::get('/akunrw', [AkunRwController::class, 'index'])->name('akunrw');
-    Route::post('akunrw/store', [AkunRwController::class, 'store'])->name('akunrw.store');
-    Route::put('akunrw/update/{id}', [AkunRwController::class, 'update'])->name('akunrw.update');
-    Route::delete('akunrw/{id}', [AkunRwController::class, 'destroy'])->name('akunrw.delete');
-    Route::get('get-nama-rw', [AkunRwController::class, 'getNamaRw']);
-
-    // MASTER AKUN RT
-    Route::get('akunrt/create', [AkunRtController::class, 'create']);
-    Route::get('/akunrt', [AkunRtController::class, 'index'])->name('akunrt');
-    Route::post('akunrt/store', [AkunRtController::class, 'store'])->name('akunrt.store');
-    Route::put('akunrt/update/{id}', [AkunRtController::class, 'update'])->name('akunrt.update');
-    Route::delete('akunrt/{id_rtrw}', [AkunRtController::class, 'destroy'])->name('akunrt.delete');
-    Route::get('get-nama-by-nik', [AkunRtController::class, 'getNamaByNik']);
+    // MASTER AKUN KEPALA DUSUN
+    Route::get('/akunkadus', [AkunKadusController::class, 'index'])->name('akunkadus.index');
+    Route::post('/akunkadus', [AkunKadusController::class, 'store'])->name('akunkadus.store');
+    Route::put('/akunkadus/{id}', [AkunKadusController::class, 'update'])->name('akunkadus.update');
+    Route::delete('/akunkadus/{id}', [AkunKadusController::class, 'destroy'])->name('akunkadus.destroy');
 
     // LANDINGPAGE
     Route::get('/landingpage', [LandingpageController::class, 'index'])->name('homepage.index');
     Route::post('/landingpage', [LandingpageController::class, 'update'])->name('homepage.update');
+    Route::delete('/landingpage/delete-hero-image', [LandingpageController::class, 'deleteHeroImage'])->name('homepage.delete_hero');
+    Route::delete('/landingpage/delete-desc-image/{type}', [LandingpageController::class, 'deleteDescImage'])->name('homepage.delete_desc');
 
     // SURAT MASUK
     Route::get('/suratmasuk', [SuratMasukController::class, 'index'])->name('pengajuan.masuk');

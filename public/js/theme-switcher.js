@@ -5,7 +5,7 @@
 
 (function () {
     const STORAGE_KEY = 'desa_rambipuji_theme_color';
-    const DEFAULT_PRIMARY = '#0057A6'; // Ocean Blue Default
+    const DEFAULT_PRIMARY = '#23131D'; // Dark Plum Default
 
     // Convert HEX to HSL object {h, s, l}
     function hexToHSL(hex) {

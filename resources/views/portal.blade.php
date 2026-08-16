@@ -230,48 +230,58 @@
                 </div>
 
                 <!-- CARD 2: UMKM DIGITAL DESA RAMBIPUJI -->
-                <div class="col-lg-6 col-md-10" data-aos="fade-up" data-aos-delay="200">
-                    <div class="portal-card">
-                        <div class="portal-card-badge">
-                            <span>🏪 Ekonomi & UMKM Lokal</span>
-                        </div>
-                        <div class="card-icon-box">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-                                <line x1="3" y1="6" x2="21" y2="6"/>
-                                <path d="M16 10a4 4 0 0 1-8 0"/>
-                            </svg>
-                        </div>
-                        <h3 class="card-title">UMKM Digital Desa Rambipuji</h3>
-                        <p class="card-desc">Platform digital untuk mendukung promosi dan pengembangan produk UMKM lokal Desa Rambipuji.</p>
-                        
-                        <ul class="features-list">
-                            <li>
-                                <span class="feature-check">✓</span>
-                                <span>Katalog Produk</span>
-                            </li>
-                            <li>
-                                <span class="feature-check">✓</span>
-                                <span>Profil UMKM</span>
-                            </li>
-                            <li>
-                                <span class="feature-check">✓</span>
-                                <span>Promosi Produk</span>
-                            </li>
-                            <li>
-                                <span class="feature-check">✓</span>
-                                <span>Marketplace Digital</span>
-                            </li>
-                        </ul>
+               <div class="col-lg-6 col-md-10" data-aos="fade-up" data-aos-delay="200"> 
+    <div class="portal-card"> 
+        <div class="portal-card-badge"> 
+            <span>🏪 Ekonomi & UMKM Lokal</span> 
+        </div> 
 
-                        <div>
-                            <a href="https://your-vercel-url.vercel.app" class="btn-card-outline" target="_blank" rel="noopener">
-                                <span>Masuk UMKM Digital</span>
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+        <div class="card-icon-box"> 
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> 
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/> 
+                <line x1="3" y1="6" x2="21" y2="6"/> 
+                <path d="M16 10a4 4 0 0 1-8 0"/> 
+            </svg> 
+        </div> 
+
+        <h3 class="card-title">UMKM Digital Desa Rambipuji</h3> 
+
+        <p class="card-desc">
+            Platform digital untuk mendukung promosi dan pengembangan produk UMKM lokal Desa Rambipuji.
+        </p> 
+                         
+        <ul class="features-list"> 
+            <li> 
+                <span class="feature-check">✓</span> 
+                <span>Katalog Produk</span> 
+            </li> 
+            <li> 
+                <span class="feature-check">✓</span> 
+                <span>Profil UMKM</span> 
+            </li> 
+            <li> 
+                <span class="feature-check">✓</span> 
+                <span>Promosi Produk</span> 
+            </li> 
+            <li> 
+                <span class="feature-check">✓</span> 
+                <span>Marketplace Digital</span> 
+            </li> 
+        </ul> 
+ 
+        <div> 
+            <a href="https://katalog-preview-by-relva-studio-plum.vercel.app/" 
+               class="btn-card-outline" 
+               rel="noopener noreferrer"> 
+                <span>Masuk UMKM Digital</span> 
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg> 
+            </a> 
+        </div> 
+    </div> 
+</div>
 
             </div>
         </div>
@@ -311,10 +321,10 @@
     <script src="{{ asset('js/theme-switcher.js') }}"></script>
 
     <script>
-        // Set default theme for Portal to Hijau Desa (#1B8F5A) if no saved theme exists
+        // Set default theme for Portal to #23131D if no saved theme exists
         if (!localStorage.getItem('desa_rambipuji_theme_color')) {
             if (window.applyThemeColor) {
-                window.applyThemeColor('#1B8F5A', false);
+                window.applyThemeColor('#23131D', false);
             }
         }
 

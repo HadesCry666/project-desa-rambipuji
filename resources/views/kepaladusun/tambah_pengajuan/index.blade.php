@@ -105,7 +105,12 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                 <div class="card card-modern p-4 mb-4" id="wrapperDataSurat" style="display:none">
                     <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-2" style="margin-right: 5px">3</span>Data Surat</h5>
                     <div class="row g-3">
-                      <div class="col-md-6">
+                        <div class="col-md-12">
+                            <label class="form-label">Nomor Registrasi Kepala Dusun <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="no_registrasi" value="{{ old('no_registrasi') }}" placeholder="Contoh: REG/KADUS/001/2026" required>
+                            <div class="form-text text-muted">Masukkan nomor registrasi resmi yang Anda terbitkan untuk pengajuan ini.</div>
+                        </div>
+                      <div class="col-md-6 mt-3">
                             <label for="id_surat" class="form-label d-block mb-2">
                                 Jenis Surat <span class="text-danger">*</span>
                             </label>
@@ -117,7 +122,7 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mt-3">
                             <label class="form-label">Tanggal Pengajuan</label>
                             <input type="text" class="form-control" value="{{ date('d F Y') }}" readonly>
                         </div>

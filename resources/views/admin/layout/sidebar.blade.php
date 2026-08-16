@@ -123,7 +123,7 @@
         </li>
 
         <li class="{{ Request::is('admin/master_kartukeluarga*') ? 'active' : '' }}">
-          <a class="nav-link" href="{{ url('/admin/master_kartukeluarga') }}"><i class="fas fa-address-card"></i><span>Kartu Keluarga</span></a>
+          <a class="nav-link" href="{{ url('/admin/master_kartukeluarga') }}"><i class="fas fa-users"></i><span>Master Penduduk</span></a>
         </li>
 
         <li class="dropdown {{ Request::is('admin/suratmasuk*') || Request::is('admin/suratselesai*') || Request::is('admin/suratditolak*') || Request::is('admin/tambah-pengajuan*') ? 'active' : '' }}">
@@ -144,16 +144,8 @@
           </ul>
         </li>
 
-        <li class="dropdown {{ Request::is('admin/akunrw*') || Request::is('admin/akunrt*') ? 'active' : '' }}">
-          <a href="#" class="nav-link has-dropdown"><i class="fas fa-users-cog"></i><span>Master Akun</span></a>
-          <ul class="dropdown-menu">
-            <li class="{{ Request::is('admin/akunrw*') ? 'active' : '' }}">
-              <a href="{{ url('admin/akunrw') }}" class="nav-link">Akun RW</a>
-            </li>
-            <li class="{{ Request::is('admin/akunrt*') ? 'active' : '' }}">
-              <a href="{{ url('admin/akunrt') }}" class="nav-link">Akun RT</a>
-            </li>
-          </ul>
+        <li class="{{ Request::is('admin/akunkadus*') ? 'active' : '' }}">
+          <a class="nav-link" href="{{ url('/admin/akunkadus') }}"><i class="fas fa-users-cog"></i><span>Akun Kepala Dusun</span></a>
         </li>
 
         <li class="{{ Request::is('admin/mastersurat*') ? 'active' : '' }}">

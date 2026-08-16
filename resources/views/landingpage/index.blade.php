@@ -341,7 +341,7 @@
                     <div class="content-box">
                         <span class="section-kicker">Profil Desa</span>
                         <h3>{{ $data->subtittle }}</h3>
-                        <p>{{ $data->section_text }}</p>
+                        <p>{!! nl2br(e($data->section_text ?? '')) !!}</p>
                     </div>
                 </div>
                 <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
@@ -531,6 +531,14 @@
     
     @include('admin.layout.theme_switcher')
     <script src="{{ asset('js/theme-switcher.js') }}"></script>
+    <script>
+        // Set default theme for Landing Page to #23131D if no saved theme exists
+        if (!localStorage.getItem('desa_rambipuji_theme_color')) {
+            if (window.applyThemeColor) {
+                window.applyThemeColor('#23131D', false);
+            }
+        }
+    </script>
 
     <!-- AOS Animation JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

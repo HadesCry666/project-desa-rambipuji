@@ -4,11 +4,11 @@
    ========================================================================== */
 
 :root {
-  --primary: #1B8F5A;
-  --primary-hover: #157347;
-  --primary-light: #EBF7F1;
-  --primary-glow: rgba(27, 143, 90, 0.22);
-  --primary-border: rgba(27, 143, 90, 0.18);
+  --primary: #23131D;
+  --primary-hover: #150A11;
+  --primary-light: #F6F3F5;
+  --primary-glow: rgba(35, 19, 29, 0.22);
+  --primary-border: rgba(35, 19, 29, 0.18);
   --bg-light: #F8FAFC;
   --bg-white: #FFFFFF;
   --text-dark: #0F172A;

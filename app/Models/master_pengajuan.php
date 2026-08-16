@@ -12,6 +12,7 @@ class master_pengajuan extends Model
     protected $fillable = [
         'id_pengajuan',
         'id_surat',
+        'no_registrasi',
         'nik',
         'keperluan',
         'tanggal_diajukan',

@@ -12,7 +12,6 @@ class LandingpageController extends Controller
     {
         $data = landing_page::first();
 
-       
         if (!$data) {
             $data = new landing_page(); 
         }
@@ -71,23 +70,14 @@ class LandingpageController extends Controller
         $content->visi = $request->visi;
         $content->misi = $request->misi;
 
-        // Upload hero image jika ada
+        // Upload hero image jika ada (menambahkan gambar ke daftar yang sudah ada)
         if ($request->hasFile('hero_image')) {
-            if (!empty($content->gambar1)) {
-                $oldImages = json_decode($content->gambar1, true);
-                if (is_array($oldImages)) {
-                    foreach ($oldImages as $oldImg) {
-                        Storage::disk('public')->delete($oldImg);
-                    }
-                } else {
-                    Storage::disk('public')->delete($content->gambar1);
-                }
-            }
-            $paths = [];
+            $existing = !empty($content->gambar1) && is_array(json_decode($content->gambar1, true)) ? json_decode($content->gambar1, true) : [];
+            $paths = $existing;
             foreach ($request->file('hero_image') as $file) {
                 $paths[] = $file->store('landingpage/hero_images', 'public');
             }
-            $content->gambar1 = json_encode($paths);
+            $content->gambar1 = json_encode(array_values($paths));
         }
 
         // Upload image_description1 jika ada
@@ -110,5 +100,55 @@ class LandingpageController extends Controller
         $content->save();
 
         return redirect()->back()->with('success', 'Konten dan foto landing page berhasil diperbarui!');
+    }
+
+    // Hapus satu gambar spesifik dari Carousel Hero Banner
+    public function deleteHeroImage(Request $request)
+    {
+        $request->validate([
+            'image_index' => 'required|integer',
+        ]);
+
+        $content = landing_page::first();
+        if ($content && !empty($content->gambar1)) {
+            $images = json_decode($content->gambar1, true);
+            $index = (int) $request->image_index;
+
+            if (is_array($images) && isset($images[$index])) {
+                Storage::disk('public')->delete($images[$index]);
+                array_splice($images, $index, 1);
+                $content->gambar1 = count($images) > 0 ? json_encode(array_values($images)) : null;
+                $content->save();
+
+                return redirect()->back()->with('success', 'Gambar carousel hero berhasil dihapus!');
+            }
+        }
+
+        return redirect()->back()->with('error', 'Gambar carousel tidak ditemukan.');
+    }
+
+    // Hapus Foto Deskripsi 1 atau 2
+    public function deleteDescImage($type)
+    {
+        $content = landing_page::first();
+        if (!$content) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan.');
+        }
+
+        if ($type === '1' && !empty($content->image_description1)) {
+            Storage::disk('public')->delete($content->image_description1);
+            $content->image_description1 = null;
+            $content->save();
+            return redirect()->back()->with('success', 'Foto profil/deskripsi 1 berhasil dihapus!');
+        }
+
+        if ($type === '2' && !empty($content->image_description2)) {
+            Storage::disk('public')->delete($content->image_description2);
+            $content->image_description2 = null;
+            $content->save();
+            return redirect()->back()->with('success', 'Foto profil/deskripsi 2 berhasil dihapus!');
+        }
+
+        return redirect()->back()->with('error', 'Foto tidak ditemukan.');
     }
 }
