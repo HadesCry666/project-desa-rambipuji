@@ -57,8 +57,8 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:50px">No</th>
-                                <th class="text-center">Nama Pemohon</th>
-                                <th class="text-center">NIK</th>
+                                <th class="">Nama Pemohon</th>
+                                {{-- <th class="text-center">NIK</th> --}}
                                 <th class="text-center">Jenis Surat</th>
                                 <th class="text-center">Tanggal Pengajuan</th>
                                 <th class="text-center">Status</th>
@@ -69,9 +69,16 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                             @forelse($datapengajuan as $i => $r)
                             <tr>
                                 <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
-                                <td class="fw-semibold text-dark text-center">{{ $r->nama_lengkap ?? 'Warga' }}</td>
-                                <td class="text-center"><code style="font-size:.8rem">{{ $r->nik }}</code></td>
-                                <td class="text-center"><span class="badge bg-light text-dark border fw-medium">{{ $r->nama_surat ?? 'Surat Keterangan' }}</span></td>
+                                <td class="">
+                                    <div class="fw-semibold">
+                                        {{ $r->nama_lengkap ?? 'Warga' }}
+                                    </div>
+                                    <div style="font-size:11px;color:#e83e8c;">
+                                        {{ $r->nik }}
+                                    </div>
+                                </td>
+                                {{-- <td class="text-center"><code style="font-size:.8rem">{{ $r->nik }}</code></td> --}}
+                                <td class="text-center small-text"><span class="badge bg-light text-dark border fw-medium">{{ $r->nama_surat ?? 'Surat Keterangan' }}</span></td>
                                 <td class="text-muted text-center">{{ $r->tanggal_diajukan ?? $r->created_at }}</td>
                                 <td class="text-center"><span class="badge-diajukan">{{ $r->status }}</span></td>
                                 <td class="text-center">
@@ -250,5 +257,6 @@ $(document).ready(function () {
     });
 });
 </script>
+
 @endpush
 @endsection

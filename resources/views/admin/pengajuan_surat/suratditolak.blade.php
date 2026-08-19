@@ -1,6 +1,26 @@
 @extends('admin.layout.main')
 @section('title', 'Surat Ditolak')
 
+@push('css-lib')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!important}
+.card-modern{border:1px solid #e2e8f0;border-radius:15px;box-shadow:0 4px 16px rgba(0,0,0,.03);background:#fff}
+.table-modern{border-collapse:separate!important;border-spacing:0 5px!important}
+.table-modern thead th{background:#f8fafc!important;color:#475569!important;font-weight:600!important;font-size:.74rem!important;text-transform:uppercase!important;letter-spacing:.6px!important;border-bottom:2px solid #e2e8f0!important;padding:13px 16px!important}
+.table-modern tbody tr{background:#fff!important;transition:background .15s}
+.table-modern tbody tr:hover{background:#f0f7ff!important}
+.table-modern tbody td{padding:13px 16px!important;vertical-align:middle!important;border-top:1px solid #f1f5f9!important;font-size:.875rem!important}
+.btn-rounded{border-radius:30px!important}
+.badge-kadus{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;font-weight:600;padding:5px 12px;border-radius:20px;font-size:.78rem}
+.badge-diajukan{background:#fef3c7;color:#d97706;border:1px solid #fde68a;font-weight:600;padding:5px 12px;border-radius:20px;font-size:.78rem}
+.keterangan-preset {cursor:pointer;transition:all .15s;}
+.keterangan-preset:hover{background-color:#dbeafe!important;border-color:#3b82f6!important;}
+</style>
+@endpush
+
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -27,32 +47,32 @@
                     {{-- TABLE --}}
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-modern w-100">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>NIK</th>
-                                        <th>Nama</th>
-                                        <th>Jenis Surat</th>
-                                        <th>Tanggal Pengajuan</th>
-                                        <th>RW</th>
-                                        <th>Aksi</th>
+                                        <th class="text-center" style="width:50px">No</th>
+                                        <th class="text-center">NIK</th>
+                                        <th class="text-center">Nama</th>
+                                        <th class="text-center">Jenis Surat</th>
+                                        <th class="text-center">Tanggal Pengajuan</th>
+                                        <th class="text-center">RW</th>
+                                        <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     @forelse ($datapengajuan as $a)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $a->nik }}</td>
-                                        <td>{{ $a->nama_lengkap }}</td>
-                                        <td>{{ $a->nama_surat }}</td>
-                                        <td>{{ $a->tanggal_diajukan }}</td>
-                                        <td>{{ $a->rw }}</td>
-                                        <td>
+                                        <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
+                                        <td class="text-center"><code style="font-size:.8rem">{{ $a->nik }}</td>
+                                        <td class="fw-semibold text-dark text-center">{{ $a->nama_lengkap }}</td>
+                                        <td class="text-center"><span class="badge bg-light text-dark border fw-medium" style="font-size:.78rem">{{ $a->nama_surat }}</td>
+                                        <td class="text-muted text-center">{{ $a->tanggal_diajukan }}</td>
+                                        <td class="text-center"><span class="badge bg-light text-dark border fw-medium" style="font-size:.78rem">{{ $a->rw }}</td>
+                                        <td class="text-center">
 
                                             {{-- DETAIL --}}
-                                            <button class="btn btn-success btn-sm"
+                                            <button class="btn btn-sm btn-info btn-rounded px-2 me-1"
                                                 data-toggle="modal"
                                                 data-target="#modalDetail-{{ $a->id_pengajuan }}">
                                                 <i class="fas fa-eye"></i>
@@ -67,7 +87,7 @@
                                                 @method('DELETE')
 
                                                 <button type="button"
-                                                    class="btn btn-danger btn-sm"
+                                                    class="btn btn-sm btn-danger btn-rounded px-2"
                                                     onclick="confirmDelete({{ $a->id_pengajuan }})">
                                                     <i class="fas fa-trash"></i>
                                                 </button>

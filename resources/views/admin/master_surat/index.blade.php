@@ -1,6 +1,26 @@
 @extends('admin.layout.main')
 @section('title', 'Master Surat')
 
+@push('css-lib')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!important}
+.card-modern{border:1px solid #e2e8f0;border-radius:15px;box-shadow:0 4px 16px rgba(0,0,0,.03);background:#fff}
+.table-modern{border-collapse:separate!important;border-spacing:0 5px!important}
+.table-modern thead th{background:#f8fafc!important;color:#475569!important;font-weight:600!important;font-size:.74rem!important;text-transform:uppercase!important;letter-spacing:.6px!important;border-bottom:2px solid #e2e8f0!important;padding:13px 16px!important}
+.table-modern tbody tr{background:#fff!important;transition:background .15s}
+.table-modern tbody tr:hover{background:#f0f7ff!important}
+.table-modern tbody td{padding:13px 16px!important;vertical-align:middle!important;border-top:1px solid #f1f5f9!important;font-size:.875rem!important}
+.btn-rounded{border-radius:30px!important}
+.badge-kadus{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;font-weight:600;padding:5px 12px;border-radius:20px;font-size:.78rem}
+.badge-diajukan{background:#fef3c7;color:#d97706;border:1px solid #fde68a;font-weight:600;padding:5px 12px;border-radius:20px;font-size:.78rem}
+.keterangan-preset {cursor:pointer;transition:all .15s;}
+.keterangan-preset:hover{background-color:#dbeafe!important;border-color:#3b82f6!important;}
+</style>
+@endpush
+
 @section('content')
 
 <section class="section">
@@ -33,25 +53,25 @@
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-modern w-100">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>ID Surat</th>
-                                        <th>Nama Surat</th>
-                                        <th>Aksi</th>
+                                        <th class="text-center" style="width:50px">No</th>
+                                        <th class="text-center">ID Surat</th>
+                                        <th class="text-center">Nama Surat</th>
+                                        <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($datasurat as $item)
                                         @if(!is_null($item->nama_surat))
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->id_surat }}</td>
-                                            <td>{{ $item->nama_surat }}</td>
-                                            <td>
+                                            <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
+                                            <td class="text-center"><span class="badge-kadus">{{ $item->id_surat }}</span></td>
+                                            <td class="text-center"><span class="badge bg-light text-dark border fw-medium" style="font-size:.78rem">{{ $item->nama_surat }}</td>
+                                            <td class="text-center">
                                                <button type="button"
-                                                    class="btn btn-warning btn-sm btnEditSurat"
+                                                    class="btn btn-sm btn-warning btn-rounded btnEditSurat"
 
                                                     data-action="{{ route('mastersurat.update', $item->id_surat) }}"
 
@@ -72,14 +92,14 @@
                                                     data-berkas7="{{ $item->berkas7 }}"
                                                     data-berkas8="{{ $item->berkas8 }}"
                                                     data-berkas9="{{ $item->berkas9 }}">
-                                                    <i class="fas fa-eye"></i>
+                                                    <i class="fas fa-pencil-alt"></i>
                                                 </button>
 
                                                 <form id="formHapus{{ $item->id_surat }}" method="POST" action="{{ route('mastersurat.destroy', $item->id_surat) }}" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
 
-                                                    <button class="btn btn-danger btn-sm btnDeleteSurat"
+                                                    <button class="btn btn-sm btn-danger btn-rounded px-2 btnDeleteSurat"
                                                             data-id="{{ $item->id_surat }}"
                                                             data-nama="{{ $item->nama_surat }}">
                                                         <i class="fas fa-trash"></i>

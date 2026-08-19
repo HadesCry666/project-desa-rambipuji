@@ -42,7 +42,7 @@
     <div class="section-body">
         <div class="card card-modern">
             <div class="card-header bg-white py-3 border-bottom-0 d-flex justify-content-between align-items-center">
-                <h4 class="fw-bold text-dark m-0"><i class="bi bi-inbox-fill text-primary me-2"></i>Daftar Surat Menunggu Verifikasi (Disetujui Admin)</h4>
+                <h4 class="fw-bold text-dark m-0">Daftar Surat Menunggu Verifikasi (Disetujui Admin)</h4>
                 <form class="d-flex" action="{{ route('sekdes.suratmasuk.index') }}" method="get">
                     <input class="form-control me-2" type="search" name="katakunci" value="{{ Request::get('katakunci') }}" placeholder="Cari NIK / Nama / Surat">
                     <button class="btn btn-primary btn-rounded px-4">Cari</button>
@@ -55,9 +55,8 @@
                             <tr>
                                 <th class="text-center" style="width:50px">No</th>
                                 <th>Nama Warga</th>
-                                <th>NIK</th>
-                                <th>Jenis Surat</th>
-                                <th>Keterangan Admin</th>
+                                <th class="text-center">Jenis Surat</th>
+                                <th class="text-center">Keterangan Admin</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center" style="width:230px">Aksi</th>
                             </tr>
@@ -66,10 +65,16 @@
                             @forelse($datapengajuan as $i => $r)
                             <tr>
                                 <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
-                                <td class="fw-semibold text-dark">{{ $r->nama_lengkap ?? 'Warga' }}</td>
-                                <td><code style="font-size:.8rem">{{ $r->nik }}</code></td>
-                                <td><span class="badge bg-light text-dark border fw-medium" style="font-size:.78rem">{{ $r->nama_surat ?? 'Surat Keterangan' }}</span></td>
-                                <td>
+                                <td class="">
+                                    <div class="fw-semibold">
+                                        {{ $r->nama_lengkap ?? 'Warga' }}
+                                    </div>
+                                    <div style="font-size:11px;color:#e83e8c;">
+                                        {{ $r->nik }}
+                                    </div>
+                                </td>
+                                <td class="text-center"><span class="badge bg-light text-dark border fw-medium" style="font-size:.78rem">{{ $r->nama_surat ?? 'Surat Keterangan' }}</span></td>
+                                <td class="text-center">
                                     @if(!empty($r->keterangan_admin))
                                         <span class="text-dark small d-inline-block text-truncate" style="max-width:200px;" title="{{ $r->keterangan_admin }}">
                                             <i class="bi bi-chat-quote-fill text-warning me-1"></i>{{ $r->keterangan_admin }}
@@ -80,12 +85,12 @@
                                 </td>
                                 <td class="text-center"><span class="badge-admin">✓ {{ $r->status }}</span></td>
                                 <td class="text-center">
-                                    <button class="btn btn-sm btn-info btn-rounded px-2 me-1" data-bs-toggle="modal" data-bs-target="#modalDetailSekdes-{{ $r->id_pengajuan }}"><i class="bi bi-eye-fill"></i> Detail</button>
+                                    <button class="btn btn-sm btn-info btn-rounded px-2 me-1" data-bs-toggle="modal" data-bs-target="#modalDetailSekdes-{{ $r->id_pengajuan }}"><i class="bi bi-eye-fill"></i> </button>
                                     <form action="{{ route('sekdes.suratmasuk.setuju', $r->id_pengajuan) }}" method="POST" style="display:inline;">
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-success btn-rounded px-2 me-1"><i class="bi bi-check-lg"></i> Setujui</button>
+                                        <button type="submit" class="btn btn-sm btn-success btn-rounded px-2 me-1"><i class="bi bi-check-lg"></i> </button>
                                     </form>
-                                    <button class="btn btn-sm btn-danger btn-rounded px-2" data-bs-toggle="modal" data-bs-target="#modalTolakSekdes-{{ $r->id_pengajuan }}"><i class="bi bi-x-lg"></i> Tolak</button>
+                                    <button class="btn btn-sm btn-danger btn-rounded px-2" data-bs-toggle="modal" data-bs-target="#modalTolakSekdes-{{ $r->id_pengajuan }}"><i class="bi bi-x-lg"></i> </button>
                                 </td>
                             </tr>
                             @empty

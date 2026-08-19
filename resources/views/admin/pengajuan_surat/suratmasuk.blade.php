@@ -13,7 +13,7 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
 .table-modern tbody tr{background:#fff!important;transition:background .15s}
 .table-modern tbody tr:hover{background:#f0f7ff!important}
 .table-modern tbody td{padding:13px 16px!important;vertical-align:middle!important;border-top:1px solid #f1f5f9!important;font-size:.875rem!important}
-.btn-rounded{border-radius:30px!important}
+.btn-rounded{border-radius:30px!important} 
 .badge-kadus{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;font-weight:600;padding:5px 12px;border-radius:20px;font-size:.78rem}
 .badge-diajukan{background:#fef3c7;color:#d97706;border:1px solid #fde68a;font-weight:600;padding:5px 12px;border-radius:20px;font-size:.78rem}
 .keterangan-preset {cursor:pointer;transition:all .15s;}
@@ -107,7 +107,7 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
             <div class="modal-header bg-primary text-white py-3 px-4">
-                <h5 class="modal-title fw-bold"><i class="bi bi-file-earmark-text-fill me-2"></i>Detail Pengajuan — {{ $r->nama_surat }}</h5>
+                <h5 class="modal-title fw-bold"><i class="bi bi-file-earmark-text-fill me-2"></i> Detail Pengajuan</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body p-4" style="background:#f8fafc">
