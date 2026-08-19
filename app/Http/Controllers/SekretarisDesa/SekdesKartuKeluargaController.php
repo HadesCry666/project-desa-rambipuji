@@ -13,38 +13,37 @@ class SekdesKartuKeluargaController extends Controller
     {
         $keyword = $request->katakunci;
 
-        $query = master_kartukeluarga::leftJoin(
-            'master_penduduks',
-            function ($join) {
-                $join->on('master_kartukeluargas.no_kk', '=', 'master_penduduks.no_kk')
-                    ->where(function ($q) {
-                        $q->where('master_penduduks.status_keluarga', 'LIKE', '%KEPALA KELUARGA%')
-                          ->orWhere('master_penduduks.status_keluarga', 'LIKE', '%Kepala Keluarga%');
-                    });
-            }
+        $query = master_penduduk::join(
+            'master_kartukeluargas',
+            'master_penduduks.no_kk', '=', 'master_kartukeluargas.no_kk'
         )->select(
+            'master_kartukeluargas.kecamatan',
+            'master_kartukeluargas.desa',
             'master_kartukeluargas.no_kk',
+            'master_penduduks.nik',
+            'master_penduduks.nama_lengkap',
+            'master_penduduks.tempat_lahir',
+            'master_penduduks.tanggal_lahir',
+            'master_penduduks.status_perkawinan',
+            'master_penduduks.jenis_kelamin',
             'master_kartukeluargas.alamat',
             'master_kartukeluargas.rt',
             'master_kartukeluargas.rw',
             'master_kartukeluargas.kode_pos',
-            'master_kartukeluargas.desa',
-            'master_kartukeluargas.kecamatan',
             'master_kartukeluargas.kabupaten',
-            'master_kartukeluargas.provinsi',
-            'master_kartukeluargas.tanggal_dibuat',
-            'master_penduduks.nama_lengkap',
-            'master_penduduks.nik'
-        );
+            'master_kartukeluargas.provinsi'
+        )->orderBy('master_kartukeluargas.no_kk')
+         ->orderByRaw("FIELD(master_penduduks.status_keluarga, 'KEPALA KELUARGA', 'Kepala Keluarga', 'SUAMI', 'ISTRI', 'ANAK')");
 
         if (!empty($keyword)) {
             $query->where(function ($q) use ($keyword) {
                 $q->where('master_kartukeluargas.no_kk', 'LIKE', '%' . $keyword . '%')
-                    ->orWhere('master_penduduks.nama_lengkap', 'LIKE', '%' . $keyword . '%');
+                  ->orWhere('master_penduduks.nik', 'LIKE', '%' . $keyword . '%')
+                  ->orWhere('master_penduduks.nama_lengkap', 'LIKE', '%' . $keyword . '%');
             });
         }
 
-        $master_kartukeluarga = $query->paginate(10);
+        $master_kartukeluarga = $query->paginate(15);
 
         return view('sekretarisdesa.master_kartukeluarga.index', compact('master_kartukeluarga'));
     }
@@ -58,3 +57,4 @@ class SekdesKartuKeluargaController extends Controller
             ->with('success', 'Data Kartu Keluarga dan anggotanya berhasil dihapus.');
     }
 }
+

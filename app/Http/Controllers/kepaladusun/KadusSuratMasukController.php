@@ -69,7 +69,7 @@ class KadusSuratMasukController extends Controller
     {
         $katakunci = $request->katakunci;
 
-        $query = View_data_pengajuan::where('status', 'Disetujui Kepala Dusun');
+        $query = View_data_pengajuan::where('status', 'Selesai');
 
         if (!empty($katakunci)) {
             $query->where(function ($q) use ($katakunci) {

@@ -7,7 +7,9 @@
     <title>Portal Digital Desa Rambipuji - Gerbang Layanan Desa & UMKM</title>
     <meta name="description" content="Portal Terintegrasi Resmi Desa Rambipuji. Akses cepat, mudah, dan modern untuk layanan administrasi desa dan platform UMKM Digital.">
 
-    <!-- Google Fonts: Poppins -->
+    <!-- Favicon Logo Desa Rambipuji -->
+    <link rel="icon" type="image/png" href="{{ asset('image/logo/logo.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('image/logo/logo.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">

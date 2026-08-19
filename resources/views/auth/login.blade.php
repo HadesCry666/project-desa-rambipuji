@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Desa Rambipuji</title>
 
+    <!-- Favicon Logo Desa Rambipuji -->
+    <link rel="icon" type="image/png" href="{{ asset('image/logo/logo.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('image/logo/logo.png') }}">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

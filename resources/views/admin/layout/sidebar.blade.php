@@ -64,7 +64,7 @@
           </ul>
         </li>
         <li class="{{ Request::is('sekretarisdesa/kartukeluarga*') ? 'active' : '' }}">
-          <a class="nav-link" href="{{ url('/sekretarisdesa/kartukeluarga') }}"><i class="fas fa-address-card"></i><span>Kartu Keluarga</span></a>
+          <a class="nav-link" href="{{ url('/sekretarisdesa/kartukeluarga') }}"><i class="fas fa-users"></i><span>Master Penduduk</span></a>
         </li>
         <li class="{{ Request::is('sekretarisdesa/pengaduan*') ? 'active' : '' }}">
           <a class="nav-link" href="{{ url('/sekretarisdesa/pengaduan') }}"><i class="fas fa-comment-dots"></i><span>Pengaduan Masyarakat</span></a>
@@ -87,7 +87,7 @@
           </ul>
         </li>
         <li class="{{ Request::is('kepaladesa/kartukeluarga*') ? 'active' : '' }}">
-          <a class="nav-link" href="{{ url('/kepaladesa/kartukeluarga') }}"><i class="fas fa-address-card"></i><span>Data Kartu Keluarga</span></a>
+          <a class="nav-link" href="{{ url('/kepaladesa/kartukeluarga') }}"><i class="fas fa-users"></i><span>Data Penduduk</span></a>
         </li>
         <li class="{{ Request::is('kepaladesa/pengaduan*') ? 'active' : '' }}">
           <a class="nav-link" href="{{ url('/kepaladesa/pengaduan') }}"><i class="fas fa-comment-dots"></i><span>Pengaduan Masyarakat</span></a>

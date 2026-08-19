@@ -100,8 +100,8 @@ Route::middleware(['auth', 'role:1'])->prefix('admin')->group(function () {
     Route::post('/tambah-pengajuan', [TambahPengajuanController::class, 'store'])->name('pengajuan.tambah.store');
 
     // SURAT DITOLAK
-    Route::get('/suratditolak', [SuratditolakController::class, 'index'])->name('suratditolak.tampil');
-    Route::delete('/suratditolak/{id_pengajuan}/delete', [SuratditolakController::class, 'destroy'])->name('suratditolak.hapus');
+    Route::get('/suratditolak', [SuratDitolakController::class, 'index'])->name('suratditolak.tampil');
+    Route::delete('/suratditolak/{id_pengajuan}/delete', [SuratDitolakController::class, 'destroy'])->name('suratditolak.hapus');
 
     // SURAT SELESAI
     Route::get('/suratselesai', [SuratSelesaiController::class, 'index'])->name('suratselesai.index');

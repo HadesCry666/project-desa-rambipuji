@@ -18,9 +18,10 @@ class KadusTambahPengajuanController extends Controller
      */
     public function index()
     {
-        $datasurat = master_surat::orderBy('nama_surat')->get();
+        $datapenduduk = master_penduduk::orderBy('nama_lengkap')->get();
+        $datasurat    = master_surat::orderBy('nama_surat')->get();
 
-        return view('kepaladusun.tambah_pengajuan.index', compact('datasurat'));
+        return view('kepaladusun.tambah_pengajuan.index', compact('datapenduduk', 'datasurat'));
     }
 
     /**

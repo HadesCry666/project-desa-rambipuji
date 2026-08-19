@@ -23,26 +23,32 @@
     <ul class="sidebar-menu">
       <li class="menu-header">Menu Utama</li>
 
-      <li class="{{ Request::is('kepaladusn/dashboard*') ? 'active' : '' }}">
-        <a href="{{ url('/kepaladusn/dashboard') }}" class="nav-link">
+      <li class="{{ Request::is('kepaladusun/dashboard*') ? 'active' : '' }}">
+        <a href="{{ url('/kepaladusun/dashboard') }}" class="nav-link">
           <i class="fas fa-home"></i><span>Dashboard</span>
         </a>
       </li>
 
       <!-- Pengajuan Surat -->
-      <li class="dropdown {{ Request::is('kepaladusn/suratmasuk*') || Request::is('kepaladusn/tambah-pengajuan*') ? 'active' : '' }}">
+      <li class="dropdown {{ Request::is('kepaladusun/suratmasuk*') || Request::is('kepaladusun/tambah-pengajuan*') || Request::is('kepaladusun/suratselesai*') || Request::is('kepaladusun/suratditolak*') ? 'active' : '' }}">
         <a href="#" class="nav-link has-dropdown">
           <i class="fas fa-envelope"></i>
           <span>Pengajuan Surat</span>
         </a>
         <ul class="dropdown-menu">
-          <li class="{{ Request::is('kepaladusn/tambah-pengajuan*') ? 'active' : '' }}">
-            <a href="{{ url('kepaladusn/tambah-pengajuan') }}" class="nav-link">
+          <li class="{{ Request::is('kepaladusun/tambah-pengajuan*') ? 'active' : '' }}">
+            <a href="{{ url('/kepaladusun/tambah-pengajuan') }}" class="nav-link">
               <i class="fas fa-plus-circle me-1 text-success"></i> Tambah Pengajuan
             </a>
           </li>
-          <li class="{{ Request::is('kepaladusn/suratmasuk*') ? 'active' : '' }}">
-            <a href="{{ url('kepaladusn/suratmasuk') }}" class="nav-link">Surat Masuk</a>
+          <li class="{{ Request::is('kepaladusun/suratmasuk*') ? 'active' : '' }}">
+            <a href="{{ url('/kepaladusun/suratmasuk') }}" class="nav-link">Surat Masuk</a>
+          </li>
+          <li class="{{ Request::is('kepaladusun/suratselesai*') ? 'active' : '' }}">
+            <a href="{{ url('/kepaladusun/suratselesai') }}" class="nav-link">Surat Selesai</a>
+          </li>
+          <li class="{{ Request::is('kepaladusun/suratditolak*') ? 'active' : '' }}">
+            <a href="{{ url('/kepaladusun/suratditolak') }}" class="nav-link">Surat Ditolak</a>
           </li>
         </ul>
       </li>
