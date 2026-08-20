@@ -64,56 +64,31 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                                 <tbody>
                                 @forelse ($datapengajuan as $a)
                                     <tr>
-<<<<<<< HEAD
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $a->nik }}</td>
-                                        <td>{{ $a->nama_lengkap }}</td>
-                                        <td>{{ $a->nama_surat }}</td>
-                                        <td>{{ $a->tanggal_diajukan }}</td>
-                                        <td>{{ $a->rw }}</td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <button type="button"
-                                                    class="btn btn-success btn-sm me-1"
-                                                    data-toggle="modal"
-                                                    data-target="#modalDetail-{{ $a->id_pengajuan }}"
-                                                    title="Lihat Detail">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <a href="{{ route('suratselesai.cetak', $a->id_pengajuan) }}"
-                                                   class="btn btn-danger btn-sm"
-                                                   title="Cetak Surat PDF">
-                                                    <i class="fas fa-file-pdf"></i> Cetak PDF
-                                                </a>
-=======
                                         <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
-                                        <td class="">
+                                        <td>
                                             <div class="fw-semibold">
                                                 {{ $a->nama_lengkap ?? 'Warga' }}
                                             </div>
                                             <div style="font-size:11px;color:#e83e8c;">
                                                 {{ $a->nik }}
->>>>>>> 0e0ab6314fdcf60bc4a102f0971f2a85bee5eba3
                                             </div>
                                         </td>
-                                        <td class="text-center"><span class="badge bg-light text-dark border fw-medium" style="font-size:.78rem">{{ $a->nama_surat }}</td>
+                                        <td class="text-center"><span class="badge bg-light text-dark border fw-medium" style="font-size:.78rem">{{ $a->nama_surat }}</span></td>
                                         <td class="text-muted text-center">{{ $a->tanggal_diajukan }}</td>
-                                        <td class="text-center"><span class="badge bg-light text-dark border fw-medium" style="font-size:.78rem">{{ $a->rw }}</td>
+                                        <td class="text-center"><span class="badge bg-light text-dark border fw-medium" style="font-size:.78rem">{{ $a->rw }}</span></td>
                                         <td class="text-center">
-                                            <button class="btn btn-sm btn-info btn-rounded px-2 me-1" data-bs-toggle="modal" data-bs-target="#modalDetail-{{ $a->id_pengajuan }}"><i class="bi bi-eye-fill"></i> </button>
+                                            <button class="btn btn-sm btn-info btn-rounded px-2 me-1" data-bs-toggle="modal" data-bs-target="#modalDetail-{{ $a->id_pengajuan }}" title="Lihat Detail"><i class="bi bi-eye-fill"></i></button>
                                             <a href="{{ route('suratselesai.cetak', $a->id_pengajuan) }}"
-                                                target="_blank"
                                                 class="btn btn-sm btn-danger btn-rounded px-2"
                                                 title="Cetak Surat PDF">
                                                 <i class="bi bi-file-earmark-pdf-fill"></i>
                                             </a>
                                         </td>
-                                        
                                     </tr>
                                 @empty
                                     <tr>
-                                <td colspan="7" class="text-center py-4 text-muted">Belum ada pengajuan surat masuk.</td>
-                            </tr>
+                                        <td colspan="6" class="text-center py-4 text-muted">Belum ada pengajuan surat selesai.</td>
+                                    </tr>
                                 @endforelse
                                 </tbody>
 
