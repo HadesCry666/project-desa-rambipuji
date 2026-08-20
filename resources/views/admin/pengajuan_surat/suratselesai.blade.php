@@ -53,8 +53,7 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                                 <thead>
                                     <tr>
                                         <th class="text-center" style="width:50px">No</th>
-                                        <th class="text-center">NIK</th>
-                                        <th class="text-center">Nama</th>
+                                        <th>Nama Pemohon</th>
                                         <th class="text-center">Jenis Surat</th>
                                         <th class="text-center">Tanggal Pengajuan</th>
                                         <th class="text-center">RW</th>
@@ -66,8 +65,14 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                                 @forelse ($datapengajuan as $a)
                                     <tr>
                                         <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
-                                        <td class="text-center"><code style="font-size:.8rem">{{ $a->nik }}</td>
-                                        <td class="fw-semibold text-dark text-center">{{ $a->nama_lengkap }}</td>
+                                        <td class="">
+                                            <div class="fw-semibold">
+                                                {{ $a->nama_lengkap ?? 'Warga' }}
+                                            </div>
+                                            <div style="font-size:11px;color:#e83e8c;">
+                                                {{ $a->nik }}
+                                            </div>
+                                        </td>
                                         <td class="text-center"><span class="badge bg-light text-dark border fw-medium" style="font-size:.78rem">{{ $a->nama_surat }}</td>
                                         <td class="text-muted text-center">{{ $a->tanggal_diajukan }}</td>
                                         <td class="text-center"><span class="badge bg-light text-dark border fw-medium" style="font-size:.78rem">{{ $a->rw }}</td>
@@ -84,10 +89,8 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="text-center">
-                                            Belum ada data
-                                        </td>
-                                    </tr>
+                                <td colspan="7" class="text-center py-4 text-muted">Belum ada pengajuan surat masuk.</td>
+                            </tr>
                                 @endforelse
                                 </tbody>
 

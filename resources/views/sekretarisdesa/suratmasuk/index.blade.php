@@ -54,7 +54,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:50px">No</th>
-                                <th>Nama Warga</th>
+                                <th>Nama Pemohon</th>
                                 <th class="text-center">Jenis Surat</th>
                                 <th class="text-center">Keterangan Admin</th>
                                 <th class="text-center">Status</th>

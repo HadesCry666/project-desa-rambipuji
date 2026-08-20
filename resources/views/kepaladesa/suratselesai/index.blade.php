@@ -33,7 +33,7 @@
     <div class="section-body">
         <div class="card card-modern">
             <div class="card-header bg-white py-3 border-bottom-0 d-flex justify-content-between align-items-center">
-                <h4 class="fw-bold text-dark m-0"><i class="bi bi-file-earmark-check-fill text-success me-2"></i>Daftar Surat Disahkan</h4>
+                <h4 class="fw-bold text-dark m-0">Daftar Surat Disahkan</h4>
                 <form class="d-flex" action="{{ route('kades.suratselesai.index') }}" method="get">
                     <input class="form-control me-2" type="search" name="katakunci" value="{{ Request::get('katakunci') }}" placeholder="Cari NIK / Nama / Surat">
                     <button class="btn btn-primary btn-rounded px-4">Cari</button>
@@ -47,9 +47,8 @@
                                 <th class="text-center" style="width: 50px;">No</th>
                                 <th>ID Pengajuan</th>
                                 <th>Nama Pemohon</th>
-                                <th>NIK</th>
-                                <th>Jenis Surat</th>
-                                <th>Keperluan</th>
+                                <th class="text-center">Jenis Surat</th>
+                                <th class="text-center">Keperluan</th>
                                 <th class="text-center">Status TTE</th>
                             </tr>
                         </thead>
@@ -58,9 +57,15 @@
                             <tr>
                                 <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
                                 <td><span class="fw-bold text-primary">#{{ $row->id_pengajuan }}</span></td>
-                                <td class="fw-semibold text-dark">{{ $row->nama_lengkap ?? 'Warga' }}</td>
-                                <td><code>{{ $row->nik }}</code></td>
-                                <td><span class="badge bg-light text-dark border">{{ $row->nama_surat ?? 'Surat Keterangan' }}</span></td>
+                                <td class="">
+                                            <div class="fw-semibold">
+                                                {{ $row->nama_lengkap ?? 'Warga' }}
+                                            </div>
+                                            <div style="font-size:11px;color:#e83e8c;">
+                                                {{ $row->nik }}
+                                            </div>
+                                        </td>
+                                <td class="text-center"><span class="badge bg-light text-dark border">{{ $row->nama_surat ?? 'Surat Keterangan' }}</span></td>
                                 <td>{{ $row->keperluan }}</td>
                                 <td class="text-center">
                                     <span class="badge bg-success-subtle text-success border border-success fw-bold px-3 py-1 rounded-pill">

@@ -46,7 +46,7 @@
     <div class="section-body">
         <div class="card card-modern">
             <div class="card-header bg-white py-3 border-bottom-0 d-flex justify-content-between align-items-center">
-                <h4 class="fw-bold text-dark m-0"><i class="bi bi-file-earmark-arrow-up-fill text-primary me-2"></i>Pengajuan Menunggu Pengesahan (Disetujui Sekretaris Desa)</h4>
+                <h4 class="fw-bold text-dark m-0">Pengajuan Menunggu Pengesahan (Disetujui Sekretaris Desa)</h4>
                 <form class="d-flex" action="{{ route('kades.suratmasuk.index') }}" method="get">
                     <input class="form-control me-2" type="search" name="katakunci" value="{{ Request::get('katakunci') }}" placeholder="Cari NIK / Nama / Surat">
                     <button class="btn btn-primary btn-rounded px-4">Cari</button>
@@ -59,9 +59,8 @@
                             <tr>
                                 <th class="text-center" style="width: 50px;">No</th>
                                 <th>Nama Pemohon</th>
-                                <th>NIK</th>
-                                <th>Jenis Surat</th>
-                                <th>Keterangan Admin</th>
+                                <th class="text-center">Jenis Surat</th>
+                                <th class="text-center">Keterangan Admin</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center" style="width: 250px;">Aksi TTE</th>
                             </tr>
@@ -70,9 +69,15 @@
                             @forelse($datapengajuan as $row)
                             <tr>
                                 <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
-                                <td class="fw-semibold text-dark">{{ $row->nama_lengkap ?? 'Warga' }}</td>
-                                <td><code>{{ $row->nik }}</code></td>
-                                <td><span class="badge bg-light text-dark border">{{ $row->nama_surat ?? 'Surat Keterangan' }}</span></td>
+                                <td class="">
+                                            <div class="fw-semibold">
+                                                {{ $row->nama_lengkap ?? 'Warga' }}
+                                            </div>
+                                            <div style="font-size:11px;color:#e83e8c;">
+                                                {{ $row->nik }}
+                                            </div>
+                                        </td>
+                                <td class="text-center"><span class="badge bg-light text-dark border">{{ $row->nama_surat ?? 'Surat Keterangan' }}</span></td>
                                 <td>
                                     @if(!empty($row->keterangan_admin))
                                         <span class="text-dark small d-inline-block text-truncate" style="max-width:180px;" title="{{ $row->keterangan_admin }}">

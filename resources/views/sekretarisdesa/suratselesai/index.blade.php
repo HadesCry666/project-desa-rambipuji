@@ -41,8 +41,7 @@
                             <tr>
                                 <th class="text-center" style="width: 50px;">No</th>
                                 <th>ID Pengajuan</th>
-                                <th class="text-center">Nama Pemohon</th>
-                                <th class="text-center">NIK</th>
+                                <th>Nama Pemohon</th>
                                 <th class="text-center">Jenis Surat</th>
                                 <th class="text-center">Keperluan</th>
                                 <th class="text-center">Status</th>
@@ -53,8 +52,14 @@
                             <tr>
                                 <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
                                 <td><span class="fw-bold text-primary">#{{ $row->id_pengajuan }}</span></td>
-                                <td class="fw-semibold text-dark">{{ $row->nama_lengkap ?? 'Warga' }}</td>
-                                <td class="text-center"><code>{{ $row->nik }}</code></td>
+                                <td class="">
+                                    <div class="fw-semibold">
+                                        {{ $row->nama_lengkap ?? 'Warga' }}
+                                    </div>
+                                    <div style="font-size:11px;color:#e83e8c;">
+                                        {{ $row->nik }}
+                                    </div>
+                                </td>
                                 <td class="text-center"><span class="badge bg-light text-dark border">{{ $row->nama_surat ?? 'Surat Keterangan' }}</span></td>
                                 <td>{{ $row->keperluan }}</td>
                                 <td class="text-center">

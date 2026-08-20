@@ -15,6 +15,12 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
 .stat-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; color: #94a3b8; }
 .stat-value { font-size: 1.8rem; font-weight: 800; line-height: 1.1; color: #0f172a; }
 .chart-card { border: 1px solid #e2e8f0; border-radius: 15px; background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.03); }
+a.text-decoration-none,
+a.text-decoration-none:hover,
+a.text-decoration-none:focus {
+    color: inherit !important;
+    text-decoration: none !important;
+}
 </style>
 @endpush
 
@@ -25,8 +31,8 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
             <h1 class="fw-bold text-dark mb-1">Dashboard Kepala Desa 👋</h1>
             <p class="text-muted mb-0 small">Sistem Persuratan Desa Rambipuji — Executive Overview & Pengesahan Surat Berbasis TTE.</p>
         </div>
-        <div class="badge bg-light text-primary border px-3 py-2 rounded-pill fw-semibold shadow-sm d-none d-md-flex align-items-center gap-2">
-            <i class="bi bi-calendar-event me-1"></i>
+        <div class="badge bg-primary text-white px-3 py-2 rounded-pill fw-semibold shadow-sm d-none d-md-flex align-items-center gap-2">
+            <i class="bi bi-calendar-event-fill" style="margin-right: 8px"></i>
             <span>{{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</span>
         </div>
     </div>
@@ -34,8 +40,8 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
     {{-- 3 STAT CARDS KADES --}}
     <div class="row g-3 mb-4">
         <div class="col-12 col-lg-4">
-            <a href="{{ url('/kepaladesa/suratmasuk') }}" class="text-decoration-none">
-            <div class="stat-card d-flex align-items-center gap-3">
+            <a href="{{ url('/kepaladesa/suratmasuk') }}" class="text-decoration-none h-100">
+            <div class="stat-card d-flex align-items-center h-100" style="gap:20px;">
                 <div class="stat-icon" style="background:#fef3c7;color:#d97706;"><i class="bi bi-pen-fill"></i></div>
                 <div>
                     <div class="stat-label">Menunggu TTE Kades</div>
@@ -46,8 +52,8 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
             </a>
         </div>
         <div class="col-12 col-lg-4">
-            <a href="{{ url('/kepaladesa/suratselesai') }}" class="text-decoration-none">
-            <div class="stat-card d-flex align-items-center gap-3">
+            <a href="{{ url('/kepaladesa/suratselesai') }}" class="text-decoration-none h-100">
+            <div class="stat-card d-flex align-items-center h-100" style="gap:20px;">
                 <div class="stat-icon" style="background:#dcfce7;color:#16a34a;"><i class="bi bi-check-circle-fill"></i></div>
                 <div>
                     <div class="stat-label">Surat Selesai (TTE)</div>
@@ -57,7 +63,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
             </a>
         </div>
         <div class="col-12 col-lg-4">
-            <div class="stat-card d-flex align-items-center gap-3">
+            <div class="stat-card d-flex align-items-center h-100" style="gap:20px;">
                 <div class="stat-icon" style="background:#fee2e2;color:#dc2626;"><i class="bi bi-x-circle-fill"></i></div>
                 <div>
                     <div class="stat-label">Surat Ditolak</div>
@@ -72,7 +78,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
         <div class="col-lg-7">
             <div class="chart-card p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="fw-bold text-dark mb-0"><i class="bi bi-bar-chart-fill text-primary me-2"></i>Surat Per Bulan</h5>
+                    <h5 class="fw-bold text-dark mb-0"><i class="bi bi-bar-chart-fill text-primary" style="margin-right: 10px;"></i>Surat Per Bulan</h5>
                     <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-1" style="font-size:11px;">Tahun 2026</span>
                 </div>
                 <div style="height:260px;"><canvas id="chartSuratKades"></canvas></div>
@@ -81,7 +87,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
         <div class="col-lg-5">
             <div class="chart-card p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="fw-bold text-dark mb-0"><i class="bi bi-pie-chart-fill text-primary me-2"></i>Status Surat</h5>
+                    <h5 class="fw-bold text-dark mb-0"><i class="bi bi-pie-chart-fill text-primary" style="margin-right: 10px;"></i>Status Surat</h5>
                     <span class="badge bg-success-subtle text-success fw-semibold px-3 py-1" style="font-size:11px;">Realtime</span>
                 </div>
                 <div style="height:260px;display:flex;align-items:center;justify-content:center;">
