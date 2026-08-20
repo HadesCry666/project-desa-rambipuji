@@ -46,27 +46,36 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                             <tr>
                                 <th class="text-center" style="width:50px">No</th>
                                 <th>Nama Pemohon</th>
-                                <th>NIK</th>
-                                <th>Jenis Surat</th>
-                                <th>Status Penolakan</th>
-                                <th>Alasan Penolakan</th>
-                                <th>Tanggal Update</th>
+                                <th class="text-center">Jenis Surat</th>
+                                <th class="text-center">Status Penolakan</th>
+                                <th class="text-center">Alasan Penolakan</th>
+                                <th class="text-center">Tanggal Update</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($datapengajuan as $i => $r)
                             <tr>
                                 <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
-                                <td class="fw-semibold text-dark">{{ $r->nama_lengkap }}</td>
-                                <td><code>{{ $r->nik }}</code></td>
-                                <td><span class="badge bg-light text-dark border fw-medium">{{ $r->nama_surat }}</span></td>
-                                <td>
+                                <td class="">
+                                    <div class="fw-semibold">
+                                        {{ $r->nama_lengkap ?? 'Warga' }}
+                                    </div>
+                                    <div style="font-size:11px;color:#e83e8c;">
+                                        {{ $r->nik }}
+                                    </div>
+                                </td>
+                                <td class="text-center"><span class="badge bg-light text-dark border fw-medium">{{ $r->nama_surat }}</span></td>
+                                <td class="text-center">
                                     <span class="badge bg-danger text-white fw-semibold px-3 py-1 rounded-pill">
-                                        <i class="bi bi-x-circle-fill me-1"></i>{{ $r->status }}
+                                        <i class="bi bi-x-circle-fill me-1"></i>   {{ $r->status }}
                                     </span>
                                 </td>
-                                <td class="text-muted" style="max-width:250px;white-space:normal;font-size:.82rem">{{ $r->keterangan_ditolak ?? '-' }}</td>
-                                <td class="text-muted">{{ $r->updated_at ?? $r->created_at }}</td>
+                                <td class="text-center">
+                                    <span class="text-muted small">
+                                        {{ \Illuminate\Support\Str::words(strip_tags($r->keterangan_ditolak ?? '-'), 12, '...') }}
+                                    </span>
+                                </td>
+                                <td class="text-muted text-center">{{ $r->updated_at ?? $r->created_at }}</td>
                             </tr>
                             @empty
                             <tr>

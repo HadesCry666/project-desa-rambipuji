@@ -41,7 +41,7 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>NIK</th>
+                                        {{-- <th>NIK</th> --}}
                                         <th>Nama</th>
                                         <th>Jenis Surat</th>
                                         <th>Tanggal Pengajuan</th>
@@ -50,12 +50,12 @@
                                     </tr>
                                 </thead>
 
-                                <tbody>
+                                <tbody class="text-small">
                                     @if($datapengajuan->count() > 0)
                                         @foreach ($datapengajuan as $a)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $a->nik }}</td>
+                                            {{-- <td>{{ $a->nik }}</td> --}}
                                             <td>{{ $a->nama_lengkap }}</td>
                                             <td>{{ $a->nama_surat }}</td>
                                             <td>{{ $a->tanggal_diajukan }}</td>

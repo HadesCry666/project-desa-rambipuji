@@ -1,5 +1,26 @@
 @extends('admin.layout.main')
 @section('title', 'Surat Selesai')
+
+@push('css-lib')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!important}
+.card-modern{border:1px solid #e2e8f0;border-radius:15px;box-shadow:0 4px 16px rgba(0,0,0,.03);background:#fff}
+.table-modern{border-collapse:separate!important;border-spacing:0 5px!important}
+.table-modern thead th{background:#f8fafc!important;color:#475569!important;font-weight:600!important;font-size:.74rem!important;text-transform:uppercase!important;letter-spacing:.6px!important;border-bottom:2px solid #e2e8f0!important;padding:13px 16px!important}
+.table-modern tbody tr{background:#fff!important;transition:background .15s}
+.table-modern tbody tr:hover{background:#f0f7ff!important}
+.table-modern tbody td{padding:13px 16px!important;vertical-align:middle!important;border-top:1px solid #f1f5f9!important;font-size:.875rem!important}
+.btn-rounded{border-radius:30px!important}
+.badge-kadus{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;font-weight:600;padding:5px 12px;border-radius:20px;font-size:.78rem}
+.badge-diajukan{background:#fef3c7;color:#d97706;border:1px solid #fde68a;font-weight:600;padding:5px 12px;border-radius:20px;font-size:.78rem}
+.keterangan-preset {cursor:pointer;transition:all .15s;}
+.keterangan-preset:hover{background-color:#dbeafe!important;border-color:#3b82f6!important;}
+</style>
+@endpush
+
 @section('content')
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -8,7 +29,7 @@
     <div class="section-header">
         <h1>Surat Selesai</h1>
     </div>
-
+ 
     <div class="section-body">
         <div class="row">
             <div class="col-12">
@@ -28,22 +49,22 @@
                     {{-- Table --}}
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-modern w100">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>NIK</th>
-                                        <th>Nama</th>
-                                        <th>Jenis Surat</th>
-                                        <th>Tanggal Pengajuan</th>
-                                        <th>RW</th>
-                                        <th>Aksi</th>
+                                        <th class="text-center" style="width:50px">No</th>
+                                        <th>Nama Pemohon</th>
+                                        <th class="text-center">Jenis Surat</th>
+                                        <th class="text-center">Tanggal Pengajuan</th>
+                                        <th class="text-center">RW</th>
+                                        <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                 @forelse ($datapengajuan as $a)
                                     <tr>
+<<<<<<< HEAD
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $a->nik }}</td>
                                         <td>{{ $a->nama_lengkap }}</td>
@@ -64,15 +85,35 @@
                                                    title="Cetak Surat PDF">
                                                     <i class="fas fa-file-pdf"></i> Cetak PDF
                                                 </a>
+=======
+                                        <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
+                                        <td class="">
+                                            <div class="fw-semibold">
+                                                {{ $a->nama_lengkap ?? 'Warga' }}
+                                            </div>
+                                            <div style="font-size:11px;color:#e83e8c;">
+                                                {{ $a->nik }}
+>>>>>>> 0e0ab6314fdcf60bc4a102f0971f2a85bee5eba3
                                             </div>
                                         </td>
+                                        <td class="text-center"><span class="badge bg-light text-dark border fw-medium" style="font-size:.78rem">{{ $a->nama_surat }}</td>
+                                        <td class="text-muted text-center">{{ $a->tanggal_diajukan }}</td>
+                                        <td class="text-center"><span class="badge bg-light text-dark border fw-medium" style="font-size:.78rem">{{ $a->rw }}</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info btn-rounded px-2 me-1" data-bs-toggle="modal" data-bs-target="#modalDetail-{{ $a->id_pengajuan }}"><i class="bi bi-eye-fill"></i> </button>
+                                            <a href="{{ route('suratselesai.cetak', $a->id_pengajuan) }}"
+                                                target="_blank"
+                                                class="btn btn-sm btn-danger btn-rounded px-2"
+                                                title="Cetak Surat PDF">
+                                                <i class="bi bi-file-earmark-pdf-fill"></i>
+                                            </a>
+                                        </td>
+                                        
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="text-center">
-                                            Belum ada data
-                                        </td>
-                                    </tr>
+                                <td colspan="7" class="text-center py-4 text-muted">Belum ada pengajuan surat masuk.</td>
+                            </tr>
                                 @endforelse
                                 </tbody>
 

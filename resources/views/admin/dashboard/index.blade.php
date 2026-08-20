@@ -20,6 +20,12 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
 .stat-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; color: #94a3b8; }
 .stat-value { font-size: 1.8rem; font-weight: 800; line-height: 1.1; color: #0f172a; }
 .chart-card { border: 1px solid #e2e8f0; border-radius: 15px; background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.03); }
+a.text-decoration-none,
+a.text-decoration-none:hover,
+a.text-decoration-none:focus {
+    color: inherit !important;
+    text-decoration: none !important;
+}
 </style>
 @endpush
 
@@ -30,8 +36,8 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
             <h1 class="fw-bold text-dark mb-1">Dashboard Admin Desa 👋</h1>
             <p class="text-muted mb-0 small">Sistem Persuratan Desa Rambipuji — Verifikasi dan kelola semua pengajuan surat warga.</p>
         </div>
-        <div class="badge bg-light text-primary border px-3 py-2 rounded-pill fw-semibold shadow-sm d-none d-md-flex align-items-center gap-2">
-            {{-- <i class="bi bi-calendar-event me-1"> </i> --}}
+        <div class="badge bg-primary text-white px-3 py-2 rounded-pill fw-semibold shadow-sm d-none d-md-flex align-items-center gap-2">
+            <i class="bi bi-calendar-event-fill" style="margin-right: 8px"></i>
             <span>{{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</span>
         </div>
     </div>
@@ -54,7 +60,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
             <div class="stat-card d-flex align-items-center" style="gap:20px;">
                 <div class="stat-icon" style="background:#fff7ed;color:#ea580c;"><i class="bi bi-hourglass-split"></i></div>
                 <div>
-                    <div class="stat-label">Menunggu Verifikasi</div>
+                    <div class="stat-label">Verifikasi</div>
                     <div class="stat-value">{{ $menunggu }}</div>
                 </div>
             </div>
@@ -89,7 +95,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
         <div class="col-lg-7">
             <div class="chart-card p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="fw-bold text-dark mb-0">Surat Per Bulan</h5>
+                    <h5 class="fw-bold text-dark mb-0"><i class="bi bi-bar-chart-fill text-primary" style="margin-right: 10px;"></i>Surat Per Bulan</h5>
                     <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-1" style="font-size:11px;">Tahun {{ date('Y') }}</span>
                 </div>
                 <div style="height:260px;"><canvas id="chartSuratBulanAdmin"></canvas></div>
@@ -98,7 +104,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
         <div class="col-lg-5">
             <div class="chart-card p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="fw-bold text-dark mb-0">Status Surat</h5>
+                    <h5 class="fw-bold text-dark mb-0"><i class="bi bi-pie-chart-fill text-primary" style="margin-right: 10px;"></i>Status Surat</h5>
                     <span class="badge bg-success-subtle text-success fw-semibold px-3 py-1" style="font-size:11px;">Realtime</span>
                 </div>
                 <div style="height:260px;display:flex;align-items:center;justify-content:center;">

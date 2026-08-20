@@ -25,8 +25,8 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
             <h1 class="fw-bold text-dark mb-1">Dashboard Kepala Dusun 👋</h1>
             <p class="text-muted mb-0 small">Sistem Persuratan Desa Rambipuji — Pantau pengajuan surat warga wilayah Anda.</p>
         </div>
-        <div class="badge bg-light text-primary border px-3 py-2 rounded-pill fw-semibold shadow-sm d-none d-md-flex align-items-center gap-2">
-            {{-- <i class="bi bi-calendar-event me-1"> </i> --}}
+        <div class="badge bg-primary text-white px-3 py-2 rounded-pill fw-semibold shadow-sm d-none d-md-flex align-items-center gap-2">
+            <i class="bi bi-calendar-event-fill" style="margin-right: 8px"></i>
             <span>{{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</span>
         </div>
     </div>
@@ -52,6 +52,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
             </div>
         </div>
         <div class="col-6 col-lg-3">
+          
             <div class="stat-card d-flex align-items-center" style="gap:20px;">
                 <div class="stat-icon" style="background:#dcfce7;color:#16a34a;"><i class="bi bi-check-circle-fill"></i></div>
                 <div>
@@ -77,7 +78,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
         <div class="col-lg-7">
             <div class="chart-card p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="fw-bold text-dark mb-0"><i class="bi bi-bar-chart-fill text-primary me-2"></i>Surat Per Bulan</h5>
+                    <h5 class="fw-bold text-dark mb-0"><i class="bi bi-bar-chart-fill text-primary" style="margin-right: 10px;"></i>Surat Per Bulan</h5>
                     <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-1" style="font-size:11px;">Tahun 2026</span>
                 </div>
                 <div style="height:260px;"><canvas id="chartSuratBulan"></canvas></div>
@@ -87,7 +88,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
         <div class="col-lg-5">
             <div class="chart-card p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="fw-bold text-dark mb-0"><i class="bi bi-pie-chart-fill text-primary me-2"></i>Status Surat</h5>
+                    <h5 class="fw-bold text-dark mb-0"><i class="bi bi-pie-chart-fill text-primary" style="margin-right: 10px;"></i>Status Surat</h5>
                     <span class="badge bg-success-subtle text-success fw-semibold px-3 py-1" style="font-size:11px;">Realtime</span>
                 </div>
                 <div style="height:260px;display:flex;align-items:center;justify-content:center;">
