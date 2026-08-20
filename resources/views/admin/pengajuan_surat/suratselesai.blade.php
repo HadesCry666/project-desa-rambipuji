@@ -60,7 +60,6 @@
                                                     <i class="fas fa-eye"></i>
                                                 </button>
                                                 <a href="{{ route('suratselesai.cetak', $a->id_pengajuan) }}"
-                                                   target="_blank"
                                                    class="btn btn-danger btn-sm"
                                                    title="Cetak Surat PDF">
                                                     <i class="fas fa-file-pdf"></i> Cetak PDF
@@ -171,7 +170,7 @@
             </div>
 
             <div class="modal-footer">
-                <a href="{{ route('suratselesai.cetak', $a->id_pengajuan) }}" target="_blank" class="btn btn-danger">
+                <a href="{{ route('suratselesai.cetak', $a->id_pengajuan) }}" class="btn btn-danger">
                     <i class="fas fa-file-pdf"></i> Cetak PDF Surat
                 </a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>

@@ -51,7 +51,7 @@
     @include('generate.partials.kop') 
 
     <div class="judul">SURAT KETERANGAN TIDAK MAMPU</div>
-    <div class="nomor">Nomor: 470/ ____ /2025</div>
+    <div class="nomor">Nomor: {{ $data->nomor_surat_keluar ?? '___/___/___/___' }}</div>
 
     <div class="isi">
         Yang bertanda tangan di bawah ini Kepala Desa Rambipuji Kecamatan Rambipuji Kabupaten JEMBER menerangkan dengan sebenarnya bahwa:

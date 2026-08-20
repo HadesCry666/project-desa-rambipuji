@@ -59,7 +59,7 @@
     <div class="clear"></div>
 
     <div class="title">SURAT PENGANTAR NIKAH</div>
-    <div class="number">Nomor: ____ /SPN-DSD/____ /201</div>
+    <div class="number">Nomor: {{ $data->nomor_surat_keluar ?? '___/___/___/___' }}</div>
 
     <div class="content">
       Yang bertanda tangan di bawah ini Kepala Desa Rambipuji Kecamatan Rambipuji Kabupaten Jember, menerangkan bahwa:
@@ -74,7 +74,7 @@
         <tr><td>Nama Orang Tua</td><td>: {{ $data->keperluan }}</td></tr>
       </table>
 
-      Adalah anggota masyarakat Desa Rambipuji dengan status <b>Belum Menikah</b>. Surat pengantar ini dipergunakan untuk mengurus Administrasi Pernikahan.
+      Adalah anggota masyarakat Desa Rambipuji dengan status <b>{{ $data->status_perkawinan }}</b>. Surat pengantar ini dipergunakan untuk mengurus Administrasi Pernikahan.
       <br><br>
       Demikian surat pengantar ini dibuat dan diserahkan kepada yang bersangkutan untuk dapat dipergunakan seperlunya.
     </div>

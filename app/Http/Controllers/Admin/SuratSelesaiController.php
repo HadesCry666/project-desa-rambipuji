@@ -38,11 +38,16 @@ class SuratSelesaiController extends Controller
     {
         $pengajuan = master_pengajuan::findOrFail($id_pengajuan);
 
-        if (empty($pengajuan->file_pdf) || $pengajuan->file_pdf === '-' || !Storage::disk('public')->exists('generatesurat/' . basename($pengajuan->file_pdf))) {
-            $generateController = new GeneratePDFController();
-            $generateController->generateAndStorePdf($id_pengajuan);
-            $pengajuan->refresh();
+        // Pastikan nomor_surat_keluar terisi jika belum ada
+        if (empty($pengajuan->nomor_surat_keluar)) {
+            $pengajuan->nomor_surat_keluar = \App\Http\Controllers\KepalaDesa\KadesSuratMasukController::generateNomorSuratKeluar();
+            $pengajuan->save();
         }
+
+        // Selalu re-generate PDF agar perubahan template dan nomor surat terbaru langsung tercermin
+        $generateController = new GeneratePDFController();
+        $generateController->generateAndStorePdf($id_pengajuan);
+        $pengajuan->refresh();
 
         $filename = basename($pengajuan->file_pdf);
         $filePath = storage_path('app/public/generatesurat/' . $filename);

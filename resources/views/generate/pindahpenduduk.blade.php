@@ -48,7 +48,7 @@
   @include('generate.partials.kop')
 
 <div class="title">SURAT PENGANTAR PINDAH PENDUDUK</div>
-<div class="number">Nomor: ____ /SPN-DSD/____ /201</div>
+<div class="number">Nomor: {{ $data->nomor_surat_keluar ?? '___/___/___/___' }}</div>
       </div>
     </div>
 

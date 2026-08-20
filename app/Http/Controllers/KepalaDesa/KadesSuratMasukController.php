@@ -34,14 +34,51 @@ class KadesSuratMasukController extends Controller
     }
 
     /**
+     * Generate Nomor Surat Keluar Resmi.
+     * Format: 511/{nomor_urut}/35.09.13.2006/{tahun}
+     * Contoh: 511/135/35.09.13.2006/2026
+     * - 511          : kode tetap
+     * - nomor_urut   : auto-increment per tahun (reset setiap tahun baru)
+     * - 35.09.13.2006: kode desa tetap
+     * - tahun        : tahun saat ini
+     */
+    public static function generateNomorSuratKeluar(): string
+    {
+        $tahun    = date('Y');
+        $kodeAwal = '511';
+        $kodeDesa = '35.09.13.2006';
+
+        // Ambil nomor urut terbesar tahun ini
+        // Format surat: "511/{urut}/35.09.13.2006/{tahun}" -> bagian ke-2 adalah nomor urut
+        $terakhir = \Illuminate\Support\Facades\DB::table('master_pengajuan')
+            ->whereNotNull('nomor_surat_keluar')
+            ->where('nomor_surat_keluar', 'like', "{$kodeAwal}/%/{$kodeDesa}/{$tahun}")
+            ->max(\Illuminate\Support\Facades\DB::raw(
+                "CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(nomor_surat_keluar, '/', 2), '/', -1) AS UNSIGNED)"
+            ));
+
+        // Jika belum ada surat tahun ini, mulai dari 1; jika ada, tambah 1
+        $nomorUrut = $terakhir ? ((int) $terakhir + 1) : 1;
+
+        return "{$kodeAwal}/{$nomorUrut}/{$kodeDesa}/{$tahun}";
+    }
+
+    /**
      * Kades Menyetujui Surat:
-     * 1. Ubah status menjadi 'Selesai'
-     * 2. Panggil GeneratePDFController untuk buat PDF resmi + TTD Digital
-     * 3. Simpan nama file PDF ke kolom file_pdf
+     * 1. Generate nomor surat keluar otomatis
+     * 2. Ubah status menjadi 'Selesai'
+     * 3. Panggil GeneratePDFController untuk buat PDF resmi + TTD Digital
+     * 4. Simpan nama file PDF ke kolom file_pdf
      */
     public function setuju($id_pengajuan)
     {
         $pengajuan = master_pengajuan::findOrFail($id_pengajuan);
+
+        // Generate nomor surat keluar jika belum ada
+        if (empty($pengajuan->nomor_surat_keluar)) {
+            $pengajuan->nomor_surat_keluar = self::generateNomorSuratKeluar();
+        }
+
         $pengajuan->status = 'Selesai';
         $pengajuan->save();
 
