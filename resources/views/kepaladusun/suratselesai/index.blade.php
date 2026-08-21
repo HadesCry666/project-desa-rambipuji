@@ -67,7 +67,7 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                                 <td class="text-center"><span class="badge bg-success text-white fw-semibold px-3 py-2 rounded-pill">Selesai</span></td>
                                 <td class="text-center">
                                     @if(!empty($r->file_pdf) && $r->file_pdf !== '-')
-                                        <a href="{{ asset('storage/generatesurat/' . basename($r->file_pdf)) }}" target="_blank" class="btn btn-sm btn-danger btn-rounded px-3">
+                                        <a href="{{ route('suratselesai.cetak', $r->id_pengajuan) }}" class="btn btn-sm btn-danger btn-rounded px-3">
                                             <i class="bi bi-filetype-pdf me-1"></i>Unduh PDF
                                         </a>
                                     @else

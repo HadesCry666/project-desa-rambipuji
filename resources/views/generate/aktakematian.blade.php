@@ -74,8 +74,8 @@
 <body>
     @include('generate.partials.kop')
 
-    <div class="title">SURAT PERNTAYAAN AKTA KEMATIAN</div>
-    <div class="number">Nomor: ___ / ___ / 2020</div>
+    <div class="title">SURAT PERNYATAAN AKTA KEMATIAN</div>
+    <div class="number">Nomor: {{ $data->nomor_surat_keluar ?? '___/___/___/___' }}</div>
 
 
 <div class="content" style="text-align: justify;">

@@ -13,6 +13,7 @@ class master_pengajuan extends Model
         'id_pengajuan',
         'id_surat',
         'no_registrasi',
+        'nomor_surat_keluar',
         'nik',
         'keperluan',
         'tanggal_diajukan',

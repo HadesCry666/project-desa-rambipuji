@@ -69,23 +69,23 @@
 <body>
   @include('generate.partials.kop')
     <div class="title">SURAT PENGANTAR PEMBUATAN KTP  </div>
-    <div class="nomor">Nomor: 002/SP/RTR 001.008/VI/2022</div>
+    <div class="nomor">Nomor: {{ $data->nomor_surat_keluar ?? '___/___/___/___' }}</div>
 
     <div class="content">
-      Yang bertanda tangan di bawah ini menerangkan bahwa:
+      Yang bertanda tangan di bawah ini Kepala Desa Rambipuji Kecamatan Rambipuji Kabupaten JEMBER menerangkan bahwa:
       <br><br>
       <table class="table">
-        <tr><td>Nama</td><td>: {{ $data->nama_lengkap }}</</td></tr>
+        <tr><td>Nama</td><td>: {{ $data->nama_lengkap }}</td></tr>
         <tr><td>Tempat / Tanggal Lahir</td><td>: {{ $data->tempat_tanggal_lahir }}</td></tr>
         <tr><td>Jenis Kelamin</td><td>: {{ $data->jenis_kelamin }}</td></tr>
-        <tr><td>No KTP / KK / Nopen</td><td>: {{ $data->nik }}</td></tr>
+        <tr><td>No KTP / NIK</td><td>: {{ $data->nik }}</td></tr>
         <tr><td>Kewarganegaraan / Agama</td><td>: {{ $data->warga_agama }}</td></tr>
         <tr><td>Pekerjaan</td><td>: {{ $data->pekerjaan }}</td></tr>
-        <tr><td>Status Perkawinan</td><td>: BELUM KAWIN</td></tr>
+        <tr><td>Status Perkawinan</td><td>: {{ $data->status_perkawinan }}</td></tr>
         <tr><td>Alamat</td><td>: {{ $data->alamat }}</td></tr>
       </table>
       <p style="text-align: justify;">
-        Nama tersebut di atas saat ini bertempat tinggal di lingkungan kami RT {{ $data->rt }}RW {{ $data->rw }}. Selanjutnya surat pengantar/keterangan ini diberikan kepada yang bersangkutan untuk keperluan: <strong>{{ $data->keperluan }}</strong>.
+        Nama tersebut di atas saat ini bertempat tinggal di lingkungan kami RT {{ $data->rt }} / RW {{ $data->rw }}. Selanjutnya surat pengantar/keterangan ini diberikan kepada yang bersangkutan untuk keperluan: <strong>{{ $data->keperluan }}</strong>.
         <br><br>
         Demikian surat pengantar ini kami buat dengan sebenarnya untuk dapat dipergunakan sebagaimana mestinya.
       </p>

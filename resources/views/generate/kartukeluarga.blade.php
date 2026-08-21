@@ -70,7 +70,7 @@
     @include('generate.partials.kop')
         
         <div class="title">SURAT PENGAJUAN PEMBUATAN KARTU KELUARGA</div>
-        <div class="number">Nomor: ___ / ___ / 2025</div>
+        <div class="number">Nomor: {{ $data->nomor_surat_keluar ?? '___/___/___/___' }}</div>
 
   <div class="info">
     Yang bertanda tangan di bawah ini:
@@ -90,8 +90,8 @@
       <tr><td>No KTP/NIK</td><td>:  {{ $data->nik }}</td></tr>
       <tr><td>Tempat / Tanggal lahir</td><td>:  {{ $data->tempat_tanggal_lahir }}</td></tr>
       <tr><td>Pekerjaan</td><td>: {{ $data->pekerjaan }}</td></tr>
-      <tr><td>Alamat</td><td>: {{ $data->alamat }}</ </td></tr>
-      <tr><td>Keperluan</td><td>: {{ $data->keperluan }}</</td></tr>
+      <tr><td>Alamat</td><td>: {{ $data->alamat }}</td></tr>
+      <tr><td>Keperluan</td><td>: {{ $data->keperluan }}</td></tr>
       <tr><td>Keterangan lain-lain</td><td>: Keterangan secara lengkap terlampir</td></tr>
     </table>
 

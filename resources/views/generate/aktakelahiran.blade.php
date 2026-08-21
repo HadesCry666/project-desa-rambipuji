@@ -64,7 +64,7 @@
   <div style="clear: both;"></div>
 
   <div class="title">SURAT KETERANGAN PENGANTAR AKTA KELAHIRAN</div>
-  <div class="number">No. Reg. 145/26/35.07.20.204/IV/2018</div>
+  <div class="number">Nomor: {{ $data->nomor_surat_keluar ?? '___/___/___/___' }}</div>
 
   <div class="content" style="text-align: justify;">
     Yang bertanda tangan di bawah ini kami Kepala Desa Rambipuji Kecamatan Rambipuji Kabupaten Jember menerangkan dengan sebenarnya bahwa di Kartu Keluarga:

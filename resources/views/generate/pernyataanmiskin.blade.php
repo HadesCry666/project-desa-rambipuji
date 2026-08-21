@@ -57,7 +57,7 @@
   @include('generate.partials.kop')
     
     <div class="title">SURAT KETERANGAN MISKIN</div>
-    <div class="number">Nomor: ___ / ___ / 2020</div>
+    <div class="number">Nomor: {{ $data->nomor_surat_keluar ?? '___/___/___/___' }}</div>
 
     <div class="content">
       Desa Rambipuji Kecamatan Rambipuji Kabupaten JEMBER dengan ini menerangkan bahwa:
