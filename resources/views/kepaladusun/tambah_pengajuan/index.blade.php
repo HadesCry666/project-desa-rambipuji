@@ -85,14 +85,24 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
     <form action="{{ route('kadus.tambahpengajuan.store') }}" method="POST" enctype="multipart/form-data" id="formPengajuanKadus">
         @csrf
         <div class="row justify-content-center">
+                        <div class="col-12 mb-3">
+                            <div class="alert alert-info border-0 shadow-sm rounded-4 p-3 d-flex align-items-center mb-0">
+                                <i class="bi bi-info-circle-fill fa-3x" style="margin-right: 13px"></i>
+                                <div>
+                                    <strong class="text-dark">Alur Persetujuan Surat:</strong>
+                                    <p class="mb-0 small">Pengajuan oleh Kepala Dusun akan otomatis berstatus <strong>Disetujui Kepala Dusun</strong>, lalu diteruskan ke <strong>Admin Desa</strong> > <strong>Sekretaris Desa</strong> > <strong>TTE Kepala Desa</strong>.</p>
+                                </div>
+                            </div>
+                        </div>
             <div class="col-12">
+                
 
                 {{-- LANGKAH 1: DATA PEMOHON & JENIS SURAT --}}
                 <div class="card card-modern p-4 mb-4">
                     <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-2" style="margin-right: 8px;">1</span>Pilih Pemohon (Warga) & Jenis Surat</h5>
                     
                     {{-- Nav Tabs: Pilih langsung vs Cari via No. KK --}}
-                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    {{-- <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active rounded-pill px-4" id="tab-nik-tab" data-bs-toggle="pill" data-bs-target="#tab-nik" type="button" role="tab">
                                 <i class="bi bi-person-badge me-1"></i> Pilih NIK / Nama Penduduk
@@ -103,7 +113,7 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                                 <i class="bi bi-card-heading me-1"></i> Cari via No. KK
                             </button>
                         </li>
-                    </ul>
+                    </ul> --}}
 
                     <div class="tab-content" id="pills-tabContent">
                         {{-- Tab 1: Select2 NIK Penduduk --}}
@@ -167,33 +177,53 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                     <div class="row g-3">
                         <div class="col-md-12">
                             <label class="form-label">Nomor Registrasi Kepala Dusun <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="no_registrasi" value="{{ old('no_registrasi') }}" placeholder="Contoh: REG/KADUS/001/2026" required>
+                            <input type="text" class="form-control" name="no_registrasi" value="{{ old('no_registrasi') }}" placeholder="Contoh: 470/001/2006.01/I/2026" required>
                             <div class="form-text text-muted">Masukkan nomor registrasi fisik/resmi yang Anda terbitkan untuk pengajuan ini.</div>
                         </div>
-                        <div class="col-12 mt-3">
-                            <label class="form-label">Keperluan / Tujuan Surat <span class="text-danger">*</span></label>
-                            <textarea class="form-control" name="keperluan" rows="3" placeholder="Jelaskan keperluan surat ini (Contoh: Untuk pengurusan beasiswa / SKCK di Polres)..." required>{{ old('keperluan') }}</textarea>
+                        <div class="col-md-12 mt-2">
+                            <label for="keperluan" id="labelKeperluan" class="form-label fw-semibold">
+                                Keperluan
+                            </label>
+
+                            <textarea name="keperluan"
+                                    id="keperluan"
+                                    class="form-control"
+                                    placeholder="Masukkan keperluan surat"></textarea>
                         </div>
-                        <div class="col-12 mt-3">
-                            <div class="alert alert-info border-0 shadow-sm rounded-4 p-3 d-flex align-items-center mb-0">
-                                <i class="bi bi-info-circle-fill fa-2x text-primary me-3"></i>
-                                <div>
-                                    <strong class="text-dark">Alur Persetujuan Surat:</strong>
-                                    <p class="mb-0 small text-muted">Pengajuan oleh Kepala Dusun akan otomatis berstatus <strong>Disetujui Kepala Dusun</strong>, lalu diteruskan ke <strong>Admin Desa</strong> $\rightarrow$ <strong>Sekretaris Desa</strong> $\rightarrow$ <strong>TTE Kepala Desa</strong>.</p>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
 
                 {{-- LANGKAH 3: LAMPIRAN BERKAS --}}
                 <div class="card card-modern p-4 mb-4">
-                    <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-2" style="margin-right: 8px;">3</span>Lampiran Berkas / Dokumen Pendukung</h5>
+                    <h5 class="fw-bold text-primary mb-4">
+                        <span class="step-badge me-2" style="margin-right: 8px;">3</span>
+                        Lampiran Berkas / Dokumen Pendukung
+                    </h5>
+
                     <div class="mb-2">
-                        <label class="form-label">Upload Berkas Pendukung <span class="text-muted fw-normal">(Opsional, maks. 8 file, JPG/PNG, max 2MB/file)</span></label>
-                        <input type="file" class="form-control" name="foto[]" id="inputFoto" multiple accept="image/jpg,image/jpeg,image/png">
-                        <div class="form-text text-muted">Contoh: Foto KTP, KK, Surat Pengantar RT/RW, dsb.</div>
+                        <label class="form-label">
+                            Upload Berkas Pendukung
+                            <span class="text-muted fw-normal">
+                                (Opsional, maks. 8 file, JPG/PNG, max 2MB/file)
+                            </span>
+                        </label>
+
+                        <input
+                            type="file"
+                            class="form-control"
+                            name="foto[]"
+                            id="inputFoto"
+                            multiple
+                            accept=".jpg,.jpeg,.png"
+                        >
+
+                        <div class="form-text text-muted">
+                            Anda dapat memilih beberapa file sekaligus.
+                            Contoh: Foto KTP, KK, Surat Pengantar RT/RW, dsb.
+                        </div>
                     </div>
+
                     <div id="previewContainer" class="row mt-3 g-3"></div>
                 </div>
 
@@ -213,6 +243,21 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
 
 @push('scripts')
 <script>
+    $('#id_surat').on('change', function () {
+    const namaSurat = $('#id_surat option:selected')
+        .text()
+        .trim()
+        .toLowerCase();
+
+    if (namaSurat.includes('surat keterangan kematian')) {
+        $('#labelKeperluan').text('Nama Almarhum');
+        $('#keperluan').attr('placeholder', 'Masukkan nama almarhum');
+    } else {
+        $('#labelKeperluan').text('Keperluan');
+        $('#keperluan').attr('placeholder', 'Masukkan keperluan surat');
+    }
+});
+
 $(document).ready(function () {
     const baseUrl = '{{ url("") }}';
 
@@ -280,29 +325,165 @@ $(document).ready(function () {
         }
     });
 
-    // Preview Foto Upload
-    $('#inputFoto').on('change', function () {
-        $('#previewContainer').empty();
-        if (this.files && this.files.length > 0) {
-            const files = Array.from(this.files).slice(0, 8);
-            files.forEach((file, idx) => {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const col = document.createElement('div');
-                    col.className = 'col-6 col-sm-4 col-md-3';
-                    col.innerHTML = `
-                        <div class="preview-card">
-                            <span class="badge-index">Foto ${idx + 1}</span>
-                            <img src="${e.target.result}" alt="Preview Foto ${idx + 1}">
-                            <div class="p-2 text-truncate small text-muted text-center bg-white border-top">${file.name}</div>
-                        </div>
-                    `;
-                    $('#previewContainer').append(col);
-                };
-                reader.readAsDataURL(file);
-            });
+   const inputFoto = document.getElementById('inputFoto');
+const previewContainer = document.getElementById('previewContainer');
+
+let selectedFiles = [];
+
+
+// ===============================
+// PILIH FILE
+// ===============================
+inputFoto.addEventListener('change', function () {
+
+    const newFiles = Array.from(this.files);
+
+    newFiles.forEach(file => {
+
+        const alreadyExists = selectedFiles.some(existingFile =>
+            existingFile.name === file.name &&
+            existingFile.size === file.size &&
+            existingFile.lastModified === file.lastModified
+        );
+
+        if (!alreadyExists && selectedFiles.length < 8) {
+            selectedFiles.push(file);
         }
+
     });
+
+    renderPreview();
+    updateFileInput();
+
+    // Kosongkan input agar bisa memilih file yang sama lagi
+    this.value = '';
+});
+
+
+// ===============================
+// UPDATE INPUT FILE
+// ===============================
+function updateFileInput() {
+
+    const dataTransfer = new DataTransfer();
+
+    selectedFiles.forEach(file => {
+        dataTransfer.items.add(file);
+    });
+
+    inputFoto.files = dataTransfer.files;
+}
+
+
+// ===============================
+// PREVIEW
+// ===============================
+function renderPreview() {
+
+    previewContainer.innerHTML = '';
+
+    selectedFiles.forEach((file, index) => {
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+
+            const col = document.createElement('div');
+
+            col.className = 'col-6 col-sm-4 col-md-3';
+
+            col.innerHTML = `
+                <div class="preview-card">
+
+                    <span class="badge-index">
+                        Foto ${index + 1}
+                    </span>
+
+                    <button
+                        type="button"
+                        class="btn btn-danger btn-sm btn-remove-foto"
+                        data-index="${index}"
+                        style="
+                            position:absolute;
+                            top:6px;
+                            right:6px;
+                            width:28px;
+                            height:28px;
+                            padding:0;
+                            border-radius:50%;
+                            z-index:10;
+                        "
+                        title="Hapus foto">
+                        <i class="bi bi-x"></i>
+                    </button>
+
+                    <img
+                        src="${e.target.result}"
+                        alt="Preview Foto ${index + 1}"
+                    >
+
+                    <div class="p-2 text-truncate small text-muted text-center bg-white border-top">
+                        ${file.name}
+                    </div>
+
+                </div>
+            `;
+
+            previewContainer.appendChild(col);
+        };
+
+        reader.readAsDataURL(file);
+    });
+}
+
+
+// ===============================
+// HAPUS SATU FILE
+// ===============================
+previewContainer.addEventListener('click', function (e) {
+
+    const button = e.target.closest('.btn-remove-foto');
+
+    if (!button) return;
+
+    // Jangan submit form / reload halaman
+    e.preventDefault();
+    e.stopPropagation();
+
+    const index = parseInt(button.dataset.index);
+
+    // Hapus dari array
+    selectedFiles.splice(index, 1);
+
+    // Hapus elemen preview yang diklik
+    const previewItem = button.closest('.col-6');
+
+    if (previewItem) {
+        previewItem.remove();
+    }
+
+    // Update nomor Foto
+    const remainingItems = previewContainer.querySelectorAll('.preview-card');
+
+    remainingItems.forEach((item, newIndex) => {
+
+        const badge = item.querySelector('.badge-index');
+
+        if (badge) {
+            badge.textContent = `Foto ${newIndex + 1}`;
+        }
+
+        const removeButton = item.querySelector('.btn-remove-foto');
+
+        if (removeButton) {
+            removeButton.dataset.index = newIndex;
+        }
+
+    });
+
+    // Update input file
+    updateFileInput();
+});
 
     // Enter key pada No KK
     $('#inputNoKK').on('keypress', function (e) {

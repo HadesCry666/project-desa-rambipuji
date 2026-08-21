@@ -92,4 +92,23 @@
     color: #94a3b8 !important;
     padding: 15px 20px 8px 20px !important;
   }
+  .main-sidebar,
+.main-sidebar #sidebar-wrapper {
+    overflow-x: hidden !important;
+}
+
+/* Logo */
+.sidebar-brand {
+    max-width: 100% !important;
+    overflow: hidden !important;
+}
+
+.sidebar-brand a {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+}
+
+
+
 </style>

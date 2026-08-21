@@ -14,7 +14,9 @@
     .btn-rounded { border-radius: 30px !important; }
     .action-group { display: flex; align-items: center; justify-content: center; gap: 6px; }
     .btn-icon { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50% !important; padding: 0 !important; font-size: 0.8rem; }
-    .badge-kadus { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .badge-kadus { background: #dcfce7; 
+    color: #15803d; 
+    border: 1px solid #bbf7d0;font-weight:600;padding:5px 12px;border-radius:20px;font-size:.78rem }
 </style>
 @endpush
 
@@ -37,16 +39,6 @@
     @if(session('error'))
         <div class="alert alert-danger alert-floating">
             {{ session('error') }}
-        </div>
-    @endif
-
-    @if ($errors->any())
-        <div class="alert alert-danger shadow-sm border-0 rounded-3 mb-4">
-            <ul class="mb-0 ps-3">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
         </div>
     @endif
 
@@ -85,11 +77,10 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center" style="width:50px;">No</th>
-                                        <th>NIK</th>
                                         <th>Nama Kepala Dusun</th>
-                                        <th>Email</th>
-                                        <th>No. HP</th>
-                                        <th class="text-center">Peran</th>
+                                        <th class="text-center">Dusun</th>
+                                        <th class="text-center">No. HP</th>
+                                        <th class="text-center">Email</th>
                                         <th class="text-center" style="width:120px;">Aksi</th>
                                     </tr>
                                 </thead>
@@ -97,13 +88,17 @@
                                     @forelse ($dataakun as $a)
                                     <tr>
                                         <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
-                                        <td><code class="fw-bold text-primary">{{ $a->nik }}</code></td>
-                                        <td class="fw-semibold text-dark">{{ $a->nama_lengkap ?? '-' }}</td>
-                                        <td class="text-muted small">{{ $a->email }}</td>
-                                        <td class="text-muted small">{{ $a->no_hp }}</td>
-                                        <td class="text-center">
-                                            <span class="badge badge-kadus">Kepala Dusun</span>
+                                        <td class="">
+                                            <div class="fw-semibold">
+                                                {{ $a->nama_lengkap ?? 'Warga' }}
+                                            </div>
+                                            <div style="font-size:11px;color:#6777ef;">
+                                                {{ $a->nik }}
+                                            </div>
                                         </td>
+                                        <td class="text-center"><span class="badge-kadus">{{ $a->dusun }}</span></td>
+                                        <td class="text-muted text-center small">{{ $a->no_hp }}</td>
+                                        <td class="text-muted text-center small">{{ $a->email }}</td>
                                         <td class="text-center">
                                             <div class="action-group">
                                                 <!-- EDIT -->
@@ -113,6 +108,7 @@
                                                     data-id="{{ $a->id }}"
                                                     data-nik="{{ $a->nik }}"
                                                     data-nama="{{ $a->nama_lengkap }}"
+                                                    data-dusun="{{ $a->dusun }}"
                                                     data-email="{{ $a->email }}"
                                                     data-no_hp="{{ $a->no_hp }}">
                                                     <i class="fas fa-pencil-alt"></i>
@@ -174,11 +170,40 @@
                                 </option>
                             @endforeach
                         </select>
+                        @error('nik')
+                            <div class="text-danger small mt-1">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label font-weight-bold">Email Login <span class="text-danger">*</span></label>
+                        <label class="form-label font-weight-bold">Nama Dusun <span class="text-danger">*</span></label>
+                        <select id="nama_dusun" class="form-control selectric" name="nama_dusun" required>
+                            <option value="" disabled {{ old('nama_dusun') ? '' : 'selected' }}>Pilih Dusun</option>
+                            <option value="Curah Ancar" {{ old('nama_dusun') == 'Curah Ancar' ? 'selected' : '' }}>Curah Ancar</option>
+                            <option value="Gudang Karang" {{ old('nama_dusun') == 'Gudang Karang' ? 'selected' : '' }}>Gudang Karang</option>
+                            <option value="Gudang Rejo" {{ old('nama_dusun') == 'Gudang Rejo' ? 'selected' : '' }}>Gudang Rejo</option>
+                            <option value="Kaliputih" {{ old('nama_dusun') == 'Kaliputih' ? 'selected' : '' }}>Kaliputih</option>
+                            <option value="Kidul Pasar" {{ old('nama_dusun') == 'Kidul Pasar' ? 'selected' : '' }}>Kidul Pasar</option>
+                            <option value="Krajan" {{ old('nama_dusun') == 'Krajan' ? 'selected' : '' }}>Krajan</option>
+                            <option value="Tempean" {{ old('nama_dusun') == 'Tempean' ? 'selected' : '' }}>Tempean</option>
+                        </select>
+                        @error('nama_dusun')
+                            <div class="text-danger small mt-1">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Email<span class="text-danger">*</span></label>
                         <input type="email" class="form-control" name="email" value="{{ old('email') }}" required placeholder="kasun@desa.id">
+                        @error('email')
+                            <div class="text-danger small mt-1">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
@@ -188,7 +213,13 @@
 
                     <div class="mb-3">
                         <label class="form-label font-weight-bold">Password Login <span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" name="password" required placeholder="Minimal 6 karakter">
+                        <input type="password" class="form-control" name="password" placeholder="Minimal 6 karakter">
+                        <span class="text-muted small">Kata sandi bawaan akan diterapkan secara otomatis jika field ini tidak diisi</span>
+                         @error('password')
+                            <div class="text-danger small mt-1">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -199,7 +230,6 @@
         </div>
     </div>
 </div>
-
 <!-- MODAL EDIT AKUN KASUN -->
 <div class="modal fade" id="modalEditKadus" tabindex="-1" aria-labelledby="modalEditKadusLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -212,21 +242,40 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <!-- PILIH NIK / NAMA PENDUDUK -->
                     <div class="mb-3">
-                        <label class="form-label font-weight-bold">Nama Kepala Dusun</label>
-                        <input type="text" class="form-control bg-light" id="editNama" readonly>
+                        <label class="form-label font-weight-bold">Pilih NIK / Nama Penduduk <span class="text-danger">*</span></label>
+                        <select class="form-select select2 w-100" name="nik" id="editNik" required style="width: 100% !important;">
+                            <option value="">-- Pilih Kepala Dusun --</option>
+                            @foreach($datapenduduk as $p)
+                                <option value="{{ $p->nik }}">
+                                    {{ $p->nik }} - {{ $p->nama_lengkap }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
+                    <!-- NAMA DUSUN (DISABLED / READONLY) -->
                     <div class="mb-3">
-                        <label class="form-label font-weight-bold">Email Login <span class="text-danger">*</span></label>
+                        <label class="form-label font-weight-bold">Nama Dusun</label>
+                        <input type="text" class="form-control bg-light" id="editDusun" readonly style="cursor: not-allowed;">
+                        <!-- Hidden input agar data dusun tetap terkirim ke controller jika dibutuhkan -->
+                        <input type="hidden" name="nama_dusun" id="editDusunHidden">
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">Email <span class="text-danger">*</span></label>
                         <input type="email" class="form-control" name="email" id="editEmail" required>
                     </div>
 
+                    <!-- NOMOR HP -->
                     <div class="mb-3">
                         <label class="form-label font-weight-bold">Nomor HP / WhatsApp <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="no_hp" id="editNoHp" required>
                     </div>
 
+                    <!-- PASSWORD BARU -->
                     <div class="mb-3">
                         <label class="form-label font-weight-bold">Password Baru <span class="text-muted fw-normal">(Biarkan kosong jika tidak diubah)</span></label>
                         <input type="password" class="form-control" name="password" placeholder="Kosongkan jika tidak diganti">
@@ -244,22 +293,25 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+
 $(document).ready(function() {
     // Edit Modal Trigger
     $('.btnEditKadus').on('click', function() {
-        const id = $(this).data('id');
-        const nama = $(this).data('nama');
-        const email = $(this).data('email');
-        const noHp = $(this).data('no_hp');
+    const id = $(this).data('id');
+    const nik = $(this).data('nik');
+    const email = $(this).data('email');
+    const dusun = $(this).data('dusun');
+    const noHp = $(this).data('no_hp');
 
-        $('#formEditKadus').attr('action', '/admin/akunkadus/' + id);
-        $('#editNama').val(nama);
-        $('#editEmail').val(email);
-        $('#editNoHp').val(noHp);
+    $('#formEditKadus').attr('action', '/admin/akunkadus/' + id);
+    $('#editNik').val(nik).trigger('change');   // ← fix di sini
+    $('#editEmail').val(email);
+    $('#editNoHp').val(noHp);
+    $('#editDusun').val(dusun);
 
-        const modal = new bootstrap.Modal(document.getElementById('modalEditKadus'));
-        modal.show();
-    });
+    const modal = new bootstrap.Modal(document.getElementById('modalEditKadus'));
+    modal.show();
+});
 
     // Delete Confirmation
     $('.btnDeleteKadus').on('click', function(e) {
@@ -281,6 +333,49 @@ $(document).ready(function() {
                 form.submit();
             }
         });
+    });
+});
+$(document).ready(function () {
+
+    @if ($errors->any())
+        const modalTambahKadus =
+            new bootstrap.Modal(
+                document.getElementById('modalTambahKadus')
+            );
+
+        modalTambahKadus.show();
+    @endif
+
+});
+$('#modalTambahKadus').on('hidden.bs.modal', function () {
+    const $modal = $(this);
+
+    // 1. Paksa kosongkan semua input (text, email, password, dsb)
+    $modal.find('input').val('');
+
+    // 2. Reset Select2 (NIK) ke kondisi awal
+    $modal.find('select.select2').val('').trigger('change');
+
+    // 3. Reset Selectric (Dusun) ke opsi pertama
+    if ($.fn.selectric) {
+        $modal.find('select.selectric').prop('selectedIndex', 0).selectric('refresh');
+    } else {
+        $modal.find('#nama_dusun').val('');
+    }
+
+    // 4. Bersihkan pesan error validasi
+    $modal.find('.text-danger.small').hide();
+    $modal.find('.is-invalid').removeClass('is-invalid');
+});
+$(document).ready(function() {
+    $('#modalTambahKadus .select2').select2({
+        dropdownParent: $('#modalTambahKadus'),
+        width: '100%'
+    });
+
+    $('#modalEditKadus .select2').select2({
+        dropdownParent: $('#modalEditKadus'),
+        width: '100%'
     });
 });
 </script>
