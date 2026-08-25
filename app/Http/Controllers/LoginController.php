@@ -62,7 +62,10 @@ class LoginController extends Controller
 
         $nama = $penduduk ? $penduduk->nama_lengkap : $user->nik;
 
-        session(['nama' => $nama]);
+        session([
+            'nama' => $nama,
+            'nik'  => $user->nik // <-- Tambahkan baris ini
+        ]);
 
         Log::info('Nama disimpan di session', ['nama' => $nama]);
 

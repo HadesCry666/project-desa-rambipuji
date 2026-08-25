@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\KepalaDusun;
 
 use App\Http\Controllers\Controller;
+use App\Models\master_dusun;
 use App\Models\View_data_pengajuan;
 use App\Models\master_pengajuan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KadusSuratMasukController extends Controller
 {
@@ -16,7 +18,10 @@ class KadusSuratMasukController extends Controller
     {
         $katakunci = $request->katakunci;
 
-        $query = View_data_pengajuan::where('status', 'Diajukan');
+        $namaDusun = $this->getNamaDusunKadus();
+
+        $query = View_data_pengajuan::where('status', 'Diajukan')
+            ->where('nama_dusun', $namaDusun);
 
         if (!empty($katakunci)) {
             $query->where(function ($q) use ($katakunci) {
@@ -69,7 +74,10 @@ class KadusSuratMasukController extends Controller
     {
         $katakunci = $request->katakunci;
 
-        $query = View_data_pengajuan::where('status', 'Selesai');
+        $namaDusun = $this->getNamaDusunKadus();
+
+        $query = View_data_pengajuan::where('status', 'Disetujui Kepala Dusun')
+            ->where('nama_dusun', $namaDusun);
 
         if (!empty($katakunci)) {
             $query->where(function ($q) use ($katakunci) {
@@ -91,7 +99,10 @@ class KadusSuratMasukController extends Controller
     {
         $katakunci = $request->katakunci;
 
-        $query = View_data_pengajuan::where('status', 'Ditolak');
+        $namaDusun = $this->getNamaDusunKadus();
+
+        $query = View_data_pengajuan::where('status', 'Ditolak')
+            ->where('nama_dusun', $namaDusun);
 
         if (!empty($katakunci)) {
             $query->where(function ($q) use ($katakunci) {
@@ -105,4 +116,18 @@ class KadusSuratMasukController extends Controller
 
         return view('kepaladusun.suratditolak.index', compact('datapengajuan'));
     }
+    
+    private function getNamaDusunKadus()
+{
+    $nikKadus = session('nik') ?? Auth::user()->nik;
+
+    $dusun = master_dusun::where('nik', $nikKadus)
+        ->first();
+
+    if (!$dusun) {
+        abort(403, 'Data Kepala Dusun tidak ditemukan.');
+    }
+
+    return $dusun->nama_dusun;
+}
 }

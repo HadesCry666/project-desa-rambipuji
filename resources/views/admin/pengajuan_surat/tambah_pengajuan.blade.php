@@ -51,6 +51,17 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
             <div class="col-12">
                 <form action="{{ route('pengajuan.tambah.store') }}" method="POST" enctype="multipart/form-data" id="formTambahPengajuan">
                     @csrf
+                    <div class="mb-3">
+                            <div class="alert alert-info border-0 shadow-sm rounded-4 p-3 d-flex align-items-center mb-0">
+                                <i class="bi bi-info-circle-fill fa-3x" style="margin-right: 13px"></i>
+                                <div>
+                                    <div>
+                                            <strong class="text-dark">Alur Tanda Tangan Fisik (Basah) RT/RW & Kepala Dusun:</strong>
+                                            <p class="mb-0 small">Ketua RT & Ketua RW telah menandatangani berkas secara fisik (basah). Pengajuan ini otomatis berstatus <strong>Disetujui Kepala Dusun</strong> dan langsung masuk antrian cetak Admin Desa.</p>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
 
                     <!-- STEP 1: Data Penduduk & Jenis Surat -->
                      <div class="card card-modern p-4 mb-4">
@@ -109,17 +120,6 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                                     <input type="text" class="form-control rounded-3" name="no_registrasi" value="{{ old('no_registrasi') }}"
                                         placeholder="Contoh: REG/KADUS/001/2026" required>
                                     <small class="text-muted mt-1 d-block"><i class="fas fa-info-circle me-1"></i> Masukkan nomor registrasi resmi yang diterbitkan oleh Kepala Dusun.</small>
-                                </div>
-
-                                {{-- STATUS & INFO TTD BASAH --}}
-                                <div class="col-12 mt-3">
-                                    <div class="alert alert-info border-0 shadow-sm rounded-4 p-3 d-flex align-items-center mb-0">
-                                        <i class="fas fa-info-circle fa-2x text-primary me-3"></i>
-                                        <div>
-                                            <strong class="text-dark">Alur Tanda Tangan Fisik (Basah) RT/RW & Kepala Dusun:</strong>
-                                            <p class="mb-0 small text-muted">Ketua RT & Ketua RW telah menandatangani berkas secara fisik (basah). Pengajuan ini otomatis berstatus <strong>Disetujui Kepala Dusun</strong> dan langsung masuk antrian cetak Admin Desa.</p>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 {{-- UPLOAD FOTO BUKTI / LAMPIRAN (DRAG & DROP STYLE BOX) --}}

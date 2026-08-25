@@ -14,6 +14,7 @@ return new class extends Migration
             $table->String('alamat', 255);
             $table->String('rt', 3);
             $table->String('rw', 3);
+            $table->String('dusun', 50);
             $table->string('desa', 30)->default('Rambipuji');
             $table->string('kecamatan', 50)->default('Rambipuji');
             $table->integer('kode_pos')->default(68152);

@@ -21,6 +21,7 @@ class master_kartukeluarga extends Model
         'alamat',
         'rt',
         'rw',
+        'dusun',
         'desa',
         'kecamatan',
         'kode_pos',

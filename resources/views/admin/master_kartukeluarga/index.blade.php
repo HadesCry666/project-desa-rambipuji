@@ -85,15 +85,15 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center" style="width:45px;">No</th>
-                                        <th>Kecamatan</th>
-                                        <th>Kelurahan</th>
+                                        {{-- <th>Kecamatan</th>
+                                        <th>Kelurahan</th> --}}
                                         <th>No KK</th>
                                         <th>No KTP (NIK)</th>
                                         <th>Nama</th>
-                                        <th>Tempat Lahir</th>
+                                        {{-- <th>Tempat Lahir</th> --}}
                                         <th>Tanggal Lahir</th>
-                                        <th>Sts Kawin</th>
-                                        <th>Kelamin</th>
+                                        {{-- <th>Sts Kawin</th> --}}
+                                        <th>Jenis Kelamin</th>
                                         <th>Alamat</th>
                                         <th class="text-center">RT</th>
                                         <th class="text-center">RW</th>
@@ -104,20 +104,20 @@
                                     @foreach ($master_kartukeluarga as $a)
                                     <tr>
                                         <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
-                                        <td class="text-muted small">{{ $a->kecamatan }}</td>
-                                        <td class="text-muted small">{{ $a->desa }}</td>
+                                        {{-- <td class="text-muted small">{{ $a->kecamatan }}</td>
+                                        <td class="text-muted small">{{ $a->desa }}</td> --}}
                                         <td><code class="fw-bold text-primary" style="font-size:.78rem;">{{ $a->no_kk }}</code></td>
                                         <td><code class="fw-bold" style="font-size:.78rem;">{{ $a->nik ?? '-' }}</code></td>
                                         <td class="fw-semibold text-dark">{{ $a->nama_lengkap ?? '-' }}</td>
-                                        <td class="text-muted small">{{ $a->tempat_lahir ?? '-' }}</td>
+                                        {{-- <td class="text-muted small">{{ $a->tempat_lahir ?? '-' }}</td> --}}
                                         <td class="text-muted small">
                                             {{ $a->tanggal_lahir ? \Carbon\Carbon::parse($a->tanggal_lahir)->format('d/m/Y') : '-' }}
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             <span class="badge bg-light text-dark border" style="font-size:.72rem;">
                                                 {{ $a->status_perkawinan ?? '-' }}
                                             </span>
-                                        </td>
+                                        </td> --}}
                                         <td>
                                             @if($a->jenis_kelamin == 'Laki-laki' || $a->jenis_kelamin == 'LAKI-LAKI')
                                                 <span class="badge badge-kelamin-l" style="font-size:.72rem;">L</span>
@@ -165,6 +165,34 @@
 
 {{-- SCRIPTS --}}
 @push('scripts')
+<!-- Pastikan CDN SweetAlert2 sudah terpasang di head/footer -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if (session('import_errors'))
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Mengambil array error dari session laravel
+        let errors = @json(session('import_errors'));
+        
+        // Menyusun daftar error menjadi list HTML
+        let errorListHtml = '<ul style="text-align: left; max-height: 250px; overflow-y: auto; font-size: 14px; background-color: #f8f9fa; padding: 15px 15px 15px 35px; border-radius: 8px; border: 1px solid #dee2e6;">';
+        errors.forEach(function(error) {
+            errorListHtml += '<li style="margin-bottom: 5px;">' + error + '</li>';
+        });
+        errorListHtml += '</ul>';
+
+        // Tampilkan SweetAlert
+        Swal.fire({
+            icon: 'error',
+            title: 'Import Data Dibatalkan!',
+            html: '<p style="text-align: left; margin-bottom: 10px;">Proses import dihentikan karena ditemukan kesalahan pada data berikut:</p>' + errorListHtml,
+            confirmButtonText: 'Tutup & Perbaiki Excel',
+            confirmButtonColor: '#dc3545',
+            width: '600px'
+        });
+    });
+</script>
+@endif
 <script>
     window.importSuccess = @json(session('success'));
     window.importWarning = @json(session('warning'));

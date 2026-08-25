@@ -8,6 +8,7 @@ use App\Models\master_kartukeluarga;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\PendudukImport;
+use Exception;
 
 class KartuKeluargaController extends Controller
 {
@@ -20,21 +21,21 @@ class KartuKeluargaController extends Controller
             'master_kartukeluargas',
             'master_penduduks.no_kk', '=', 'master_kartukeluargas.no_kk'
         )->select(
-            'master_kartukeluargas.kecamatan',
-            'master_kartukeluargas.desa',
+            // 'master_kartukeluargas.kecamatan',
+            // 'master_kartukeluargas.desa',
             'master_kartukeluargas.no_kk',
             'master_penduduks.nik',
             'master_penduduks.nama_lengkap',
             'master_penduduks.tempat_lahir',
             'master_penduduks.tanggal_lahir',
-            'master_penduduks.status_perkawinan',
+            // 'master_penduduks.status_perkawinan',
             'master_penduduks.jenis_kelamin',
             'master_kartukeluargas.alamat',
             'master_kartukeluargas.rt',
-            'master_kartukeluargas.rw',
-            'master_kartukeluargas.kode_pos',
-            'master_kartukeluargas.kabupaten',
-            'master_kartukeluargas.provinsi'
+            'master_kartukeluargas.rw'
+            // 'master_kartukeluargas.kode_pos',
+            // 'master_kartukeluargas.kabupaten',
+            // 'master_kartukeluargas.provinsi'
         )->orderBy('master_kartukeluargas.no_kk')
          ->orderByRaw("FIELD(master_penduduks.status_keluarga, 'KEPALA KELUARGA', 'Kepala Keluarga', 'SUAMI', 'ISTRI', 'ANAK')");
 
@@ -203,22 +204,32 @@ class KartuKeluargaController extends Controller
         return redirect(url('admin/master_kartukeluarga'))
             ->with('success', 'Data kartu keluarga berhasil dihapus');
     }
+
+
     public function import(Request $request)
-{
-    $import = new PendudukImport();
-
-    Excel::import($import, $request->file('file'));
-
-    $errors = $import->getErrors();
-
-    if (count($errors) > 0) {
-        return back()->with([
-            'warning' => 'Import selesai, tetapi ada beberapa data yang gagal.',
-            'import_errors' => $errors
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv'
         ]);
-    }
 
-    return back()->with('success', 'Semua data berhasil diimport.');
-}
+        try {
+            // Proses Import
+            Excel::import(new PendudukImport(), $request->file('file'));
+
+            return redirect()->back()->with('success', 'Semua data penduduk berhasil diimport!');
+
+        } catch (Exception $e) {
+            // Tangkap Exception JSON dari PendudukImport.php
+            $errors = json_decode($e->getMessage(), true);
+
+            // Jika error berbentuk array JSON (error validasi dari import)
+            if (is_array($errors)) {
+                return redirect()->back()->with('import_errors', $errors);
+            }
+
+            // Jika error database/sistem biasa lainnya
+            return redirect()->back()->with('import_errors', [$e->getMessage()]);
+        }
+    }
 
 }

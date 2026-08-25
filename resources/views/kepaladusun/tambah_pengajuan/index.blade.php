@@ -120,6 +120,7 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                         <div class="tab-pane fade show active" id="tab-nik" role="tabpanel">
                             <div class="row g-3">
                                 <div class="col-md-8">
+                                    <i class="fas fa-id-card text-primary me-1"></i>
                                     <label class="form-label">NIK / Nama Penduduk <span class="text-danger">*</span></label>
                                     <select class="form-control select2" id="selectNik" name="nik" required style="width: 100%;">
                                         <option value="">-- Pilih NIK / Nama Penduduk --</option>
@@ -131,7 +132,7 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                                     </select>
                                     <div class="form-text text-muted">Cari berdasarkan NIK atau Nama lengkap warga.</div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4"><i class="fas fa-file-alt text-primary me-1"></i>
                                     <label class="form-label">Jenis Surat <span class="text-danger">*</span></label>
                                     <select class="form-control select2" id="id_surat" name="id_surat" required style="width: 100%;">
                                         <option value="">-- Pilih Jenis Surat --</option>
@@ -176,9 +177,10 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                     <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-2" style="margin-right: 8px;">2</span>Detail Pengajuan Surat</h5>
                     <div class="row g-3">
                         <div class="col-md-12">
+                            <i class="fas fa-bookmark text-primary me-1"></i>
                             <label class="form-label">Nomor Registrasi Kepala Dusun <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="no_registrasi" value="{{ old('no_registrasi') }}" placeholder="Contoh: 470/001/2006.01/I/2026" required>
-                            <div class="form-text text-muted">Masukkan nomor registrasi fisik/resmi yang Anda terbitkan untuk pengajuan ini.</div>
+                            <input type="text" class="form-control" name="no_registrasi" value="{{ $noRegistrasi }}" readonly required >
+                            <div class="form-text text-muted">Nomor registrasi akan dibuat otomatis oleh sistem saat pengajuan disimpan.</div>
                         </div>
                         <div class="col-md-12 mt-2">
                             <label for="keperluan" id="labelKeperluan" class="form-label fw-semibold">
@@ -325,170 +327,160 @@ $(document).ready(function () {
         }
     });
 
-   const inputFoto = document.getElementById('inputFoto');
-const previewContainer = document.getElementById('previewContainer');
+        const inputFoto = document.getElementById('inputFoto');
+        const previewContainer = document.getElementById('previewContainer');
 
-let selectedFiles = [];
+        let selectedFiles = [];
+
+        // ===============================
+        // PILIH FILE
+        // ===============================
+        inputFoto.addEventListener('change', function () {
+
+            const newFiles = Array.from(this.files);
+
+            newFiles.forEach(file => {
+
+                // Cek file duplikat
+                const alreadyExists = selectedFiles.some(existingFile =>
+                    existingFile.name === file.name &&
+                    existingFile.size === file.size &&
+                    existingFile.lastModified === file.lastModified
+                );
+
+                // Maksimal 8 file
+                if (!alreadyExists && selectedFiles.length < 8) {
+                    selectedFiles.push(file);
+                }
+
+            });
+
+            // Update input file
+            updateFileInput();
+
+            // Tampilkan preview
+            renderPreview();
+        });
 
 
-// ===============================
-// PILIH FILE
-// ===============================
-inputFoto.addEventListener('change', function () {
+        // ===============================
+        // UPDATE INPUT FILE
+        // ===============================
+        function updateFileInput() {
 
-    const newFiles = Array.from(this.files);
+            const dataTransfer = new DataTransfer();
 
-    newFiles.forEach(file => {
+            selectedFiles.forEach(file => {
+                dataTransfer.items.add(file);
+            });
 
-        const alreadyExists = selectedFiles.some(existingFile =>
-            existingFile.name === file.name &&
-            existingFile.size === file.size &&
-            existingFile.lastModified === file.lastModified
-        );
-
-        if (!alreadyExists && selectedFiles.length < 8) {
-            selectedFiles.push(file);
+            inputFoto.files = dataTransfer.files;
         }
 
-    });
 
-    renderPreview();
-    updateFileInput();
+        // ===============================
+        // PREVIEW
+        // ===============================
+        function renderPreview() {
 
-    // Kosongkan input agar bisa memilih file yang sama lagi
-    this.value = '';
-});
+            previewContainer.innerHTML = '';
 
+            selectedFiles.forEach((file, index) => {
 
-// ===============================
-// UPDATE INPUT FILE
-// ===============================
-function updateFileInput() {
+                const reader = new FileReader();
 
-    const dataTransfer = new DataTransfer();
+                reader.onload = function (e) {
 
-    selectedFiles.forEach(file => {
-        dataTransfer.items.add(file);
-    });
+                    const col = document.createElement('div');
 
-    inputFoto.files = dataTransfer.files;
-}
+                    col.className = 'col-6 col-sm-4 col-md-3';
 
+                    col.innerHTML = `
+                        <div class="preview-card position-relative">
 
-// ===============================
-// PREVIEW
-// ===============================
-function renderPreview() {
+                            <span class="badge-index">
+                                Foto ${index + 1}
+                            </span>
 
-    previewContainer.innerHTML = '';
+                            <button
+                                type="button"
+                                class="btn btn-danger btn-sm btn-remove-foto"
+                                data-index="${index}"
+                                style="
+                                    position:absolute;
+                                    top:6px;
+                                    right:6px;
+                                    width:28px;
+                                    height:28px;
+                                    padding:0;
+                                    border-radius:50%;
+                                    z-index:10;
+                                "
+                                title="Hapus foto">
 
-    selectedFiles.forEach((file, index) => {
+                                <i class="bi bi-x"></i>
 
-        const reader = new FileReader();
+                            </button>
 
-        reader.onload = function (e) {
+                            <img
+                                src="${e.target.result}"
+                                alt="Preview Foto ${index + 1}"
+                                class="img-fluid"
+                            >
 
-            const col = document.createElement('div');
+                            <div class="p-2 text-truncate small text-muted text-center bg-white border-top">
+                                ${file.name}
+                            </div>
 
-            col.className = 'col-6 col-sm-4 col-md-3';
+                        </div>
+                    `;
 
-            col.innerHTML = `
-                <div class="preview-card">
+                    previewContainer.appendChild(col);
+                };
 
-                    <span class="badge-index">
-                        Foto ${index + 1}
-                    </span>
-
-                    <button
-                        type="button"
-                        class="btn btn-danger btn-sm btn-remove-foto"
-                        data-index="${index}"
-                        style="
-                            position:absolute;
-                            top:6px;
-                            right:6px;
-                            width:28px;
-                            height:28px;
-                            padding:0;
-                            border-radius:50%;
-                            z-index:10;
-                        "
-                        title="Hapus foto">
-                        <i class="bi bi-x"></i>
-                    </button>
-
-                    <img
-                        src="${e.target.result}"
-                        alt="Preview Foto ${index + 1}"
-                    >
-
-                    <div class="p-2 text-truncate small text-muted text-center bg-white border-top">
-                        ${file.name}
-                    </div>
-
-                </div>
-            `;
-
-            previewContainer.appendChild(col);
-        };
-
-        reader.readAsDataURL(file);
-    });
-}
-
-
-// ===============================
-// HAPUS SATU FILE
-// ===============================
-previewContainer.addEventListener('click', function (e) {
-
-    const button = e.target.closest('.btn-remove-foto');
-
-    if (!button) return;
-
-    // Jangan submit form / reload halaman
-    e.preventDefault();
-    e.stopPropagation();
-
-    const index = parseInt(button.dataset.index);
-
-    // Hapus dari array
-    selectedFiles.splice(index, 1);
-
-    // Hapus elemen preview yang diklik
-    const previewItem = button.closest('.col-6');
-
-    if (previewItem) {
-        previewItem.remove();
-    }
-
-    // Update nomor Foto
-    const remainingItems = previewContainer.querySelectorAll('.preview-card');
-
-    remainingItems.forEach((item, newIndex) => {
-
-        const badge = item.querySelector('.badge-index');
-
-        if (badge) {
-            badge.textContent = `Foto ${newIndex + 1}`;
+                reader.readAsDataURL(file);
+            });
         }
 
-        const removeButton = item.querySelector('.btn-remove-foto');
 
-        if (removeButton) {
-            removeButton.dataset.index = newIndex;
-        }
+        // ===============================
+        // HAPUS FOTO
+        // ===============================
+        previewContainer.addEventListener('click', function (e) {
 
-    });
+            const button = e.target.closest('.btn-remove-foto');
 
-    // Update input file
-    updateFileInput();
-});
+            if (!button) {
+                return;
+            }
 
-    // Enter key pada No KK
-    $('#inputNoKK').on('keypress', function (e) {
-        if (e.which === 13) { e.preventDefault(); $('#btnCariKK').click(); }
-    });
-});
+            e.preventDefault();
+            e.stopPropagation();
+
+            const index = parseInt(button.dataset.index);
+
+            // Hapus dari array
+            selectedFiles.splice(index, 1);
+
+            // Update input
+            updateFileInput();
+
+            // Render ulang preview
+            renderPreview();
+        });
+
+
+        // ===============================
+        // CEK SEBELUM SUBMIT
+        // ===============================
+        document.querySelector('form').addEventListener('submit', function () {
+
+            // Pastikan input berisi semua file terakhir
+            updateFileInput();
+
+        });
+
+
+        });
 </script>
 @endpush

@@ -22,7 +22,7 @@ body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !i
 <section class="section">
     <div class="section-header d-flex align-items-center justify-content-between mb-4">
         <div>
-            <h1 class="fw-bold text-dark mb-1">Dashboard Kepala Dusun 👋</h1>
+            <h1 class="fw-bold text-dark mb-1">Dashboard Kepala Dusun {{ $dusunKadus ?? 'Tidak Diketahui' }}👋</h1>
             <p class="text-muted mb-0 small">Sistem Persuratan Desa Rambipuji — Pantau pengajuan surat warga wilayah Anda.</p>
         </div>
         <div class="badge bg-primary text-white px-3 py-2 rounded-pill fw-semibold shadow-sm d-none d-md-flex align-items-center gap-2">
