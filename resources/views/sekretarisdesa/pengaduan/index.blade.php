@@ -24,15 +24,19 @@
             <h1 class="fw-bold text-dark mb-1">Monitoring Pengaduan Masyarakat</h1>
             <p class="text-muted small mb-0">
                 Pantau laporan dan aspirasi warga desa.
-                <span class="readonly-badge ms-2"><i class="bi bi-eye-fill me-1"></i>Mode: Hanya Lihat</span>
+                <span class="readonly-badge ms-2">Mode :<i class="bi bi-eye-fill me-1" style="margin-left: 4px; margin-right: 2px;" ></i> Hanya Lihat</span>
             </p>
         </div>
     </div>
+    <div class="alert alert-info border-0 rounded-3 mt-3 py-2 px-4 small" style="border-radius: 14px">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            <strong>Sekretaris Desa</strong> hanya dapat memantau pengaduan dan melihat feedback dari Admin Desa. Untuk memberikan tanggapan, silahkan hubungi Admin Desa.
+        </div>
 
     <div class="section-body">
         <div class="card card-modern">
             <div class="card-header bg-white py-3 border-bottom-0 d-flex justify-content-between align-items-center">
-                <h4 class="fw-bold text-dark m-0"><i class="bi bi-chat-quote-fill text-primary me-2"></i>Daftar Laporan Pengaduan</h4>
+                <h4 class="fw-bold text-dark m-0">Daftar Laporan Pengaduan</h4>
                 <form class="d-flex" action="{{ route('sekdes.pengaduan.index') }}" method="get">
                     <input class="form-control me-2" type="search" name="katakunci" value="{{ Request::get('katakunci') }}" placeholder="Cari NIK / Pelapor / Kategori">
                     <button class="btn btn-primary btn-rounded px-4">Cari</button>
@@ -89,11 +93,6 @@
             </div>
         </div>
 
-        {{-- Info read-only notice --}}
-        <div class="alert alert-info border-0 rounded-3 mt-3 py-2 px-4 small">
-            <i class="bi bi-info-circle-fill me-2"></i>
-            <strong>Sekretaris Desa</strong> hanya dapat memantau pengaduan dan melihat feedback dari Admin Desa. Untuk memberikan tanggapan, silahkan hubungi Admin Desa.
-        </div>
     </div>
 </section>
 @endsection

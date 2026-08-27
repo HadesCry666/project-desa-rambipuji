@@ -39,7 +39,7 @@
     <div class="section-body">
         <div class="card card-modern">
             <div class="card-header bg-white py-3 border-bottom-0 d-flex justify-content-between align-items-center">
-                <h4 class="fw-bold text-dark m-0"><i class="bi bi-people-fill text-primary me-2"></i>Data Penduduk</h4>
+                <h4 class="fw-bold text-dark m-0">Data Penduduk</h4>
                 <form class="d-flex" action="{{ route('sekdes.kartukeluarga.index') }}" method="get">
                     <input class="form-control me-2 rounded-pill px-3" type="search" name="katakunci"
                         value="{{ Request::get('katakunci') }}"

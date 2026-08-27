@@ -14,6 +14,9 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
 .table-modern tbody tr:hover{background:#f0fff4!important}
 .table-modern tbody td{padding:13px 16px!important;vertical-align:middle!important;border-top:1px solid #f1f5f9!important;font-size:.875rem!important}
 .btn-rounded{border-radius:30px!important}
+.badge-selesai { background: #dcfce7; 
+    color: #15803d; 
+    border: 1px solid #bbf7d0;font-weight:600;padding:5px 12px;border-radius:20px;font-size:.78rem }
 </style>
 @endpush
 
@@ -64,7 +67,7 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                                 </td>
                                 <td class="text-center"><span class="badge bg-light text-dark border fw-medium">{{ $r->nama_surat }}</span></td>
                                 <td class="text-muted text-center">{{ $r->updated_at ?? $r->created_at }}</td>
-                                <td class="text-center"><span class="badge bg-success text-white fw-semibold px-3 py-2 rounded-pill">Selesai</span></td>
+                                <td class="text-center"><span class="badge-selesai">Disetujui Kadus</span></td>
                                 <td class="text-center">
                                     @if(!empty($r->file_pdf) && $r->file_pdf !== '-')
                                         <a href="{{ route('suratselesai.cetak', $r->id_pengajuan) }}" class="btn btn-sm btn-danger btn-rounded px-3">

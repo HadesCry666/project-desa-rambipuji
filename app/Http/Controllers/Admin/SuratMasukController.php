@@ -20,7 +20,7 @@ class SuratMasukController extends Controller
 
         $query = View_data_pengajuan::where(function ($q) {
             $q->where('status', 'Disetujui Kepala Dusun')
-              ->orWhere('status', 'Diajukan');
+              ->orWhere('status', 'Disetujui Kepala Dusun');
         });
 
         if (strlen($katakunci)) {

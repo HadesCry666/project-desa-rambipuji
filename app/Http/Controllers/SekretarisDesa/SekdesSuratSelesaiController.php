@@ -12,7 +12,7 @@ class SekdesSuratSelesaiController extends Controller
     {
         $katakunci = $request->katakunci;
 
-        $query = View_data_pengajuan::whereIn('status', ['Selesai', 'Disetujui Sekdes', 'Disetujui Kades']);
+        $query = View_data_pengajuan::whereIn('status', ['Selesai', 'Disetujui Sekdes', 'Disetujui Sekretaris Desa']);
 
         if (!empty($katakunci)) {
             $query->where(function ($q) use ($katakunci) {
