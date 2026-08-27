@@ -29,8 +29,9 @@ class KadesSuratMasukController extends Controller
         }
 
         $datapengajuan = $query->orderBy('id_pengajuan', 'desc')->paginate(10)->appends($request->query());
+        $nomorSuratKeluarDefault = self::generateNomorSuratKeluar();
 
-        return view('kepaladesa.suratmasuk.index', compact('datapengajuan'));
+        return view('kepaladesa.suratmasuk.index', compact('datapengajuan', 'nomorSuratKeluarDefault'));
     }
 
     /**
@@ -65,17 +66,19 @@ class KadesSuratMasukController extends Controller
 
     /**
      * Kades Menyetujui Surat:
-     * 1. Generate nomor surat keluar otomatis
+     * 1. Simpan nomor surat keluar (dari form input atau auto-generate)
      * 2. Ubah status menjadi 'Selesai'
      * 3. Panggil GeneratePDFController untuk buat PDF resmi + TTD Digital
      * 4. Simpan nama file PDF ke kolom file_pdf
      */
-    public function setuju($id_pengajuan)
+    public function setuju(Request $request, $id_pengajuan)
     {
         $pengajuan = master_pengajuan::findOrFail($id_pengajuan);
 
-        // Generate nomor surat keluar jika belum ada
-        if (empty($pengajuan->nomor_surat_keluar)) {
+        // Ambil nomor_surat_keluar dari input form jika diisi, jika kosong baru auto-generate
+        if ($request->filled('nomor_surat_keluar')) {
+            $pengajuan->nomor_surat_keluar = $request->nomor_surat_keluar;
+        } elseif (empty($pengajuan->nomor_surat_keluar)) {
             $pengajuan->nomor_surat_keluar = self::generateNomorSuratKeluar();
         }
 

@@ -7,11 +7,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
     body, .main-content { font-family: 'Poppins', 'Plus Jakarta Sans', sans-serif !important; }
-    .card-modern { border: 1px solid #e2e8f0; border-radius: 14px !important; box-shadow: 0 4px 18px rgba(0,0,0,0.03) !important; background: #ffffff; }
-    .table-modern { border-collapse: separate !important; border-spacing: 0 6px !important; }
-    .table-modern thead th { background-color: #f8fafc !important; color: #475569 !important; font-weight: 600 !important; text-transform: uppercase !important; font-size: 0.75rem !important; letter-spacing: 0.6px !important; border-bottom: 2px solid #e2e8f0 !important; padding: 14px 16px !important; }
-    .table-modern tbody tr { background-color: #ffffff !important; box-shadow: 0 2px 6px rgba(0,0,0,0.02); border-radius: 10px !important; }
-    .table-modern tbody td { padding: 14px 16px !important; vertical-align: middle !important; border-top: 1px solid #f1f5f9 !important; font-size: 0.88rem !important; }
+    .card-modern { border: 1px solid #e2e8f0; border-radius: 16px !important; box-shadow: 0 4px 20px rgba(0,0,0,0.04) !important; background: #ffffff; }
+    .table-modern { border-collapse: separate !important; border-spacing: 0 8px !important; }
+    .table-modern thead th { background-color: #f1f5f9 !important; color: #334155 !important; font-weight: 700 !important; text-transform: uppercase !important; font-size: 0.82rem !important; letter-spacing: 0.5px !important; border-bottom: 2px solid #cbd5e1 !important; padding: 16px 18px !important; }
+    .table-modern tbody tr { background-color: #ffffff !important; box-shadow: 0 2px 8px rgba(0,0,0,0.03); border-radius: 12px !important; transition: transform 0.2s ease; }
+    .table-modern tbody tr:hover { transform: translateY(-1px); }
+    .table-modern tbody td { padding: 16px 18px !important; vertical-align: middle !important; border-top: 1px solid #f1f5f9 !important; font-size: 0.95rem !important; }
     .btn-rounded { border-radius: 30px !important; }
 </style>
 @endpush
@@ -46,10 +47,10 @@
     <div class="section-body">
         <div class="card card-modern">
             <div class="card-header bg-white py-3 border-bottom-0 d-flex justify-content-between align-items-center">
-                <h4 class="fw-bold text-dark m-0">Pengajuan Menunggu Pengesahan (Disetujui Sekretaris Desa)</h4>
+                <h4 class="fw-bold text-dark m-0" style="font-size: 1.1rem;">Pengajuan Menunggu Pengesahan (Disetujui Sekretaris Desa)</h4>
                 <form class="d-flex" action="{{ route('kades.suratmasuk.index') }}" method="get">
-                    <input class="form-control me-2" type="search" name="katakunci" value="{{ Request::get('katakunci') }}" placeholder="Cari NIK / Nama / Surat">
-                    <button class="btn btn-primary btn-rounded px-4">Cari</button>
+                    <input class="form-control me-2 rounded-pill px-3" type="search" name="katakunci" value="{{ Request::get('katakunci') }}" placeholder="Cari NIK / Nama / Surat" style="font-size:0.9rem;">
+                    <button class="btn btn-primary btn-rounded px-4 fw-semibold">Cari</button>
                 </form>
             </div>
             <div class="card-body">
@@ -62,48 +63,55 @@
                                 <th class="text-center">Jenis Surat</th>
                                 <th class="text-center">Keterangan Admin</th>
                                 <th class="text-center">Status</th>
-                                <th class="text-center" style="width: 250px;">Aksi TTE</th>
+                                <th class="text-center" style="width: 270px;">Aksi TTE</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($datapengajuan as $row)
                             <tr>
-                                <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
-                                <td class="">
-                                            <div class="fw-semibold">
-                                                {{ $row->nama_lengkap ?? 'Warga' }}
-                                            </div>
-                                            <div style="font-size:11px;color:#e83e8c;">
-                                                {{ $row->nik }}
-                                            </div>
-                                        </td>
-                                <td class="text-center"><span class="badge bg-light text-dark border">{{ $row->nama_surat ?? 'Surat Keterangan' }}</span></td>
+                                <td class="text-center fw-bold text-muted" style="font-size:0.95rem;">{{ $loop->iteration }}</td>
                                 <td>
-                                    @if(!empty($row->keterangan_admin))
-                                        <span class="text-dark small d-inline-block text-truncate" style="max-width:180px;" title="{{ $row->keterangan_admin }}">
-                                            <i class="bi bi-chat-quote-fill text-warning me-1"></i>{{ $row->keterangan_admin }}
-                                        </span>
-                                    @else
-                                        <span class="text-muted small">-</span>
-                                    @endif
+                                    <div class="fw-bold text-dark mb-1" style="font-size: 0.98rem;">
+                                        {{ $row->nama_lengkap ?? 'Warga' }}
+                                    </div>
+                                    <div>
+                                        <code class="px-2.5 py-1 text-primary border rounded-3 fw-bold" style="background:#f0f7ff; border-color:#cce3fd !important; font-size:0.85rem;">{{ $row->nik }}</code>
+                                    </div>
                                 </td>
                                 <td class="text-center">
-                                    <span class="badge bg-info text-dark border fw-semibold px-3 py-1 rounded-pill">
-                                        ✓ {{ $row->status }}
+                                    <span class="badge px-3 py-2 fw-semibold" style="background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd; font-size:0.875rem; border-radius:10px;">
+                                        <i class="bi bi-file-earmark-text me-1"></i>{{ $row->nama_surat ?? 'Surat Keterangan' }}
                                     </span>
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-sm btn-info btn-rounded px-2 me-1" data-bs-toggle="modal" data-bs-target="#modalDetailKades-{{ $row->id_pengajuan }}"><i class="bi bi-eye-fill"></i> Detail</button>
-                                    <form action="{{ route('kades.suratmasuk.setuju', $row->id_pengajuan) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-success btn-rounded px-2 me-1"><i class="bi bi-pen-fill me-1"></i> Sahkan TTE</button>
-                                    </form>
-                                    <button type="button" class="btn btn-sm btn-danger btn-rounded px-2" data-bs-toggle="modal" data-bs-target="#modalTolakKades-{{ $row->id_pengajuan }}"><i class="bi bi-x-lg"></i> Tolak</button>
+                                    @if(!empty($row->keterangan_admin))
+                                        <span class="fw-bold text-dark d-inline-block text-truncate" style="max-width: 240px; font-size:0.92rem;" title="{{ $row->keterangan_admin }}">
+                                            {{ $row->keterangan_admin }}
+                                        </span>
+                                    @else
+                                        <span class="text-muted fw-medium">-</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge px-3 py-2 fw-bold" style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0; font-size:0.85rem; border-radius:30px;">
+                                        <i class="bi bi-check-circle-fill me-1"></i>{{ $row->status }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-sm btn-info text-white rounded-3 px-3 py-2 me-1 fw-semibold shadow-sm" style="font-size:0.85rem;" data-bs-toggle="modal" data-bs-target="#modalDetailKades-{{ $row->id_pengajuan }}">
+                                        <i class="bi bi-eye-fill me-1"></i>Detail
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-success text-white rounded-3 px-3 py-2 me-1 fw-bold shadow-sm" style="font-size:0.85rem;" data-bs-toggle="modal" data-bs-target="#modalSetujuKades-{{ $row->id_pengajuan }}">
+                                        <i class="bi bi-pen-fill me-1"></i>Sahkan TTE
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger rounded-3 px-2.5 py-2 fw-semibold" style="font-size:0.85rem;" data-bs-toggle="modal" data-bs-target="#modalTolakKades-{{ $row->id_pengajuan }}">
+                                        <i class="bi bi-x-lg me-1"></i>Tolak
+                                    </button>
                                 </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="7" class="text-center py-4 text-muted">Belum ada pengajuan surat yang menunggu TTE Kepala Desa.</td>
+                                <td colspan="6" class="text-center py-4 text-muted">Belum ada pengajuan surat yang menunggu TTE Kepala Desa.</td>
                             </tr>
                             @endforelse
                         </tbody>
@@ -123,86 +131,209 @@
 
 {{-- MODAL DETAIL KADES --}}
 <div class="modal fade" id="modalDetailKades-{{ $row->id_pengajuan }}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" style="max-width: 960px !important; width: 95% !important;">
         <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-            <div class="modal-header bg-primary text-white py-3 px-4">
-                <h5 class="modal-title fw-bold"><i class="bi bi-file-earmark-text-fill me-2"></i>Detail Pengajuan & Persetujuan — {{ $row->nama_surat }}</h5>
+            <div class="modal-header text-white py-3 px-4" style="background: linear-gradient(135deg, #0057A6 0%, #003B73 100%);">
+                <h5 class="modal-title fw-bold d-flex align-items-center">
+                    <i class="bi bi-file-earmark-text-fill me-2 fs-5"></i>
+                    <span>Detail Pengajuan & Persetujuan — {{ $row->nama_surat }}</span>
+                </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body p-4" style="background:#f8fafc">
                 <div class="row g-3 mb-3">
+                    {{-- Data Pemohon --}}
                     <div class="col-md-6">
-                        <div class="card border-0 shadow-sm rounded-3 p-3 h-100">
-                            <h6 class="fw-bold text-primary border-bottom pb-2 mb-3"><i class="bi bi-person-badge-fill me-2"></i>Data Pemohon</h6>
-                            <div class="mb-2"><span class="text-muted small d-block">Nama Lengkap</span><strong>{{ $row->nama_lengkap }}</strong></div>
-                            <div class="mb-2"><span class="text-muted small d-block">NIK</span><code>{{ $row->nik }}</code></div>
-                            <div class="mb-2"><span class="text-muted small d-block">Alamat</span><span>{{ $row->alamat }} RT {{ $row->rt }} / RW {{ $row->rw }}</span></div>
+                        <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white" style="border: 1px solid #e2e8f0 !important;">
+                            <h6 class="fw-bold pb-2 mb-3 border-bottom d-flex align-items-center" style="color: #0057A6;">
+                                <i class="bi bi-person-vcard-fill me-2 fs-5"></i>Data Pemohon
+                            </h6>
+                            <div class="mb-3">
+                                <span class="text-muted d-block mb-1" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Nama Lengkap Pemohon</span>
+                                <strong class="text-dark fs-6 d-block">{{ $row->nama_lengkap }}</strong>
+                            </div>
+                            <div class="mb-3">
+                                <span class="text-muted d-block mb-1" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">NIK (Nomor Induk Kependudukan)</span>
+                                <code class="px-2.5 py-1 bg-light text-primary border rounded-3 fw-bold d-inline-block" style="font-size: 0.9rem;">{{ $row->nik }}</code>
+                            </div>
+                            <div class="mb-0">
+                                <span class="text-muted d-block mb-1" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Alamat Domisili</span>
+                                <span class="text-dark fw-medium d-block">{{ $row->alamat }} RT {{ $row->rt }} / RW {{ $row->rw }}</span>
+                            </div>
                         </div>
                     </div>
+
+                    {{-- Data Surat --}}
                     <div class="col-md-6">
-                        <div class="card border-0 shadow-sm rounded-3 p-3 h-100">
-                            <h6 class="fw-bold text-primary border-bottom pb-2 mb-3"><i class="bi bi-file-earmark-richtext-fill me-2"></i>Data Surat</h6>
-                            <div class="mb-2"><span class="text-muted small d-block">Jenis Surat</span><span class="badge bg-primary">{{ $row->nama_surat }}</span></div>
-                            <div class="mb-2"><span class="text-muted small d-block">Keperluan</span><span>{{ $row->keperluan }}</span></div>
-                            <div class="mb-2"><span class="text-muted small d-block">Tanggal Pengajuan</span><span class="fw-medium"><i class="bi bi-calendar-event text-primary me-1"></i>{{ $row->tanggal_diajukan ?? $row->created_at }}</span></div>
-                            <div><span class="text-muted small d-block mb-1">Lampiran Foto</span>
-                                @for($f=1; $f<=8; $f++)
-                                    @php $foto = 'foto'.$f; @endphp
-                                    @if(!empty($row->$foto))
-                                        <a href="{{ asset($row->$foto) }}" target="_blank" class="badge bg-light text-dark border me-1 mb-1 text-decoration-none">
-                                            <i class="bi bi-image me-1"></i>Foto {{ $f }}
-                                        </a>
+                        <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white" style="border: 1px solid #e2e8f0 !important;">
+                            <h6 class="fw-bold pb-2 mb-3 border-bottom d-flex align-items-center" style="color: #0057A6;">
+                                <i class="bi bi-file-earmark-richtext-fill me-2 fs-5"></i>Data Surat
+                            </h6>
+                            <div class="mb-3">
+                                <span class="text-muted d-block mb-1" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Jenis Surat</span>
+                                <div class="p-2 px-3 rounded-3 fw-bold text-wrap" style="background:#f0f9ff; color:#0369a1; border:1px solid #bae6fd; font-size:0.875rem; display:inline-block; max-width:100%; word-break:break-word;">
+                                    <i class="bi bi-file-earmark-text me-1"></i>{{ $row->nama_surat }}
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="text-muted d-block mb-1" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Nomor Surat Keluar (Perkiraan)</span>
+                                <div class="p-2 px-3 rounded-3 fw-bold text-wrap" style="background:#f0fdf4; color:#15803d; border:1px solid #bbf7d0; font-size:0.875rem; display:inline-block; max-width:100%; word-break:break-word;">
+                                    <i class="bi bi-hash me-1"></i>{{ $row->nomor_surat_keluar ?? ($nomorSuratKeluarDefault . ' (Otomatis)') }}
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="text-muted d-block mb-1" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Keperluan</span>
+                                <span class="text-dark fw-medium d-block">{{ $row->keperluan }}</span>
+                            </div>
+                            <div class="mb-3">
+                                <span class="text-muted d-block mb-1" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Tanggal Pengajuan</span>
+                                <span class="fw-semibold text-dark d-block"><i class="bi bi-calendar-check text-primary me-1"></i>{{ $row->tanggal_diajukan ?? $row->created_at }}</span>
+                            </div>
+                            <div class="mb-0">
+                                <span class="text-muted d-block mb-2" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Lampiran Foto Dokumen</span>
+                                <div class="d-flex flex-wrap gap-1">
+                                    @php $hasFoto = false; @endphp
+                                    @for($f=1; $f<=8; $f++)
+                                        @php $foto = 'foto'.$f; @endphp
+                                        @if(!empty($row->$foto))
+                                            @php $hasFoto = true; @endphp
+                                            <a href="{{ asset($row->$foto) }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-3 px-2 py-1" style="font-size:0.78rem;">
+                                                <i class="bi bi-file-earmark-image me-1"></i>Foto {{ $f }}
+                                            </a>
+                                        @endif
+                                    @endfor
+                                    @if(!$hasFoto)
+                                        <span class="text-muted small italic">Tidak ada lampiran foto.</span>
                                     @endif
-                                @endfor
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Keterangan Admin --}}
-                <div class="card border-warning shadow-sm rounded-3 p-3 mb-3" style="background:#fffef3">
-                    <h6 class="fw-bold text-warning border-bottom pb-2 mb-2"><i class="bi bi-chat-square-quote-fill me-2"></i>Keterangan Verifikasi Admin</h6>
-                    <p class="mb-0 text-dark fw-medium">{{ $row->keterangan_admin ?? 'Berkas telah diverifikasi Admin.' }}</p>
+                {{-- Keterangan Verifikasi Admin --}}
+                <div class="card shadow-sm rounded-4 p-3 mb-3" style="background:#fffbebf5; border: 1px solid #fef08a; border-left: 5px solid #eab308;">
+                    <h6 class="fw-bold text-dark mb-1 d-flex align-items-center">
+                        <i class="bi bi-chat-quote-fill me-2 text-warning fs-5"></i>Catatan Verifikasi Admin
+                    </h6>
+                    <p class="mb-0 text-dark fw-medium small" style="margin-left: 28px;">
+                        {{ $row->keterangan_admin ?? 'Berkas telah diverifikasi lengkap oleh Admin Desa.' }}
+                    </p>
                 </div>
 
-                {{-- Riwayat Persetujuan lengkap --}}
-                <div class="card border-0 shadow-sm rounded-3 p-3">
-                    <h6 class="fw-bold text-primary border-bottom pb-2 mb-3"><i class="bi bi-clock-history me-2"></i>Riwayat Persetujuan Berantai</h6>
-                    <div class="position-relative" style="padding-left:28px;border-left:2px solid #e2e8f0">
+                {{-- Riwayat Persetujuan Berantai --}}
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white" style="border: 1px solid #e2e8f0 !important;">
+                    <h6 class="fw-bold pb-2 mb-3 border-bottom d-flex align-items-center" style="color: #0057A6;">
+                        <i class="bi bi-clock-history me-2 fs-5"></i>Riwayat Persetujuan Berantai
+                    </h6>
+                    <div class="position-relative ms-2" style="padding-left:28px; border-left:2px solid #cbd5e1;">
+                        {{-- 1. Diajukan --}}
                         <div class="mb-3 position-relative">
-                            <div class="position-absolute rounded-circle bg-primary d-flex align-items-center justify-content-center" style="width:22px;height:22px;left:-39px;top:2px"><i class="bi bi-check-lg text-white" style="font-size:.7rem"></i></div>
-                            <span class="fw-bold text-dark d-block">Diajukan</span>
-                            <small class="text-muted">{{ $row->tanggal_diajukan ?? $row->created_at }}</small>
+                            <div class="position-absolute rounded-circle bg-primary d-flex align-items-center justify-content-center shadow-sm" style="width:24px;height:24px;left:-41px;top:2px;">
+                                <i class="bi bi-check-lg text-white" style="font-size:.75rem"></i>
+                            </div>
+                            <span class="fw-bold text-dark d-block mb-0">1. Diajukan oleh Warga</span>
+                            <small class="text-muted"><i class="bi bi-calendar-event me-1"></i>{{ $row->tanggal_diajukan ?? $row->created_at }}</small>
                         </div>
+                        {{-- 2. Disetujui Dusun --}}
                         <div class="mb-3 position-relative">
-                            <div class="position-absolute rounded-circle bg-info d-flex align-items-center justify-content-center" style="width:22px;height:22px;left:-39px;top:2px"><i class="bi bi-check-lg text-white" style="font-size:.7rem"></i></div>
-                            <span class="fw-bold text-dark d-block">Disetujui Kepala Dusun</span>
+                            <div class="position-absolute rounded-circle bg-info d-flex align-items-center justify-content-center shadow-sm" style="width:24px;height:24px;left:-41px;top:2px;">
+                                <i class="bi bi-check-lg text-white" style="font-size:.75rem"></i>
+                            </div>
+                            <span class="fw-bold text-dark d-block mb-0">2. Disetujui Kepala Dusun</span>
+                            <small class="text-muted"><i class="bi bi-check2-circle text-info me-1"></i>Berkas telah diverifikasi Kepala Dusun</small>
                         </div>
+                        {{-- 3. Disetujui Admin --}}
                         <div class="mb-3 position-relative">
-                            <div class="position-absolute rounded-circle bg-success d-flex align-items-center justify-content-center" style="width:22px;height:22px;left:-39px;top:2px"><i class="bi bi-check-lg text-white" style="font-size:.7rem"></i></div>
-                            <span class="fw-bold text-dark d-block">Disetujui Admin</span>
-                            <small class="text-muted">{{ $row->keterangan_admin }}</small>
+                            <div class="position-absolute rounded-circle bg-success d-flex align-items-center justify-content-center shadow-sm" style="width:24px;height:24px;left:-41px;top:2px;">
+                                <i class="bi bi-check-lg text-white" style="font-size:.75rem"></i>
+                            </div>
+                            <span class="fw-bold text-dark d-block mb-0">3. Disetujui & Diverifikasi Admin Desa</span>
+                            <small class="text-muted"><i class="bi bi-chat-left-text me-1"></i>{{ $row->keterangan_admin ?? 'Verifikasi sesuai' }}</small>
                         </div>
+                        {{-- 4. Disetujui Sekdes --}}
                         <div class="mb-3 position-relative">
-                            <div class="position-absolute rounded-circle bg-primary d-flex align-items-center justify-content-center" style="width:22px;height:22px;left:-39px;top:2px"><i class="bi bi-check-lg text-white" style="font-size:.7rem"></i></div>
-                            <span class="fw-bold text-dark d-block">Disetujui Sekretaris Desa</span>
+                            <div class="position-absolute rounded-circle bg-primary d-flex align-items-center justify-content-center shadow-sm" style="width:24px;height:24px;left:-41px;top:2px;">
+                                <i class="bi bi-check-lg text-white" style="font-size:.75rem"></i>
+                            </div>
+                            <span class="fw-bold text-dark d-block mb-0">4. Disetujui Sekretaris Desa</span>
+                            <small class="text-muted"><i class="bi bi-send me-1"></i>Diteruskan ke Kepala Desa untuk TTE</small>
                         </div>
-                        <div class="mb-1 position-relative opacity-50">
-                            <div class="position-absolute rounded-circle bg-secondary d-flex align-items-center justify-content-center" style="width:22px;height:22px;left:-39px;top:2px"><i class="bi bi-dash-lg text-white" style="font-size:.7rem"></i></div>
-                            <span class="fw-bold text-muted d-block">Pengesahan TTE Kepala Desa</span>
-                            <small class="text-muted">Menunggu tindakan Anda</small>
+                        {{-- 5. Pengesahan TTE Kades --}}
+                        <div class="mb-1 position-relative">
+                            <div class="position-absolute rounded-circle bg-warning d-flex align-items-center justify-content-center shadow-sm" style="width:24px;height:24px;left:-41px;top:2px;">
+                                <i class="bi bi-hourglass-split text-white" style="font-size:.75rem"></i>
+                            </div>
+                            <span class="fw-bold text-warning-emphasis d-block mb-0">5. Pengesahan TTE Kepala Desa</span>
+                            <small class="text-warning-emphasis fw-medium"><i class="bi bi-exclamation-circle me-1"></i>Menunggu pengesahan & tanda tangan digital Anda</small>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer bg-white py-3 px-4">
+            <div class="modal-footer bg-white py-3 px-4 d-flex justify-content-end gap-2">
                 <button type="button" class="btn btn-secondary btn-rounded px-4" data-bs-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-danger btn-rounded px-4" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#modalTolakKades-{{ $row->id_pengajuan }}"><i class="bi bi-x-circle-fill me-1"></i>Tolak</button>
-                <form action="{{ route('kades.suratmasuk.setuju', $row->id_pengajuan) }}" method="POST" style="display:inline;">
-                    @csrf
-                    <button type="submit" class="btn btn-success btn-rounded px-4"><i class="bi bi-pen-fill me-1"></i>Sahkan TTE Sekarang</button>
-                </form>
+                <button type="button" class="btn btn-danger btn-rounded px-4" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#modalTolakKades-{{ $row->id_pengajuan }}">
+                    <i class="bi bi-x-circle-fill me-1"></i>Tolak
+                </button>
+                <button type="button" class="btn btn-success btn-rounded px-4" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#modalSetujuKades-{{ $row->id_pengajuan }}">
+                    <i class="bi bi-pen-fill me-1"></i>Sahkan TTE Sekarang
+                </button>
             </div>
+        </div>
+    </div>
+</div>
+
+{{-- MODAL PENGESAHAN TTE & INPUT NOMOR SURAT KELUAR --}}
+<div class="modal fade" id="modalSetujuKades-{{ $row->id_pengajuan }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <form action="{{ route('kades.suratmasuk.setuju', $row->id_pengajuan) }}" method="POST">
+                @csrf
+                <div class="modal-header bg-success text-white py-3 px-4">
+                    <h5 class="modal-title fw-bold">
+                        <i class="bi bi-pen-fill me-2"></i>Pengesahan TTE Kepala Desa
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4" style="background: #f8fafc;">
+                    <div class="card border-0 shadow-sm rounded-3 p-3 mb-3 bg-white">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-file-earmark-text text-success fs-3 me-3"></i>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">{{ $row->nama_surat }}</h6>
+                                <div class="text-muted small">Pemohon: <strong>{{ $row->nama_lengkap }}</strong> (<code>{{ $row->nik }}</code>)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nomor_surat_keluar-{{ $row->id_pengajuan }}" class="form-label fw-bold text-dark mb-1">
+                            Nomor Surat Keluar <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0 text-muted">
+                                <i class="bi bi-hash"></i>
+                            </span>
+                            <input type="text" 
+                                   id="nomor_surat_keluar-{{ $row->id_pengajuan }}"
+                                   name="nomor_surat_keluar" 
+                                   class="form-control border-start-0 ps-0 fw-semibold text-primary" 
+                                   value="{{ $row->nomor_surat_keluar ?? $nomorSuratKeluarDefault }}" 
+                                   required
+                                   placeholder="Contoh: 511/1/35.09.13.2006/2026">
+                        </div>
+                        <small class="text-muted mt-2 d-block" style="font-size: 0.78rem;">
+                            <i class="bi bi-info-circle me-1 text-info"></i>Nomor surat keluar telah di-generate otomatis. Anda dapat mengubah/menyesuaikannya jika diperlukan sebelum dokumen disahkan dengan TTE.
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-footer bg-white py-3 px-4 d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-secondary btn-rounded px-4" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-success btn-rounded px-4">
+                        <i class="bi bi-shield-check me-1"></i> Sahkan TTE Sekarang
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

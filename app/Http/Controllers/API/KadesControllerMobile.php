@@ -72,6 +72,12 @@ class KadesControllerMobile extends Controller
             ], 404);
         }
 
+        if ($request->filled('nomor_surat_keluar')) {
+            $pengajuan->nomor_surat_keluar = $request->nomor_surat_keluar;
+        } elseif (empty($pengajuan->nomor_surat_keluar)) {
+            $pengajuan->nomor_surat_keluar = \App\Http\Controllers\KepalaDesa\KadesSuratMasukController::generateNomorSuratKeluar();
+        }
+
         $pengajuan->status = 'Selesai';
         $pengajuan->save();
 

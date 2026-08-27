@@ -49,6 +49,7 @@ return new class extends Migration
                     DATE_FORMAT(pg.tanggal_diajukan, '%d/%m/%Y') AS tanggal_diajukan,
                     pg.status AS status,
                     pg.keterangan_ditolak AS keterangan_ditolak,
+                    pg.keterangan_admin AS keterangan_admin,
 
                     pg.foto1 AS foto1,
                     pg.foto2 AS foto2,
