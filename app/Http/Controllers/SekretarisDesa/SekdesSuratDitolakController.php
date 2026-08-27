@@ -12,7 +12,7 @@ class SekdesSuratDitolakController extends Controller
     {
         $katakunci = $request->katakunci;
 
-        $query = View_data_pengajuan::where('status', 'LIKE', '%Ditolak%');
+        $query = View_data_pengajuan::where('status', 'Ditolak');
 
         if (!empty($katakunci)) {
             $query->where(function ($q) use ($katakunci) {

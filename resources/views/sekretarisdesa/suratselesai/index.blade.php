@@ -13,6 +13,9 @@
     .table-modern tbody tr { background-color: #ffffff !important; box-shadow: 0 2px 6px rgba(0,0,0,0.02); border-radius: 10px !important; }
     .table-modern tbody td { padding: 14px 16px !important; vertical-align: middle !important; border-top: 1px solid #f1f5f9 !important; font-size: 0.88rem !important; }
     .btn-rounded { border-radius: 30px !important; }
+    .badge-selesai { background: #dcfce7; 
+    color: #15803d; 
+    border: 1px solid #bbf7d0;font-weight:600;padding:5px 12px;border-radius:20px;font-size:.78rem }
 </style>
 @endpush
 
@@ -43,7 +46,7 @@
                                 <th>ID Pengajuan</th>
                                 <th>Nama Pemohon</th>
                                 <th class="text-center">Jenis Surat</th>
-                                <th class="text-center">Keperluan</th>
+                                <th class="text-center">Tanggal Diajukan</th>
                                 <th class="text-center">Status</th>
                             </tr>
                         </thead>
@@ -61,9 +64,9 @@
                                     </div>
                                 </td>
                                 <td class="text-center"><span class="badge bg-light text-dark border">{{ $row->nama_surat ?? 'Surat Keterangan' }}</span></td>
-                                <td>{{ $row->keperluan }}</td>
+                                <td class="text-muted text-center">{{ $row->tanggal_diajukan ?? $row->created_at }}</td>
                                 <td class="text-center">
-                                    <span class="badge bg-success text-white fw-bold px-3 py-1 rounded-pill">
+                                    <span class="badge-selesai">
                                         ✓ {{ $row->status }}
                                     </span>
                                 </td>

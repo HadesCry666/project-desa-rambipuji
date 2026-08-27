@@ -14,6 +14,15 @@
     .table-modern tbody td { padding: 14px 16px !important; vertical-align: middle !important; border-top: 1px solid #f1f5f9 !important; font-size: 0.88rem !important; }
     .table-modern tbody td.keterangan-ditolak {font-size: 12px !important;}
     .btn-rounded { border-radius: 30px !important; }
+    .badge-tolak {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: .78rem;
+}
 </style>
 @endpush
 
@@ -62,9 +71,9 @@
                                     </div>
                                 </td>
                                 <td class="text-center"><span class="badge bg-light text-dark border">{{ $row->nama_surat ?? 'Surat Keterangan' }}</span></td>
-                                <td style="font-size: 10px;" class="text-danger fw-medium keterangan-ditolak">{{ $row->keterangan_ditolak ?? 'Berkas tidak memenuhi syarat' }}</td>
+                                <td style="font-size: 10px;" class="text-danger text-center fw-medium keterangan-ditolak">{{ $row->keterangan_ditolak ?? 'Berkas tidak memenuhi syarat' }}</td>
                                 <td class="text-center">
-                                    <span class="badge bg-danger text-white fw-bold px-3 py-1 rounded-pill">
+                                    <span class="badge-tolak">
                                         {{ $row->status }}
                                     </span>
                                 </td>
