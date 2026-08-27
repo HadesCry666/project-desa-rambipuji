@@ -17,7 +17,7 @@ class SuratSelesaiController extends Controller
         $katakunci = $request->katakunci;
     
         if (strlen($katakunci)) {
-            $datapengajuan = View_data_pengajuan::where('status', 'Selesai') // Tambahkan ini
+            $datapengajuan = View_data_pengajuan::where('status', 'Disetujui Admin') // Tambahkan ini
                 ->where(function($query) use ($katakunci) {
                     $query->where('nik', 'like', "%$katakunci%")
                         ->orWhere('nama_lengkap', 'like', "%$katakunci%")
@@ -26,7 +26,7 @@ class SuratSelesaiController extends Controller
                 ->orderBy('id_pengajuan', 'desc')
                 ->paginate($jumlahbaris);
         } else {
-            $datapengajuan = View_data_pengajuan::where('status', 'Selesai') // Tambahkan ini juga
+            $datapengajuan = View_data_pengajuan::where('status', 'Disetujui Admin') // Tambahkan ini juga
                 ->orderBy('id_pengajuan', 'desc')
                 ->paginate($jumlahbaris);
         }

@@ -57,96 +57,215 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                                 <div>
                                     <div>
                                             <strong class="text-dark">Alur Tanda Tangan Fisik (Basah) RT/RW & Kepala Dusun:</strong>
-                                            <p class="mb-0 small">Ketua RT & Ketua RW telah menandatangani berkas secara fisik (basah). Pengajuan ini otomatis berstatus <strong>Disetujui Kepala Dusun</strong> dan langsung masuk antrian cetak Admin Desa.</p>
+                                            <p class="mb-0 small">Ketua RT & Ketua RW telah menandatangani berkas secara fisik (basah). Pengajuan ini otomatis berstatus <strong>Disetujui Admin</strong></p>
                                         </div>
                                 </div>
                             </div>
                         </div>
 
                     <!-- STEP 1: Data Penduduk & Jenis Surat -->
-                     <div class="card card-modern p-4 mb-4">
-                                 <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-4" style="margin-right: 5px">1</span>Data Penduduk & Jenis Surat</h5>
+                        <div class="card card-modern p-4 mb-4">
+
+                            <h5 class="fw-bold text-primary mb-4">
+                                <span class="step-badge me-2">1</span>
+                                Data Penduduk & Jenis Surat
+                            </h5>
+
                             <div class="row g-3">
+
                                 {{-- NIK / NAMA PENDUDUK --}}
                                 <div class="col-md-8">
                                     <label class="form-label">
-                                        <i class="fas fa-id-card text-primary me-1"></i> NIK & Nama Penduduk <span class="text-danger">*</span>
+                                        <i class="fas fa-id-card text-primary me-1"></i>
+                                        NIK & Nama Penduduk
+                                        <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control select2 w-100" name="nik" id="selectNik" required style="width: 100% !important;">
-                                        <option value="">-- Pilih NIK / Nama Penduduk --</option>
+
+                                    <select
+                                        class="form-control select2 w-100"
+                                        name="nik"
+                                        id="nik"
+                                        required
+                                    >
+                                        <option value="">
+                                            -- Pilih NIK / Nama Penduduk --
+                                        </option>
+
                                         @foreach($datapenduduk as $p)
-                                            <option value="{{ $p->nik }}" {{ old('nik') == $p->nik ? 'selected' : '' }}>
+                                            <option
+                                                value="{{ $p->nik }}"
+                                                {{ old('nik') == $p->nik ? 'selected' : '' }}
+                                            >
                                                 {{ $p->nik }} - {{ $p->nama_lengkap }}
                                             </option>
                                         @endforeach
                                     </select>
-                                    <small class="text-muted mt-1 d-block"><i class="fas fa-info-circle me-1"></i> Ketik NIK atau Nama warga untuk memfilter secara otomatis.</small>
+
+                                    <small class="text-muted mt-1 d-block">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Ketik NIK atau Nama warga untuk memfilter secara otomatis.
+                                    </small>
                                 </div>
+
 
                                 {{-- JENIS SURAT --}}
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold text-dark mb-2">
-                                        <i class="fas fa-file-alt text-primary me-1"></i> Jenis Surat <span class="text-danger">*</span>
+                                        <i class="fas fa-file-alt text-primary me-1"></i>
+                                        Jenis Surat
+                                        <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control select2 w-100" name="id_surat" id="selectSurat" required style="width: 100% !important;">
-                                        <option value="">-- Pilih Jenis Surat --</option>
+
+                                    <select
+                                        class="form-control select2"
+                                        id="id_surat"
+                                        name="id_surat"
+                                        required
+                                    >
+                                        <option value="">
+                                            -- Pilih Jenis Surat --
+                                        </option>
+
                                         @foreach($datasurat as $s)
-                                            <option value="{{ $s->id_surat }}" {{ old('id_surat') == $s->id_surat ? 'selected' : '' }}>
+                                            <option
+                                                value="{{ $s->id_surat }}"
+                                                {{ old('id_surat') == $s->id_surat ? 'selected' : '' }}
+                                            >
                                                 {{ $s->nama_surat }}
                                             </option>
                                         @endforeach
                                     </select>
-                                    <small class="text-muted mt-1 d-block"><i class="fas fa-info-circle me-1"></i> Pilih jenis surat permohonan yang diajukan.</small>
+
+                                    <small class="text-muted mt-1 d-block">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Pilih jenis surat permohonan yang diajukan.
+                                    </small>
                                 </div>
+
                             </div>
                         </div>
 
-                    <!-- STEP 2: Detail Pengajuan & Lampiran -->
-                    <div class="card card-modern p-4 mb-4" id="wrapperDataPemohon">
-                         <h5 class="fw-bold text-primary mb-4"><span class="step-badge me-2" style="margin-right: 5px">2</span>Detail Pengajuan & Lampiran</h5>
+
+                        <!-- STEP 2: Detail Pengajuan -->
+                        <div class="card card-modern p-4 mb-4">
+
+                            <h5 class="fw-bold text-primary mb-4">
+                                <span class="step-badge me-2">2</span>
+                                Detail Pengajuan
+                            </h5>
+
                             <div class="row g-3">
-                                {{-- KEPERLUAN --}}
+
+                                {{-- NOMOR REGISTRASI --}}
                                 <div class="col-12">
-                                    <label class="form-label fw-bold text-dark mb-1">Keperluan Pengajuan</label>
-                                    <textarea class="form-control rounded-3" name="keperluan" rows="3"
-                                        placeholder="Contoh: Untuk persyaratan pembuatan SKCK di Polres Jember / Pengurusan Beasiswa">{{ old('keperluan') }}</textarea>
-                                </div>
 
-                                {{-- NOMOR REGISTRASI KEPALA DUSUN --}}
-                                <div class="col-12 mt-2">
-                                    <label class="form-label fw-bold text-dark mb-1">
-                                        <i class="fas fa-bookmark text-primary me-1"></i> Nomor Registrasi Kepala Dusun <span class="text-danger">*</span>
+                                    <label class="form-label fw-bold text-dark">
+                                        <i class="fas fa-bookmark text-primary me-1"></i>
+                                        Nomor Registrasi Kepala Dusun
+                                        <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control rounded-3" name="no_registrasi" value="{{ old('no_registrasi') }}"
-                                        placeholder="Contoh: REG/KADUS/001/2026" required>
-                                    <small class="text-muted mt-1 d-block"><i class="fas fa-info-circle me-1"></i> Masukkan nomor registrasi resmi yang diterbitkan oleh Kepala Dusun.</small>
+
+                                    <input
+                                        type="text"
+                                        class="form-control rounded-3"
+                                        id="no_registrasi"
+                                        name="no_registrasi"
+                                        value="{{ $noRegistrasi }}"
+                                        readonly
+                                    >
+
+                                    <small class="text-muted mt-1 d-block">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Nomor registrasi akan dibuat otomatis berdasarkan
+                                        nomor urut, dusun, bulan, dan tahun.
+                                    </small>
+
                                 </div>
 
-                                {{-- UPLOAD FOTO BUKTI / LAMPIRAN (DRAG & DROP STYLE BOX) --}}
+
+                                {{-- KEPERLUAN --}}
                                 <div class="col-12 mt-3">
-                                    <label class="form-label fw-bold text-dark mb-1">
-                                        Lampiran / Dokumen Pendukung <span class="text-muted fw-normal">(Opsional, Maks. 8 Gambar)</span>
+
+                                    <label
+                                        for="keperluan"
+                                        id="labelKeperluan"
+                                        class="form-label fw-semibold"
+                                    >
+                                        Keperluan
                                     </label>
 
-                                    <div class="upload-dropzone p-4 rounded-4 border-2 border-dashed text-center position-relative bg-light">
-                                        <input type="file" class="form-control position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer" name="foto[]" id="inputFoto" multiple accept="image/*" style="z-index: 10;">
-                                        <div class="dropzone-content pointer-events-none">
-                                            <div class="icon-circle bg-primary-subtle text-primary mx-auto mb-3 rounded-circle d-flex align-items-center justify-content-center" style="width: 56px; height: 56px;">
-                                                <i class="fas fa-cloud-upload-alt fa-2x"></i>
-                                            </div>
-                                            <h6 class="fw-bold text-dark mb-1">Klik atau seret file ke area ini untuk mengupload</h6>
-                                            <p class="text-muted small mb-0">Format yang didukung: <strong>JPG, JPEG, PNG</strong> (Maksimal 2MB per file)</p>
-                                        </div>
+                                    <textarea
+                                        name="keperluan"
+                                        id="keperluan"
+                                        class="form-control"
+                                        rows="4"
+                                        placeholder="Masukkan keperluan surat"
+                                    >{{ old('keperluan') }}</textarea>
+
+                                    <small class="text-muted mt-1 d-block">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Isi keterangan atau keperluan pengajuan surat.
+                                    </small>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <!-- STEP 3: Lampiran -->
+                        <div class="card card-modern p-4 mb-4">
+
+                            <h5 class="fw-bold text-primary mb-4">
+                                <span class="step-badge me-2">3</span>
+                                Lampiran Berkas / Dokumen Pendukung
+                            </h5>
+
+                            <div class="row g-3">
+
+                                <div class="col-12">
+
+                                    <label class="form-label fw-semibold">
+                                        <i class="fas fa-paperclip text-primary me-1"></i>
+                                        Upload Berkas Pendukung
+
+                                        <span class="text-muted fw-normal">
+                                            (Opsional, maks. 8 file, JPG/PNG, max 2MB/file)
+                                        </span>
+                                    </label>
+
+
+                                    {{-- INPUT FILE --}}
+                                    <input
+                                        type="file"
+                                        class="form-control"
+                                        name="foto[]"
+                                        id="inputFoto"
+                                        multiple
+                                        accept=".jpg,.jpeg,.png"
+                                    >
+
+
+                                    <div class="form-text text-muted mt-2">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Anda dapat memilih beberapa file sekaligus.
+                                        Contoh: Foto KTP, KK, Surat Pengantar RT/RW, dsb.
                                     </div>
 
-                                    {{-- PREVIEW CONTAINER --}}
-                                    <div id="previewContainer" class="row mt-3 g-3"></div>
+
+                                    {{-- PREVIEW --}}
+                                    <div
+                                        id="previewContainer"
+                                        class="row mt-3 g-3"
+                                    ></div>
+
                                 </div>
+
                             </div>
                         </div>
 
                         {{-- FOOTER ACTION --}}
-                        <div class="card-footer bg-light py-3 px-4 border-top d-flex justify-content-between align-items-center">
+                        <div class="card-footer py-3 px-4 border-top d-flex justify-content-between align-items-center">
                             <a href="{{ url('admin/suratmasuk') }}" class="btn btn-outline-secondary rounded-pill px-4">
                                 <i class="fas fa-times me-1"></i> Batal
                             </a>
@@ -245,6 +364,174 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
 
 @push('scripts')
 <script>
+    const inputFoto = document.getElementById('inputFoto');
+        const previewContainer = document.getElementById('previewContainer');
+
+        let selectedFiles = [];
+
+        // ===============================
+        // PILIH FILE
+        // ===============================
+        inputFoto.addEventListener('change', function () {
+
+            const newFiles = Array.from(this.files);
+
+            newFiles.forEach(file => {
+
+                // Cek file duplikat
+                const alreadyExists = selectedFiles.some(existingFile =>
+                    existingFile.name === file.name &&
+                    existingFile.size === file.size &&
+                    existingFile.lastModified === file.lastModified
+                );
+
+                // Maksimal 8 file
+                if (!alreadyExists && selectedFiles.length < 8) {
+                    selectedFiles.push(file);
+                }
+
+            });
+
+            // Update input file
+            updateFileInput();
+
+            // Tampilkan preview
+            renderPreview();
+        });
+
+
+        // ===============================
+        // UPDATE INPUT FILE
+        // ===============================
+        function updateFileInput() {
+
+            const dataTransfer = new DataTransfer();
+
+            selectedFiles.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+
+            inputFoto.files = dataTransfer.files;
+        }
+
+
+        // ===============================
+        // PREVIEW
+        // ===============================
+        function renderPreview() {
+
+            previewContainer.innerHTML = '';
+
+            selectedFiles.forEach((file, index) => {
+
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+
+                    const col = document.createElement('div');
+
+                    col.className = 'col-6 col-sm-4 col-md-3';
+
+                    col.innerHTML = `
+                        <div class="preview-card position-relative">
+
+                            <span class="badge-index">
+                                Foto ${index + 1}
+                            </span>
+
+                            <button
+                                type="button"
+                                class="btn btn-danger btn-sm btn-remove-foto"
+                                data-index="${index}"
+                                style="
+                                    position:absolute;
+                                    top:6px;
+                                    right:6px;
+                                    width:28px;
+                                    height:28px;
+                                    padding:0;
+                                    border-radius:50%;
+                                    z-index:10;
+                                "
+                                title="Hapus foto">
+
+                                <i class="bi bi-x"></i>
+
+                            </button>
+
+                            <img
+                                src="${e.target.result}"
+                                alt="Preview Foto ${index + 1}"
+                                class="img-fluid"
+                            >
+
+                            <div class="p-2 text-truncate small text-muted text-center bg-white border-top">
+                                ${file.name}
+                            </div>
+
+                        </div>
+                    `;
+
+                    previewContainer.appendChild(col);
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+
+
+        // ===============================
+        // HAPUS FOTO
+        // ===============================
+        previewContainer.addEventListener('click', function (e) {
+
+            const button = e.target.closest('.btn-remove-foto');
+
+            if (!button) {
+                return;
+            }
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            const index = parseInt(button.dataset.index);
+
+            // Hapus dari array
+            selectedFiles.splice(index, 1);
+
+            // Update input
+            updateFileInput();
+
+            // Render ulang preview
+            renderPreview();
+        });
+
+
+        // ===============================
+        // CEK SEBELUM SUBMIT
+        // ===============================
+        document.querySelector('form').addEventListener('submit', function () {
+
+            // Pastikan input berisi semua file terakhir
+            updateFileInput();
+
+        });
+
+$('#id_surat').on('change', function () {
+    const namaSurat = $('#id_surat option:selected')
+        .text()
+        .trim()
+        .toLowerCase();
+
+    if (namaSurat.includes('surat keterangan kematian')) {
+        $('#labelKeperluan').text('Nama Almarhum');
+        $('#keperluan').attr('placeholder', 'Masukkan nama almarhum');
+    } else {
+        $('#labelKeperluan').text('Keperluan');
+        $('#keperluan').attr('placeholder', 'Masukkan keperluan surat');
+    }
+});
+
 $(document).ready(function () {
     // Initialize Select2 safely
     if ($.fn.select2) {
@@ -286,35 +573,92 @@ $(document).ready(function () {
         cardRt.addEventListener('click', function() { radRt.checked = true; syncStatusCard(); });
         syncStatusCard();
     }
+});
+// =====================================================
 
-    // Image Upload Live Preview
-    const inputFoto = document.getElementById('inputFoto');
-    const previewContainer = document.getElementById('previewContainer');
+$('#nik').on('change', function () {
+    console.log('================================');
+    console.log('CHANGE NIK BERHASIL');
+    console.log('NIK:', $(this).val());
+    console.log('================================');
 
-    if (inputFoto && previewContainer) {
-        inputFoto.addEventListener('change', function () {
-            previewContainer.innerHTML = '';
-            if (this.files && this.files.length > 0) {
-                const files = Array.from(this.files).slice(0, 8);
-                files.forEach((file, idx) => {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        const col = document.createElement('div');
-                        col.className = 'col-6 col-sm-4 col-md-3';
-                        col.innerHTML = `
-                            <div class="preview-card">
-                                <span class="badge-index">Foto ${idx + 1}</span>
-                                <img src="${e.target.result}" alt="Preview Foto ${idx + 1}">
-                                <div class="p-2 text-truncate small text-muted text-center bg-white border-top">${file.name}</div>
-                            </div>
-                        `;
-                        previewContainer.appendChild(col);
-                    };
-                    reader.readAsDataURL(file);
-                });
-            }
-        });
+    const nik = $(this).val();
+
+    console.log('NIK dipilih:', nik);
+
+    if (!nik) {
+        return;
     }
+
+    let url = "{{ route('pengajuan.tambah.dusun', ':nik') }}";
+    url = url.replace(':nik', encodeURIComponent(nik));
+
+    console.log('URL AJAX:', url);
+
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+
+        success: function (response) {
+
+            console.log('Response:', response);
+
+            if (!response.success) {
+                return;
+            }
+
+            // Ambil nomor registrasi saat ini
+            let noRegistrasi = $('#no_registrasi').val();
+
+            console.log(
+                'No Registrasi sebelum:',
+                noRegistrasi
+            );
+
+            // Pecah nomor registrasi
+            let parts = noRegistrasi.split('/');
+
+            if (parts.length === 5) {
+
+                parts[2] =
+                    '2006.' + response.nomor_dusun;
+
+                $('#no_registrasi').val(
+                    parts.join('/')
+                );
+
+                console.log(
+                    'No Registrasi sesudah:',
+                    $('#no_registrasi').val()
+                );
+
+            } else {
+
+                console.error(
+                    'Format nomor registrasi tidak sesuai:',
+                    noRegistrasi
+                );
+            }
+        },
+
+        error: function (xhr) {
+
+            console.error(
+                'AJAX ERROR:',
+                xhr.status,
+                xhr.responseText
+            );
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text:
+                    xhr.responseJSON?.message ??
+                    'Data dusun tidak ditemukan.'
+            });
+        }
+    });
 });
 </script>
 @endpush
