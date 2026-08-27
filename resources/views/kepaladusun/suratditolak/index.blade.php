@@ -14,6 +14,15 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
 .table-modern tbody tr:hover{background:#fff1f2!important}
 .table-modern tbody td{padding:13px 16px!important;vertical-align:middle!important;border-top:1px solid #f1f5f9!important;font-size:.875rem!important}
 .btn-rounded{border-radius:30px!important}
+.badge-tolak {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: .78rem;
+}
 </style>
 @endpush
 
@@ -66,8 +75,8 @@ body,.main-content{font-family:'Poppins','Plus Jakarta Sans',sans-serif!importan
                                 </td>
                                 <td class="text-center"><span class="badge bg-light text-dark border fw-medium">{{ $r->nama_surat }}</span></td>
                                 <td class="text-center">
-                                    <span class="badge bg-danger text-white fw-semibold px-3 py-1 rounded-pill">
-                                        <i class="bi bi-x-circle-fill me-1"></i>   {{ $r->status }}
+                                    <span class="badge-tolak">
+                                     {{ $r->status }}
                                     </span>
                                 </td>
                                 <td class="text-center">

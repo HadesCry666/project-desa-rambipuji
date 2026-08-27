@@ -98,6 +98,7 @@ Route::middleware(['auth', 'role:1'])->prefix('admin')->group(function () {
     // TAMBAH PENGAJUAN SURAT (oleh Admin)
     Route::get('/tambah-pengajuan', [TambahPengajuanController::class, 'index'])->name('pengajuan.tambah.index');
     Route::post('/tambah-pengajuan', [TambahPengajuanController::class, 'store'])->name('pengajuan.tambah.store');
+    Route::get('/tambah-pengajuan/dusun/{nik}', [TambahPengajuanController::class, 'getDusunByNik'])->name('pengajuan.tambah.dusun');
 
     // SURAT DITOLAK
     Route::get('/suratditolak', [SuratDitolakController::class, 'index'])->name('suratditolak.tampil');

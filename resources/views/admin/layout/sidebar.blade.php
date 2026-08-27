@@ -24,14 +24,15 @@
 
     <!-- Logo Desa Rambipuji (Normal) -->
     <div class="sidebar-brand normal-logo">
-      <a href="{{ $homeUrl }}" class="d-flex align-items-center justify-content-start text-decoration-none">
-        <img src="{{ asset('image/logo/logo.png') }}" alt="Logo Desa Rambipuji" class="sidebar-logo-img">
-        <div class="d-flex flex-column text-start ms-2">
-          <span class="brand-title">Desa Rambipuji</span>
-          <span class="brand-subtitle">{{ $roleTitle }}</span>
-        </div>
-      </a>
+  <a href="{{ $homeUrl }}" class="d-flex align-items-center justify-content-start text-decoration-none overflow-hidden">
+    <img src="{{ asset('image/logo/logo.png') }}" alt="Logo Desa Rambipuji" class="sidebar-logo-img flex-shrink-0">
+    <!-- Mengubah ms-2 menjadi ms-3 untuk menambah jarak dari logo -->
+    <div class="d-flex flex-column text-start ms-3 text-truncate">
+      <span class="brand-title text-truncate">Desa Rambipuji</span>
+      <span class="brand-subtitle text-truncate">{{ $roleTitle }}</span>
     </div>
+  </a>
+</div>
 
     <!-- Logo Desa Rambipuji (Collapsed) -->
     <div class="sidebar-brand sidebar-brand-sm collapsed-logo">
@@ -42,7 +43,8 @@
 
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
-      <li classmenu-header class="menu-header">Menu Utama</li>
+      <!-- Perbaikan typo pada atribut class -->
+      <li class="menu-header">Menu Utama</li>
 
       {{-- ==================== SIDEBAR SEKRETARIS DESA ==================== --}}
       @if($isSekdes)
@@ -166,9 +168,31 @@
 </div>
 
 <style>
-  .sidebar-logo-img { height: 42px; width: auto; object-fit: contain; }
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+  /* Mengunci overflow horizontal pada kontainer sidebar */
+  .main-sidebar, 
+  #sidebar-wrapper {
+    overflow-x: hidden !important;
+  }
+
+  .sidebar-logo-img { height: 42px; width: auto; object-fit: contain; margin-right: 18px !important; }
   .sidebar-logo-sm { height: 36px; width: auto; object-fit: contain; }
-  .brand-title { font-weight: 700 !important; font-size: 15px !important; color: #0057A6 !important; letter-spacing: -0.3px; line-height: 1.2; }
-  .brand-subtitle { font-size: 10px !important; font-weight: 600 !important; color: #64748b !important; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
+  .brand-title { 
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 700 !important; 
+    font-size: 15px !important; 
+    color: #0057A6 !important; 
+    letter-spacing: -0.3px; 
+    line-height: 1.2; 
+  }
+  .brand-subtitle { 
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 10px !important; 
+    font-weight: 600 !important; 
+    color: #64748b !important; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px; 
+    line-height: 1.2; 
+  }
   .menu-header { font-size: 10px !important; font-weight: 700 !important; text-transform: uppercase; letter-spacing: 0.8px; color: #94a3b8 !important; padding: 15px 20px 8px 20px !important; }
 </style>

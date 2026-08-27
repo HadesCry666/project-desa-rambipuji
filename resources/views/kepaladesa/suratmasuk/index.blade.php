@@ -14,6 +14,7 @@
     .table-modern tbody tr:hover { transform: translateY(-1px); }
     .table-modern tbody td { padding: 16px 18px !important; vertical-align: middle !important; border-top: 1px solid #f1f5f9 !important; font-size: 0.95rem !important; }
     .btn-rounded { border-radius: 30px !important; }
+    .badge-sekdes{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;font-weight:600;padding:5px 12px;border-radius:20px;font-size:.78rem}
 </style>
 @endpush
 
@@ -32,13 +33,12 @@
     </div>
 
     @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show rounded-3 shadow-sm mb-4">
-        <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <div id="alertPopup" class="alert alert-success alert-floating">
+        {{ session('success') }}
     </div>
     @endif
     @if(session('error'))
-    <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm mb-4">
+    <div class="alert alert-danger alert-dismissible fade show rounded-3 shadow-sm mb-4" role="alert">
         <i class="bi bi-exclamation-circle-fill me-2"></i>{{ session('error') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
@@ -61,7 +61,6 @@
                                 <th class="text-center" style="width: 50px;">No</th>
                                 <th>Nama Pemohon</th>
                                 <th class="text-center">Jenis Surat</th>
-                                <th class="text-center">Keterangan Admin</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center" style="width: 270px;">Aksi TTE</th>
                             </tr>
@@ -140,7 +139,9 @@
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body p-4" style="background:#f8fafc">
+            
+            <div class="modal-body p-4">
+                {{-- BARIS 1: Informasi Pemohon & Informasi Surat Sejajar --}}
                 <div class="row g-3 mb-3">
                     {{-- Data Pemohon --}}
                     <div class="col-md-6">
@@ -210,6 +211,27 @@
                         </div>
                     </div>
                 </div>
+                {{-- BARIS 2: Nomor Final Surat --}}
+                    <div class="card border-0 shadow-sm rounded-3 p-3 mb-3">
+                        <h6 class="fw-bold border-bottom pb-2 mb-3">
+                            Nomor Final Surat
+                        </h6>
+
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+    <div>
+        <span class="text-muted small d-block mb-1">
+            Nomor Surat Keluar
+        </span>
+        <input
+            type="text"
+            id="nomor_surat_keluar"
+            name="nomor_surat_keluar"
+            class="form-control"
+            value="{{ $row->nomor_surat_keluar ?? $nomorSuratKeluarDefault }}"
+            readonly
+        >
+    </div>
+</div>
 
                 {{-- Keterangan Verifikasi Admin --}}
                 <div class="card shadow-sm rounded-4 p-3 mb-3" style="background:#fffbebf5; border: 1px solid #fef08a; border-left: 5px solid #eab308;">
@@ -268,7 +290,63 @@
                             <small class="text-warning-emphasis fw-medium"><i class="bi bi-exclamation-circle me-1"></i>Menunggu pengesahan & tanda tangan digital Anda</small>
                         </div>
                     </div>
+
+                {{-- BARIS 3: Lampiran Dokumen di Bawah --}}
+                <div class="card border-0 shadow-sm rounded-3 p-3">
+                    <h6 class="fw-bold border-bottom pb-2 mb-3">
+                        <i class="bi bi-paperclip me-2"></i>Lampiran Dokumen
+                    </h6>
+                    
+                    <div class="row g-3">
+                        @php $hasAttachment = false; @endphp
+                        @for($f=1; $f<=8; $f++)
+                            @php $foto = 'foto'.$f; @endphp
+                            @if(!empty($row->$foto))
+                                @php 
+                                    $hasAttachment = true; 
+                                    $filePath = public_path($row->$foto);
+                                    $fileName = basename($row->$foto);
+                                    $fileSize = file_exists($filePath) ? round(filesize($filePath) / 1024, 1) . ' KB' : null;
+                                @endphp
+                                <div class="col-12 col-sm-6 col-md-3">
+                                    <div class="card border rounded-3 overflow-hidden shadow-sm">
+                                        <!-- Thumbnail 16:9 -->
+                                        <div class="ratio ratio-16x9 bg-light border-bottom position-relative" style="aspect-ratio: 16/9;">
+                                            <img src="{{ asset($row->$foto) }}" 
+                                                 class="w-100 h-100 position-absolute top-0 start-0" 
+                                                 style="object-fit: cover;" 
+                                                 alt="Lampiran {{ $f }}" 
+                                                 onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\'d-flex align-items-center justify-content-center h-100 text-muted\'><i class=\'bi bi-file-earmark-image fs-1\'></i></div>';">
+                                        </div>
+                                        
+                                        <!-- Body Kartu -->
+                                        <div class="p-2">
+                                            <div class="mb-2">
+                                                <small class="fw-bold text-truncate d-block text-dark" title="{{ $fileName }}">
+                                                    {{ $fileName }}
+                                                </small>
+                                                @if($fileSize)
+                                                    <small class="text-muted d-block" style="font-size: 0.75rem;">({{ $fileSize }})</small>
+                                                @endif
+                                            </div>
+                                            <a href="{{ asset($row->$foto) }}" target="_blank" class="btn btn-sm btn-outline-primary w-100 py-1" style="font-size: 0.8rem;">
+                                                <i class="bi bi-eye me-1"></i>Lihat
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endfor
+
+                        @if(!$hasAttachment)
+                            <div class="col-12 text-center text-muted py-4">
+                                <i class="bi bi-folder-x fs-2 d-block mb-1"></i>
+                                <small>Tidak ada lampiran dokumen yang diunggah.</small>
+                            </div>
+                        @endif
+                    </div>
                 </div>
+
             </div>
             <div class="modal-footer bg-white py-3 px-4 d-flex justify-content-end gap-2">
                 <button type="button" class="btn btn-secondary btn-rounded px-4" data-bs-dismiss="modal">Tutup</button>
@@ -281,7 +359,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>  
 
 {{-- MODAL PENGESAHAN TTE & INPUT NOMOR SURAT KELUAR --}}
 <div class="modal fade" id="modalSetujuKades-{{ $row->id_pengajuan }}" tabindex="-1" aria-hidden="true">
@@ -339,24 +417,47 @@
 </div>
 
 {{-- MODALS TOLAK --}}
-<div class="modal fade" id="modalTolakKades-{{ $row->id_pengajuan }}" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalTolakKades{{ $row->id_pengajuan }}" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg rounded-4 p-2">
+        <div class="modal-content border-0 shadow-lg rounded-4">
             <form action="{{ route('kades.suratmasuk.tolak', $row->id_pengajuan) }}" method="POST">
                 @csrf
-                <div class="modal-header border-0 pb-0">
-                    <h5 class="modal-title fw-bold text-danger"><i class="bi bi-x-circle-fill me-2"></i>Tolak Pengajuan Surat</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <!-- Header -->
+                <div class="modal-header rounded-top-4 py-3 px-4">
+                    <h5 class="modal-title fw-bold">Tolak Pengajuan Surat</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body p-3">
-                    <p class="text-muted small">Berikan alasan penolakan pengajuan surat <strong>{{ $row->nama_surat }}</strong> atas nama <strong>{{ $row->nama_lengkap }}</strong>:</p>
-                    <div class="mb-3">
-                        <textarea class="form-control rounded-3" name="keterangan_ditolak" rows="3" required placeholder="Tuliskan catatan perbaikan atau alasan penolakan..."></textarea>
+
+                <!-- Body dengan padding rapat (pb-2) -->
+                <div class="modal-body px-4 pt-3 pb-2">
+                    <!-- Ringkasan Data Pemohon -->
+                    <div class="card border-0 bg-light rounded-3 p-3 mb-3">
+                        <div class="mb-1"><span class="text-muted small d-block">Pemohon</span><strong>{{ $row->nama_lengkap }}</strong></div>
+                        <div class="mb-1"><span class="text-muted small d-block">NIK</span><code style="font-size: 110%">{{ $row->nik }}</code></div>
+                        <div><span class="text-muted small d-block mb-1">Jenis Surat</span><span class="badge bg-secondary">{{ $row->nama_surat }}</span></div>
                     </div>
-                    <div class="d-flex justify-content-end gap-2">
-                        <button type="button" class="btn btn-secondary btn-rounded px-4" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-danger btn-rounded px-4">Tolak Surat</button>
+
+                    <!-- Input Alasan Penolakan (Card dihapus agar tidak menambah ruang kosong) -->
+                    <div class="mb-2">
+                        <label for="keterangan_ditolak-{{ $row->id_pengajuan }}" class="fw-bold mb-1">
+                            Alasan Penolakan <span class="text-danger">*</span>
+                        </label>
+                        <p class="text-muted small mb-2">Jelaskan alasan penolakan agar pemohon dapat mengetahuinya.</p>
+                        <textarea class="form-control rounded-3" 
+                                  id="keterangan_ditolak-{{ $row->id_pengajuan }}" 
+                                  name="keterangan_ditolak" 
+                                  rows="3" 
+                                  placeholder="Tuliskan alasan penolakan secara jelas..." 
+                                  required></textarea>
                     </div>
+                </div>
+
+                <!-- Footer Rapat (pt-1) -->
+                <div class="modal-footer border-0 bg-white pt-1 pb-3 px-4 rounded-bottom-4">
+                    <button type="button" class="btn btn-secondary btn-rounded px-4" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-danger btn-rounded px-4">
+                       Tolak Pengajuan
+                    </button>
                 </div>
             </form>
         </div>

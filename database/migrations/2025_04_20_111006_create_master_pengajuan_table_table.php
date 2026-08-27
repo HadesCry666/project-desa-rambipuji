@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('master_pengajuan', function (Blueprint $table) {
             $table->increments('id_pengajuan');
-            $table->string('id_surat', 20);
+            $table->string('id_surat', 10);
             $table->string('nik', 16); 
             $table->string('keperluan', 50);
+            $table->string('nomor_surat_keluar', 100)->nullable();
+            $table->string('no_registrasi', 100)->nullable();
             $table->date('tanggal_diajukan')->nullable();
             $table->string('status', 25);
             $table->string('keterangan_ditolak', 50)->nullable();

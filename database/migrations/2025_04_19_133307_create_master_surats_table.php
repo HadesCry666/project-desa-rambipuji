@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('master_surat', function (Blueprint $table) {
-            $table->string('id_surat');
+            $table->string('id_surat', 10);
             $table->primary('id_surat');
-            $table->string('nama_surat');
+            $table->string('nama_surat', 100);
             $table->string('slug', 50);
             $table->string('keterangan', 50);
             $table->string('berkas1', 50)->nullable();

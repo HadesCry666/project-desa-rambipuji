@@ -15,41 +15,104 @@ use Carbon\Carbon;
 
 class KadusTambahPengajuanController extends Controller
 {
-    public function index() 
-    { 
-        $datapenduduk = master_penduduk::orderBy('nama_lengkap')->get(); 
-        $datasurat = master_surat::orderBy('nama_surat')->get();  
-        $nikKadus = session('nik') ?? Auth::user()->nik; 
-        $dusun = master_dusun::where('nik', $nikKadus) 
-            ->first(); 
-            if (!$dusun) { 
-                return back()->withErrors([ 'no_registrasi' => 'Data dusun Kepala Dusun tidak ditemukan.' 
-                ]); 
-            }  
-            
-            $nomorDusun = str_pad( $dusun->id_dusun, 2, '0', STR_PAD_LEFT ); 
-            
-            $pengajuanTerakhir = master_pengajuan::orderByDesc('id_pengajuan') 
-                ->first(); 
-                
-                if ($pengajuanTerakhir && $pengajuanTerakhir->no_registrasi) { 
-                    $parts = explode( '/', $pengajuanTerakhir->no_registrasi ); 
-                    $nomorUrut = isset($parts[1]) ? ((int) $parts[1]) + 1 : 1; 
-                    } else { 
-                        $nomorUrut = 1; 
-                        } $nomorUrut = str_pad( $nomorUrut, 3, '0', STR_PAD_LEFT ); 
-                        
-            $bulanRomawi = [ 1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV', 5 => 'V', 6 => 'VI', 7 => 'VII', 8 => 'VIII', 9 => 'IX', 10 => 'X', 11 => 'XI', 12 => 'XII', ]; 
-            $tanggal = Carbon::now(); $bulan = $bulanRomawi[$tanggal->month]; $tahun = $tanggal->year;
-                        
-            $noRegistrasi = "407/{$nomorUrut}/2006.{$nomorDusun}/{$bulan}/{$tahun}"; 
-                return view( 'kepaladusun.tambah_pengajuan.index', compact( 'datapenduduk', 'datasurat', 'noRegistrasi' ) ); 
-            }
-    
+    public function index()
+{
+    $datapenduduk = master_penduduk::orderBy('nama_lengkap')->get();
+    $datasurat = master_surat::orderBy('nama_surat')->get();
 
-    /**
-     * Ambil daftar Kartu Keluarga untuk dropdown (AJAX).
-     */
+    $nikKadus = session('nik') ?? Auth::user()->nik;
+
+    $dusun = master_dusun::where('nik', $nikKadus)->first();
+
+    if (!$dusun) {
+        return back()->withErrors([
+            'no_registrasi' => 'Data dusun Kepala Dusun tidak ditemukan.'
+        ]);
+    }
+
+    // Nomor dusun
+    $nomorDusun = str_pad(
+        $dusun->id_dusun,
+        2,
+        '0',
+        STR_PAD_LEFT
+    );
+
+    // Tanggal sekarang
+    $tanggal = Carbon::now();
+
+    $bulan = $tanggal->month;
+    $tahun = $tanggal->year;
+
+    // Konversi bulan ke Romawi
+    $bulanRomawi = [
+        1  => 'I',
+        2  => 'II',
+        3  => 'III',
+        4  => 'IV',
+        5  => 'V',
+        6  => 'VI',
+        7  => 'VII',
+        8  => 'VIII',
+        9  => 'IX',
+        10 => 'X',
+        11 => 'XI',
+        12 => 'XII',
+    ];
+
+    $bulanSekarang = $bulanRomawi[$bulan];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cari nomor urut terbesar pada bulan & tahun yang sama
+    |--------------------------------------------------------------------------
+    */
+
+    $pengajuanBulanIni = master_pengajuan::whereYear('created_at', $tahun)
+        ->whereMonth('created_at', $bulan)
+        ->whereNotNull('no_registrasi')
+        ->get();
+
+    $nomorUrutTerakhir = 0;
+
+    foreach ($pengajuanBulanIni as $pengajuan) {
+
+        $parts = explode('/', $pengajuan->no_registrasi);
+
+        if (isset($parts[1]) && is_numeric($parts[1])) {
+
+            $nomor = (int) $parts[1];
+
+            if ($nomor > $nomorUrutTerakhir) {
+                $nomorUrutTerakhir = $nomor;
+            }
+        }
+    }
+
+    // Nomor berikutnya
+    $nomorUrut = $nomorUrutTerakhir + 1;
+
+    // Format 001, 002, 003, dst.
+    $nomorUrut = str_pad(
+        $nomorUrut,
+        3,
+        '0',
+        STR_PAD_LEFT
+    );
+
+    // Nomor registrasi
+    $noRegistrasi =
+        "407/{$nomorUrut}/2006.{$nomorDusun}/{$bulanSekarang}/{$tahun}";
+
+    return view(
+        'kepaladusun.tambah_pengajuan.index',
+        compact(
+            'datapenduduk',
+            'datasurat',
+            'noRegistrasi'
+        )
+    );
+}
     public function getKKList()
     {
         $data = DB::table('master_kartukeluargas')
