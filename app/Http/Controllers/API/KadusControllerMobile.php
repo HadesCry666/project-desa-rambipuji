@@ -13,18 +13,28 @@ use Illuminate\Validation\ValidationException;
 class KadusControllerMobile extends Controller
 {
     /**
-     * Dashboard Statistics untuk Kepala Dusun di Mobile.
+     * Dashboard Statistics untuk Kepala Dusun di Mobile (Ditingkatkan dengan filter Dusun Kadus).
      */
     public function dashboard(Request $request)
     {
-        $suratMasukCount = master_pengajuan::where('status', 'Diajukan')->count();
-        $diprosesCount   = master_pengajuan::whereIn('status', [
+        $user = $request->user();
+        $nikKadus = $user ? $user->nik : null;
+        $dusun = DB::table('master_dusun')->where('nik', $nikKadus)->first();
+        $namaDusun = $dusun ? $dusun->nama_dusun : null;
+
+        $query = View_data_pengajuan::query();
+        if ($namaDusun) {
+            $query->where('nama_dusun', $namaDusun);
+        }
+
+        $suratMasukCount = (clone $query)->where('status', 'Diajukan')->count();
+        $diprosesCount   = (clone $query)->whereIn('status', [
             'Disetujui Kepala Dusun',
             'Disetujui Admin',
             'Disetujui Sekretaris Desa',
         ])->count();
-        $selesaiCount    = master_pengajuan::where('status', 'Selesai')->count();
-        $ditolakCount    = master_pengajuan::where('status', 'Ditolak')->count();
+        $selesaiCount    = (clone $query)->where('status', 'Selesai')->count();
+        $ditolakCount    = (clone $query)->where('status', 'Ditolak')->count();
 
         return response()->json([
             'status' => 'success',
@@ -138,13 +148,21 @@ class KadusControllerMobile extends Controller
     }
 
     /**
-     * Tampilkan daftar Surat Masuk berstatus 'Diajukan' untuk Kadus di Mobile.
+     * Tampilkan daftar Surat Masuk berstatus 'Diajukan' untuk Kepala Dusun di Mobile (Ditingkatkan dengan filter Dusun Kadus).
      */
     public function suratmasuk(Request $request)
     {
-        $data = View_data_pengajuan::where('status', 'Diajukan')
-            ->orderBy('id_pengajuan', 'desc')
-            ->get();
+        $user = $request->user();
+        $nikKadus = $user ? $user->nik : null;
+        $dusun = DB::table('master_dusun')->where('nik', $nikKadus)->first();
+        $namaDusun = $dusun ? $dusun->nama_dusun : null;
+
+        $query = View_data_pengajuan::query();
+        if ($namaDusun) {
+            $query->where('nama_dusun', $namaDusun);
+        }
+
+        $data = $query->orderBy('id_pengajuan', 'desc')->get();
 
         // Transformasi URL foto agar siap dipakai oleh Flutter
         $data->transform(function ($item) {
